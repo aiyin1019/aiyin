@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>微信·仿界 · 小手机</title>
+    <title>微信</title>
     <style>
-        /* 全局样式 & 主题变量 */
         :root {
             --bg: #ededed;
             --panel: #f7f7f7;
@@ -20,6 +19,7 @@
             --border: #e0e0e0;
             --shadow: 0 2px 12px rgba(0,0,0,0.08);
             --radius: 16px;
+            --chat-bg: #ededed;
         }
         * {
             margin: 0;
@@ -35,7 +35,6 @@
             min-height: 100vh;
             padding: 12px;
         }
-        /* 手机外壳 */
         .phone {
             width: 390px;
             height: 844px;
@@ -48,7 +47,6 @@
             position: relative;
             border: 1px solid #444;
         }
-        /* 状态栏 */
         .status-bar {
             background: var(--panel);
             padding: 14px 20px 6px;
@@ -60,7 +58,6 @@
             border-bottom: 1px solid #ddd;
             flex-shrink: 0;
         }
-        /* 主视图区域 */
         .app-view {
             flex: 1;
             display: flex;
@@ -68,7 +65,6 @@
             overflow: hidden;
             background: var(--bg);
         }
-        /* 三个底部导航 */
         .bottom-nav {
             display: flex;
             background: #f7f7f7;
@@ -93,7 +89,6 @@
             display: block;
             margin-bottom: 2px;
         }
-        /* 通用列表样式 */
         .chat-list, .contact-list, .moments-list {
             background: var(--white);
             flex: 1;
@@ -107,6 +102,7 @@
             cursor: pointer;
             transition: 0.1s;
             background: white;
+            position: relative;
         }
         .list-item:active { background: #f2f2f2; }
         .avatar {
@@ -121,12 +117,12 @@
             font-weight: bold;
             color: white;
             flex-shrink: 0;
+            cursor: pointer;
         }
         .item-info { flex: 1; }
         .item-title { font-size: 16px; font-weight: 500; }
         .item-message { font-size: 13px; color: #999; margin-top: 4px; }
         .item-time { font-size: 12px; color: #aaa; }
-        /* 置顶标记 */
         .pinned-badge {
             background: #f0f0f0;
             color: #666;
@@ -135,12 +131,11 @@
             border-radius: 10px;
             margin-left: 6px;
         }
-        /* 聊天页面 */
         .chat-page {
             display: flex;
             flex-direction: column;
             height: 100%;
-            background: #ededed;
+            background: var(--chat-bg);
         }
         .chat-header {
             background: #f7f7f7;
@@ -162,6 +157,13 @@
         .chat-title {
             font-size: 18px;
             font-weight: 600;
+            cursor: pointer;
+        }
+        .status-indicator {
+            font-size: 11px;
+            color: #999;
+            display: block;
+            text-align: center;
         }
         .messages-area {
             flex: 1;
@@ -211,10 +213,7 @@
             font-size: 16px;
             outline: none;
         }
-        .plus-btn {
-            font-size: 28px;
-        }
-        /* 表情面板模拟 */
+        .plus-btn { font-size: 28px; }
         .emoji-panel {
             background: white;
             border-top: 1px solid #ccc;
@@ -222,9 +221,11 @@
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
+            max-height: 200px;
+            overflow-y: auto;
         }
         .emoji-tab { padding: 6px 12px; background: #f0f0f0; border-radius: 20px; cursor: pointer; }
-        /* 弹窗/设置 */
+        .emoji-item { font-size: 28px; cursor: pointer; padding: 4px; }
         .modal-backdrop {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -238,7 +239,7 @@
             background: white;
             border-radius: 20px;
             padding: 20px;
-            width: 320px;
+            width: 340px;
             max-height: 80%;
             overflow-y: auto;
         }
@@ -258,22 +259,70 @@
             background: white; border-radius: 50%; transition: 0.2s;
         }
         .switch.on::after { left: 23px; }
-        /* 小手机页面 */
+        .slider-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 8px 0;
+        }
+        .slider-row input[type="range"] {
+            flex: 1;
+        }
+        .hidden { display: none; }
+        .tag {
+            display: inline-block;
+            padding: 4px 10px;
+            background: #f0f0f0;
+            border-radius: 12px;
+            margin: 4px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        .btn {
+            padding: 10px 16px;
+            background: var(--green);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+        .input-field-mini {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            width: 100%;
+            margin: 4px 0;
+        }
+        .list-item-actions {
+            display: flex;
+            gap: 8px;
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
         .phone-app-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            padding: 24px;
+            gap: 16px;
+            padding: 20px;
         }
         .app-icon {
             background: white;
-            border-radius: 20px;
+            border-radius: 16px;
             padding: 16px 0;
             text-align: center;
             box-shadow: var(--shadow);
             cursor: pointer;
+            font-size: 14px;
         }
-        /* 塔罗 */
+        .app-icon span { font-size: 28px; display: block; margin-bottom: 6px; }
         .tarot-card {
             background: #faf3e8;
             border-radius: 12px;
@@ -281,216 +330,495 @@
             margin: 8px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-        .hidden { display: none; }
+        .music-player {
+            background: #f0f0f0;
+            border-radius: 12px;
+            padding: 12px;
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .music-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #ccc;
+            animation: spin 4s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
 <div class="phone" id="phoneContainer">
-    <!-- 状态栏 (模拟) -->
     <div class="status-bar">
         <span>9:41</span>
         <span>📶 🔋 100%</span>
     </div>
-    <!-- 主应用视图 -->
-    <div id="mainView" class="app-view">
-        <!-- 动态加载不同页面 -->
-    </div>
-    <!-- 底部导航栏 -->
+    <div id="mainView" class="app-view"></div>
     <div class="bottom-nav" id="bottomNav">
         <div class="nav-item active" data-tab="wechat"><span class="nav-icon">💬</span>微信</div>
         <div class="nav-item" data-tab="contacts"><span class="nav-icon">👥</span>通讯录</div>
         <div class="nav-item" data-tab="moments"><span class="nav-icon">🌐</span>朋友圈</div>
     </div>
 </div>
-
 <script>
-    (function() {
-        // 模拟数据
-        const contacts = [
-            { id: 1, name: '林知夏', avatar: '🌸', pinned: true, lastMsg: '今晚一起听歌吗？', time: '10:24' },
-            { id: 2, name: '顾言', avatar: '🌿', pinned: false, lastMsg: '文件已发送', time: '昨天' },
-            { id: 3, name: '沈听澜', avatar: '🌙', pinned: false, lastMsg: '哈哈，那个塔罗牌好准', time: '周三' },
-            { id: 4, name: '陆星遥', avatar: '⭐', pinned: false, lastMsg: '朋友圈见~', time: '周一' },
-        ];
-        const friends = [
-            { id: 1, name: '林知夏', avatar: '🌸', signature: '记得听歌' },
-            { id: 2, name: '顾言', avatar: '🌿', signature: '...' },
-            { id: 3, name: '沈听澜', avatar: '🌙', signature: '塔罗新手' },
-            { id: 4, name: '陆星遥', avatar: '⭐', signature: '保持热爱' },
-            { id: 5, name: '陈默', avatar: '🍃', signature: '万物有灵' },
-        ];
-        let currentTab = 'wechat';
-        let currentChat = null; // 当前聊天对象
+// 全局数据
+let contacts = [
+    { id: 1, name: '林知夏', avatar: '🌸', pinned: true, lastMsg: '今晚一起听歌吗？', time: '10:24', remark: '林知夏' }
+];
+let friends = [
+    { id: 1, name: '林知夏', avatar: '🌸', signature: '记得听歌' }
+];
+let wordCards = ['我喜欢你', '今天天气真好', '一起听歌吗', '晚安', '早安', '想你了', '哈哈哈', '好呀', '嗯嗯', '在干嘛'];
+let patPat = ['拍了拍你的头', '拍了拍你的肩膀', '拍了拍你的手'];
+let statusList = ['✨今日好运', '🎵听歌中', '💤休息中'];
+let currentChat = null;
+let currentTab = 'wechat';
+let messageSpeedMin = 3, messageSpeedMax = 60;
+let autoReplyOn = true, autoReplyMin = 5, autoReplyMax = 30;
+let readReceipt = true, allowRecall = true, allowCall = true, allowMusic = true;
+let recallProbability = 10, callProbability = 3;
 
-        // 渲染主界面
-        function renderMain(tab) {
-            const mainView = document.getElementById('mainView');
-            if (tab === 'wechat') {
-                mainView.innerHTML = `
-                    <div class="chat-list">
-                        ${contacts.map(c => `
-                            <div class="list-item" data-id="${c.id}">
-                                <div class="avatar" style="background:${getColor(c.id)}">${c.avatar}</div>
-                                <div class="item-info">
-                                    <div class="item-title">${c.name} ${c.pinned ? '<span class="pinned-badge">置顶</span>' : ''}</div>
-                                    <div class="item-message">${c.lastMsg}</div>
-                                </div>
-                                <div class="item-time">${c.time}</div>
-                            </div>`).join('')}
-                    </div>
-                `;
-                attachChatListEvents();
-            } else if (tab === 'contacts') {
-                mainView.innerHTML = `
-                    <div class="contact-list">
-                        ${friends.map(f => `
-                            <div class="list-item">
-                                <div class="avatar" style="background:${getColor(f.id)}">${f.avatar}</div>
-                                <div class="item-info"><div class="item-title">${f.name}</div><div class="item-message">${f.signature}</div></div>
-                            </div>`).join('')}
-                    </div>
-                `;
-            } else if (tab === 'moments') {
-                mainView.innerHTML = `
-                    <div class="moments-list" style="padding:16px;">
-                        <h3>朋友圈</h3>
-                        <div style="margin:12px 0;background:white;border-radius:16px;padding:16px;">
-                            <p><strong>我</strong> 刚刚</p>
-                            <p>今天天气真好，和喜欢的人一起听歌🎵</p>
-                        </div>
-                        <div style="background:white;border-radius:16px;padding:16px;margin-top:8px;">
-                            <p><strong>林知夏</strong> 评论：你也是我的风景</p>
-                        </div>
-                    </div>
-                `;
-            }
-        }
+function getColor(id) {
+    const colors = ['#7c9eb2', '#b28c7c', '#8fbc8f', '#b0a1c9', '#d4a76a', '#e8a87c', '#85cdca', '#e0a9c9'];
+    return colors[id % colors.length];
+}
 
-        function getColor(id) {
-            const colors = ['#7c9eb2', '#b28c7c', '#8fbc8f', '#b0a1c9', '#d4a76a'];
-            return colors[id % colors.length];
-        }
-
-        function attachChatListEvents() {
-            document.querySelectorAll('.list-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    const id = this.dataset.id;
-                    const contact = contacts.find(c => c.id == id);
-                    if (contact) {
-                        openChat(contact);
-                    }
-                });
-            });
-        }
-
-        // 打开聊天页面
-        function openChat(contact) {
-            currentChat = contact;
-            const mainView = document.getElementById('mainView');
-            mainView.innerHTML = `
-                <div class="chat-page">
-                    <div class="chat-header">
-                        <div class="chat-header-left">
-                            <span class="back-btn" id="backFromChat">←</span>
-                            <span class="chat-title" id="chatTitle">${contact.name}</span>
+function renderMain(tab) {
+    const mainView = document.getElementById('mainView');
+    if (tab === 'wechat') {
+        mainView.innerHTML = `
+            <div class="chat-list">
+                ${contacts.map(c => `
+                    <div class="list-item" data-id="${c.id}">
+                        <div class="avatar" style="background:${getColor(c.id)}" onclick="event.stopPropagation();changeAvatar(${c.id})">${c.avatar}</div>
+                        <div class="item-info" onclick="openChat(${c.id})">
+                            <div class="item-title">${c.name} ${c.pinned ? '<span class="pinned-badge">置顶</span>' : ''}</div>
+                            <div class="item-message">${c.lastMsg}</div>
                         </div>
-                        <div class="chat-header-right">
-                            <span class="header-icon" id="settingsBtn">⚙️</span>
-                            <span class="header-icon" id="miniPhoneBtn">📱</span>
-                        </div>
-                    </div>
-                    <div class="messages-area" id="messagesArea">
-                        <div class="msg-row in"><div class="msg-bubble">你好呀，我在。</div></div>
-                        <div class="msg-row out"><div class="msg-bubble">今晚一起听歌？</div></div>
-                    </div>
-                    <div class="input-bar">
-                        <button class="icon-btn" id="voiceBtn">🎤</button>
-                        <input class="input-field" id="msgInput" placeholder="发消息..." />
-                        <button class="icon-btn" id="emojiBtn">😊</button>
-                        <button class="icon-btn plus-btn" id="plusBtn">➕</button>
-                    </div>
-                    <div id="emojiPanel" class="emoji-panel hidden">
-                        <span class="emoji-tab">😀表情</span><span class="emoji-tab">🐷动物</span><span class="emoji-tab">(✿◡‿◡)颜文字</span>
+                        <div class="item-time">${c.time}</div>
+                    </div>`).join('')}
+                <div style="padding:20px;text-align:center;color:#999;font-size:13px;" onclick="showAddMenu()">➕ 添加联系人/群聊</div>
+            </div>
+        `;
+    } else if (tab === 'contacts') {
+        mainView.innerHTML = `
+            <div class="contact-list">
+                ${friends.map(f => `
+                    <div class="list-item">
+                        <div class="avatar" style="background:${getColor(f.id)}">${f.avatar}</div>
+                        <div class="item-info"><div class="item-title">${f.name}</div><div class="item-message">${f.signature}</div></div>
+                    </div>`).join('')}
+                <div style="padding:20px;text-align:center;color:#999;font-size:13px;" onclick="showAddContact()">➕ 添加联系人</div>
+            </div>
+        `;
+    } else if (tab === 'moments') {
+        mainView.innerHTML = `
+            <div class="moments-list" style="padding:16px;">
+                <h3>朋友圈</h3>
+                <div style="margin:12px 0;background:white;border-radius:16px;padding:16px;cursor:pointer;" onclick="showMomentsEditor()">
+                    <p><strong>我</strong> 刚刚</p>
+                    <p>今天天气真好，和喜欢的人一起听歌🎵</p>
+                </div>
+                <div style="background:white;border-radius:16px;padding:16px;margin-top:8px;">
+                    <p><strong>林知夏</strong> 评论：你也是我的风景</p>
+                </div>
+            </div>
+        `;
+    }
+}
+
+function openChat(id) {
+    const contact = contacts.find(c => c.id === id);
+    if (!contact) return;
+    currentChat = contact;
+    const mainView = document.getElementById('mainView');
+    mainView.innerHTML = `
+        <div class="chat-page">
+            <div class="chat-header">
+                <div class="chat-header-left">
+                    <span class="back-btn" onclick="renderMain('wechat')">←</span>
+                    <div onclick="editRemark(${contact.id})">
+                        <span class="chat-title" id="chatTitle">${contact.name}</span>
+                        <span class="status-indicator" id="typingIndicator"></span>
                     </div>
                 </div>
-            `;
-            document.getElementById('backFromChat').addEventListener('click', () => renderMain('wechat'));
-            document.getElementById('emojiBtn').addEventListener('click', () => {
-                document.getElementById('emojiPanel').classList.toggle('hidden');
-            });
-            document.getElementById('settingsBtn').addEventListener('click', openSettingsModal);
-            document.getElementById('miniPhoneBtn').addEventListener('click', openMiniPhone);
-            document.getElementById('msgInput').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter' && e.target.value.trim()) {
-                    const area = document.getElementById('messagesArea');
-                    area.innerHTML += `<div class="msg-row out"><div class="msg-bubble">${e.target.value}</div></div>`;
-                    e.target.value = '';
-                }
-            });
-        }
+                <div class="chat-header-right">
+                    <span class="header-icon" onclick="openSettings()">⚙️</span>
+                    <span class="header-icon" onclick="openMiniPhone()">📱</span>
+                </div>
+            </div>
+            <div class="messages-area" id="messagesArea">
+                <div class="msg-row in"><div class="msg-bubble">你好呀，我在。</div></div>
+                <div class="msg-row out"><div class="msg-bubble">今晚一起听歌？</div></div>
+            </div>
+            <div class="input-bar">
+                <button class="icon-btn" onclick="sendVoice()">🎤</button>
+                <input class="input-field" id="msgInput" placeholder="发消息..." onkeypress="if(event.key==='Enter')sendMessage()" />
+                <button class="icon-btn" onclick="toggleEmojiPanel()">😊</button>
+                <button class="icon-btn plus-btn" onclick="showPlusMenu()">➕</button>
+            </div>
+            <div id="emojiPanel" class="emoji-panel hidden">
+                <span class="emoji-tab" onclick="showEmojiTab('sticker')">😀表情包</span>
+                <span class="emoji-tab" onclick="showEmojiTab('face')">😊黄脸</span>
+                <span class="emoji-tab" onclick="showEmojiTab('kaomoji')">(✿◡‿◡)颜文字</span>
+                <div id="emojiContent"></div>
+            </div>
+        </div>
+    `;
+    // 模拟对方输入
+    if (autoReplyOn) {
+        setTimeout(() => {
+            document.getElementById('typingIndicator').textContent = '正在输入中...';
+            setTimeout(() => {
+                document.getElementById('typingIndicator').textContent = '';
+                const area = document.getElementById('messagesArea');
+                area.innerHTML += `<div class="msg-row in"><div class="msg-bubble">${getRandomWordCard()}</div></div>`;
+            }, 2000);
+        }, 3000);
+    }
+}
 
-        // 设置弹窗 (模拟各种开关)
-        function openSettingsModal() {
-            const modal = document.createElement('div');
-            modal.className = 'modal-backdrop';
-            modal.innerHTML = `
-                <div class="modal-card">
-                    <h3>聊天设置</h3>
-                    <div class="switch-row"><span>消息速度：最快3秒</span><div class="switch on" id="speedSwitch"></div></div>
-                    <div class="switch-row"><span>已读不回</span><div class="switch on"></div></div>
-                    <div class="switch-row"><span>允许撤回</span><div class="switch on"></div></div>
-                    <div class="switch-row"><span>允许打电话/视频</span><div class="switch on"></div></div>
-                    <div class="switch-row"><span>邀请音乐</span><div class="switch on"></div></div>
-                    <div class="switch-row"><span>字卡组合(10%)</span><div class="switch on"></div></div>
-                    <button id="closeModal" style="margin-top:20px;padding:10px;width:100%;background:var(--green);border:none;color:white;border-radius:10px;">完成</button>
-                </div>`;
-            document.getElementById('phoneContainer').appendChild(modal);
-            modal.querySelector('#closeModal').addEventListener('click', () => modal.remove());
-            modal.querySelector('#speedSwitch').addEventListener('click', function() { this.classList.toggle('on'); });
-        }
+function sendMessage() {
+    const input = document.getElementById('msgInput');
+    const text = input.value.trim();
+    if (!text) return;
+    const area = document.getElementById('messagesArea');
+    area.innerHTML += `<div class="msg-row out"><div class="msg-bubble">${text}</div></div>`;
+    input.value = '';
+    area.scrollTop = area.scrollHeight;
+}
 
-        // 小手机页面 (包含购物、音乐、塔罗等)
-        function openMiniPhone() {
-            const modal = document.createElement('div');
-            modal.className = 'modal-backdrop';
-            modal.innerHTML = `
-                <div class="modal-card" style="width:340px;">
-                    <div style="display:flex;justify-content:space-between;"><h3>小手机</h3><span id="closeMini">✕</span></div>
-                    <div class="phone-app-grid">
-                        <div class="app-icon" id="shoppingApp">🛍️<br>购物</div>
-                        <div class="app-icon" id="musicApp">🎵<br>音乐</div>
-                        <div class="app-icon" id="tarotApp">🔮<br>塔罗</div>
-                    </div>
-                    <div id="tarotResult" class="tarot-card hidden">
-                        <h4>塔罗占卜</h4>
-                        <p>问：今天运势如何？</p>
-                        <p>正位 愚者、逆位 宝剑三、正位 星币十</p>
-                        <p><strong>解读：</strong>你们之间的爱充满自由与纯真，短暂悲伤后是稳固的承诺。</p>
-                    </div>
-                </div>`;
-            document.getElementById('phoneContainer').appendChild(modal);
-            modal.querySelector('#closeMini').addEventListener('click', () => modal.remove());
-            modal.querySelector('#shoppingApp').addEventListener('click', () => alert('购物车：520000余额'));
-            modal.querySelector('#musicApp').addEventListener('click', () => alert('一起听歌·网易云风格'));
-            modal.querySelector('#tarotApp').addEventListener('click', function() {
-                modal.querySelector('#tarotResult').classList.remove('hidden');
-            });
-        }
+function sendVoice() {
+    const area = document.getElementById('messagesArea');
+    area.innerHTML += `<div class="msg-row out"><div class="msg-bubble">🎤 语音消息</div></div>`;
+    area.scrollTop = area.scrollHeight;
+}
 
-        // 底部导航切换
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function() {
-                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-                this.classList.add('active');
-                const tab = this.dataset.tab;
-                currentTab = tab;
-                renderMain(tab);
-            });
-        });
+function toggleEmojiPanel() {
+    const panel = document.getElementById('emojiPanel');
+    if (panel) panel.classList.toggle('hidden');
+    showEmojiTab('face');
+}
 
-        // 初始渲染
+function showEmojiTab(type) {
+    const container = document.getElementById('emojiContent');
+    if (!container) return;
+    if (type === 'face') {
+        container.innerHTML = ['😀','😄','😊','😍','😘','😜','🤗','😎','🥰','😭','😡','👍','👏','🙏','💪','🤝','👀','💋','❤️','✨'].map(e => `<span class="emoji-item">${e}</span>`).join('');
+    } else if (type === 'kaomoji') {
+        container.innerHTML = ['(✿◡‿◡)','(｡♥‿♥｡)','(◕‿◕)','(づ｡◕‿‿◕｡)づ','(•‿•)','(≧◡≦)','(ノ◕ヮ◕)ノ*:･ﾟ✧','(¬‿¬)','(⁄ ⁄•⁄ω⁄•⁄ ⁄)','(ง •̀_•́)ง'].map(e => `<span class="emoji-item">${e}</span>`).join('');
+    } else {
+        container.innerHTML = ['🐱','🐶','🐼','🐸','🐵','🦊','🐰','🐻','🐨','🐯','🦁','🐮'].map(e => `<span class="emoji-item">${e}</span>`).join('');
+    }
+}
+
+function showPlusMenu() {
+    const modal = document.createElement('div');
+    modal.className = 'modal-backdrop';
+    modal.innerHTML = `
+        <div class="modal-card">
+            <h3>功能</h3>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0;">
+                <div class="app-icon" onclick="alert('视频通话')"><span>📹</span>视频</div>
+                <div class="app-icon" onclick="alert('语音通话')"><span>📞</span>语音</div>
+                <div class="app-icon" onclick="alert('转账')"><span>💰</span>转账</div>
+                <div class="app-icon" onclick="alert('红包')"><span>🧧</span>红包</div>
+                <div class="app-icon" onclick="showMusicInvite()"><span>🎵</span>一起听</div>
+                <div class="app-icon" onclick="alert('送礼物')"><span>🎁</span>礼物</div>
+                <div class="app-icon" onclick="alert('相册')"><span>🖼️</span>相册</div>
+                <div class="app-icon" onclick="alert('收藏')"><span>⭐</span>收藏</div>
+            </div>
+            <button class="btn" onclick="this.closest('.modal-backdrop').remove()">关闭</button>
+        </div>`;
+    document.getElementById('phoneContainer').appendChild(modal);
+}
+
+function showMusicInvite() {
+    const modal = document.createElement('div');
+    modal.className = 'modal-backdrop';
+    modal.innerHTML = `
+        <div class="modal-card">
+            <h3>邀请一起听歌</h3>
+            <div class="music-player">
+                <div class="music-avatar">🎵</div>
+                <div>正在一起听歌<br><small>《慢慢喜欢你》</small></div>
+                <button class="btn" onclick="this.closest('.modal-backdrop').remove()">开始</button>
+            </div>
+        </div>`;
+    document.getElementById('phoneContainer').appendChild(modal);
+}
+
+function openSettings() {
+    const modal = document.createElement('div');
+    modal.className = 'modal-backdrop';
+    modal.innerHTML = `
+        <div class="modal-card">
+            <h3>聊天设置</h3>
+            <div style="margin:12px 0;">
+                <label>回复速度（秒）</label>
+                <div class="slider-row"><span>最快</span><input type="range" min="3" max="300" value="${messageSpeedMin}" onchange="messageSpeedMin=this.value"><span>${messageSpeedMin}秒</span></div>
+                <div class="slider-row"><span>最慢</span><input type="range" min="3" max="300" value="${messageSpeedMax}" onchange="messageSpeedMax=this.value"><span>${messageSpeedMax}秒</span></div>
+            </div>
+            <div class="switch-row"><span>主动发消息</span><div class="switch ${autoReplyOn?'on':''}" onclick="autoReplyOn=!autoReplyOn;this.classList.toggle('on')"></div></div>
+            <div class="switch-row"><span>已读不回</span><div class="switch on"></div></div>
+            <div class="switch-row"><span>允许撤回(10%)</span><div class="switch on"></div></div>
+            <div class="switch-row"><span>允许语音视频(3%)</span><div class="switch on"></div></div>
+            <div class="switch-row"><span>允许音乐(3%)</span><div class="switch on"></div></div>
+            <hr>
+            <h4>字卡管理</h4>
+            <div style="margin:8px 0;">
+                <input class="input-field-mini" placeholder="搜索字卡..." onkeyup="filterWordCards(this.value)">
+                <div id="wordCardList">
+                    ${wordCards.map((w,i) => `<span class="tag">${w} <small onclick="deleteWordCard(${i})">🗑️</small></span>`).join('')}
+                </div>
+                <input class="input-field-mini" placeholder="批量添加，一行一个" onchange="addWordCards(this.value);this.value=''">
+            </div>
+            <hr>
+            <h4>拍一拍</h4>
+            <div id="patpatList">
+                ${patPat.map((p,i) => `<span class="tag">${p} <small onclick="deletePatPat(${i})">🗑️</small></span>`).join('')}
+            </div>
+            <input class="input-field-mini" placeholder="添加拍一拍" onchange="addPatPat(this.value);this.value=''">
+            <hr>
+            <h4>状态</h4>
+            <div id="statusList">
+                ${statusList.map((s,i) => `<span class="tag">${s} <small onclick="deleteStatus(${i})">🗑️</small></span>`).join('')}
+            </div>
+            <input class="input-field-mini" placeholder="添加状态" onchange="addStatus(this.value);this.value=''">
+            <hr>
+            <button class="btn" onclick="backupAll()">💾 备份所有内容</button>
+            <button class="btn btn-secondary" style="margin-top:8px;" onclick="this.closest('.modal-backdrop').remove()">关闭</button>
+        </div>`;
+    document.getElementById('phoneContainer').appendChild(modal);
+}
+
+function filterWordCards(keyword) {
+    const container = document.getElementById('wordCardList');
+    if (!container) return;
+    const filtered = wordCards.filter(w => w.includes(keyword));
+    container.innerHTML = filtered.map((w,i) => `<span class="tag">${w} <small onclick="deleteWordCard(${i})">🗑️</small></span>`).join('');
+}
+
+function deleteWordCard(index) { wordCards.splice(index, 1); openSettings(); }
+function addWordCards(text) {
+    const lines = text.split('\n').filter(l => l.trim());
+    wordCards.push(...lines);
+    openSettings();
+}
+function deletePatPat(index) { patPat.splice(index, 1); openSettings(); }
+function addPatPat(text) { if(text.trim()){patPat.push(text.trim()); openSettings();} }
+function deleteStatus(index) { statusList.splice(index, 1); openSettings(); }
+function addStatus(text) { if(text.trim()){statusList.push(text.trim()); openSettings();} }
+
+function getRandomWordCard() {
+    return wordCards[Math.floor(Math.random() * wordCards.length)] || '嗯嗯';
+}
+
+function backupAll() {
+    const data = {
+        contacts, friends, wordCards, patPat, statusList,
+        settings: { messageSpeedMin, messageSpeedMax, autoReplyOn, readReceipt }
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'backup.json';
+    a.click();
+}
+
+function changeAvatar(id) {
+    const contact = contacts.find(c => c.id === id);
+    const newAvatar = prompt('输入新头像（emoji）:', contact.avatar);
+    if (newAvatar) { contact.avatar = newAvatar; renderMain('wechat'); }
+}
+
+function editRemark(id) {
+    const contact = contacts.find(c => c.id === id);
+    const newName = prompt('输入备注名:', contact.name);
+    if (newName) { contact.name = newName; document.getElementById('chatTitle').textContent = newName; }
+}
+
+function showAddMenu() {
+    const modal = document.createElement('div');
+    modal.className = 'modal-backdrop';
+    modal.innerHTML = `
+        <div class="modal-card">
+            <h3>添加</h3>
+            <button class="btn" style="width:100%;margin:8px 0;" onclick="showAddContact()">添加联系人</button>
+            <button class="btn" style="width:100%;margin:8px 0;" onclick="showAddGroup()">创建群聊</button>
+            <button class="btn btn-secondary" style="width:100%;margin:8px 0;" onclick="this.closest('.modal-backdrop').remove()">取消</button>
+        </div>`;
+    document.getElementById('phoneContainer').appendChild(modal);
+}
+
+function showAddContact() {
+    const modal = document.createElement('div');
+    modal.className = 'modal-backdrop';
+    modal.innerHTML = `
+        <div class="modal-card">
+            <h3>添加联系人</h3>
+            <input class="input-field-mini" id="newName" placeholder="名字">
+            <input class="input-field-mini" id="newAvatar" placeholder="头像（emoji）">
+            <input class="input-field-mini" id="newSignature" placeholder="签名">
+            <button class="btn" style="width:100%;margin-top:8px;" onclick="saveNewContact()">保存</button>
+            <button class="btn btn-secondary" style="width:100%;margin-top:8px;" onclick="this.closest('.modal-backdrop').remove()">取消</button>
+        </div>`;
+    document.getElementById('phoneContainer').appendChild(modal);
+}
+
+function saveNewContact() {
+    const name = document.getElementById('newName').value;
+    const avatar = document.getElementById('newAvatar').value || '😊';
+    const signature = document.getElementById('newSignature').value || '';
+    if (!name) return alert('请输入名字');
+    const id = contacts.length + 1;
+    contacts.push({ id, name, avatar, pinned: false, lastMsg: '', time: '刚刚', remark: name });
+    friends.push({ id, name, avatar, signature });
+    renderMain('wechat');
+    document.querySelector('.modal-backdrop').remove();
+}
+
+function showAddGroup() {
+    const name = prompt('输入群聊名称:');
+    if (name) {
+        const id = contacts.length + 1;
+        contacts.push({ id, name, avatar: '👥', pinned: false, lastMsg: '群聊已创建', time: '刚刚', remark: name });
         renderMain('wechat');
-    })();
+    }
+}
+
+function openMiniPhone() {
+    const modal = document.createElement('div');
+    modal.className = 'modal-backdrop';
+    modal.innerHTML = `
+        <div class="modal-card" style="width:350px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+                <h3>小手机</h3><span onclick="this.closest('.modal-backdrop').remove()">✕</span>
+            </div>
+            <div style="text-align:center;margin:12px 0;">
+                <p style="font-size:12px;color:#999;">今日心情</p>
+                <p style="font-size:18px;">✨今天很开心，想和你一起听歌</p>
+            </div>
+            <div class="phone-app-grid">
+                <div class="app-icon" onclick="this.closest('.modal-backdrop').remove();renderMain('wechat')"><span>💬</span>微信</div>
+                <div class="app-icon" onclick="showMusicPlayer()"><span>🎵</span>音乐</div>
+                <div class="app-icon" onclick="showShopping()"><span>🛍️</span>购物</div>
+                <div class="app-icon" onclick="showTarot()"><span>🔮</span>塔罗</div>
+                <div class="app-icon" onclick="showMoodJournal()"><span>📔</span>心情账本</div>
+                <div class="app-icon" onclick="showThemeSettings()"><span>🎨</span>主题</div>
+            </div>
+        </div>`;
+    document.getElementById('phoneContainer').appendChild(modal);
+}
+
+function showMusicPlayer() {
+    const modal = document.createElement('div');
+    modal.className = 'modal-backdrop';
+    modal.innerHTML = `
+        <div class="modal-card">
+            <h3>🎵 音乐</h3>
+            <div class="music-player">
+                <div class="music-avatar">🎵</div>
+                <div>《慢慢喜欢你》<br><small>莫文蔚</small></div>
+            </div>
+            <div class="music-player">
+                <div class="music-avatar">🎵</div>
+                <div>《小幸运》<br><small>田馥甄</small></div>
+            </div>
+            <button class="btn" style="width:100%;margin-top:8px;" onclick="this.closest('.modal-backdrop').remove()">关闭</button>
+        </div>`;
+    document.getElementById('phoneContainer').appendChild(modal);
+}
+
+function showShopping() {
+    const modal = document.createElement('div');
+    modal.className = 'modal-backdrop';
+    modal.innerHTML = `
+        <div class="modal-card">
+            <h3>🛍️ 购物</h3>
+            <p>余额：<strong>¥520,000</strong></p>
+            <div style="margin:8px 0;">
+                <span class="tag">🌹 玫瑰花 - ¥99</span>
+                <span class="tag">🍫 巧克力 - ¥128</span>
+                <span class="tag">🧸 玩偶 - ¥199</span>
+            </div>
+            <button class="btn" style="width:100%;" onclick="this.closest('.modal-backdrop').remove()">关闭</button>
+        </div>`;
+    document.getElementById('phoneContainer').appendChild(modal);
+}
+
+function showTarot() {
+    const modal = document.createElement('div');
+    modal.className = 'modal-backdrop';
+    modal.innerHTML = `
+        <div class="modal-card">
+            <h3>🔮 塔罗占卜</h3>
+            <p>问：今天运势如何？</p>
+            <div class="tarot-card">
+                <p>🃏 正位 愚者</p>
+                <p>🃏 逆位 宝剑三</p>
+                <p>🃏 正位 星币十</p>
+                <p><strong>解读：</strong>你们之间的爱充满自由与纯真，短暂悲伤后是稳固的承诺。对方非常爱你，你们的未来很美好。</p>
+            </div>
+            <button class="btn" style="width:100%;" onclick="this.closest('.modal-backdrop').remove()">关闭</button>
+        </div>`;
+    document.getElementById('phoneContainer').appendChild(modal);
+}
+
+function showMoodJournal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal-backdrop';
+    modal.innerHTML = `
+        <div class="modal-card">
+            <h3>📔 心情账本</h3>
+            <textarea class="input-field-mini" rows="3" placeholder="今天的心情和想说的话..."></textarea>
+            <button class="btn" style="width:100%;margin-top:8px;" onclick="alert('已保存');this.closest('.modal-backdrop').remove()">保存</button>
+        </div>`;
+    document.getElementById('phoneContainer').appendChild(modal);
+}
+
+function showThemeSettings() {
+    const modal = document.createElement('div');
+    modal.className = 'modal-backdrop';
+    modal.innerHTML = `
+        <div class="modal-card">
+            <h3>🎨 主题设置</h3>
+            <label>聊天气泡颜色：</label>
+            <input type="color" value="#95ec69" onchange="document.documentElement.style.setProperty('--bubble-in', this.value)">
+            <label style="margin-top:8px;">聊天背景颜色：</label>
+            <input type="color" value="#ededed" onchange="document.documentElement.style.setProperty('--chat-bg', this.value)">
+            <button class="btn" style="width:100%;margin-top:12px;" onclick="this.closest('.modal-backdrop').remove()">确定</button>
+        </div>`;
+    document.getElementById('phoneContainer').appendChild(modal);
+}
+
+function showMomentsEditor() {
+    const text = prompt('发朋友圈内容:');
+    if (text) {
+        alert('已发布！林知夏评论：' + getRandomWordCard());
+        renderMain('moments');
+    }
+}
+
+// 底部导航
+document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function() {
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        this.classList.add('active');
+        currentTab = this.dataset.tab;
+        renderMain(currentTab);
+    });
+});
+
+// 初始打开聊天页面
+window.onload = function() {
+    openChat(1);
+};
 </script>
 </body>
 </html>
