@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>梦角微信模拟器</title>
+<title>爱因</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,Roboto}
 body{background:#f2f2f5;margin:0;padding:0;width:100%;height:100vh;overflow:hidden}
@@ -21,10 +22,9 @@ body{background:#f2f2f5;margin:0;padding:0;width:100%;height:100vh;overflow:hidd
 
 .wx-top-bar{height:56px;background:#f7f7f9;border-bottom:1px solid #eee;display:flex;align-items:center;padding:0 8px;position:relative;flex-shrink:0}
 .wx-left-area{display:flex;align-items:center;gap:4px;position:absolute;left:8px;top:50%;transform:translateY(-50%);z-index:10}
-.wx-back{width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:transparent;padding:0;margin:0;transition:.15s ease}
+.wx-back{width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:transparent;padding:0;margin:0}
 .wx-back svg{width:18px;height:18px}
-.wx-back:active{opacity:0.5}
-.status-tag{padding:11px 12px;background:#eef0f3;border-radius:8px;font-size:12px;color:#555;white-space:nowrap;text-align:center;line-height:1}
+.status-tag{padding:11px 12px;background:#eef0f3;border-radius:8px;font-size:12px;color:#555;white-space:nowrap}
 .wx-title-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:0 70px}
 .wx-title{font-size:17px;font-weight:500;cursor:pointer;user-select:none}
 .note-input{font-size:17px;font-weight:500;border:none;outline:none;background:transparent;text-align:center;width:100px}
@@ -33,23 +33,28 @@ body{background:#f2f2f5;margin:0;padding:0;width:100%;height:100vh;overflow:hidd
 
 .chat-area{flex:1;display:flex;flex-direction:column;min-height:0}
 .chat-box{flex:1;overflow-y:auto;padding:12px;background:var(--chat-bg);min-height:0;display:flex;flex-direction:column}
-.msg-row{display:flex;align-items:flex-start;gap:8px;margin:4px 0}
+.msg-row{display:flex;align-items:flex-start;gap:8px;margin:4px 0;width:100%}
 .msg-row-left{justify-content:flex-start}
 .msg-row-right{justify-content:flex-end}
 .msg-avatar{width:40px;height:40px;border-radius:6px;background:#ccc;flex-shrink:0;cursor:pointer;background-size:cover;background-position:center}
 .msg-avatar-hidden{visibility:hidden}
-.msg-bubble{max-width:72%;padding:10px 13px;border-radius:14px;font-size:14px;position:relative;word-break:break-word}
-.msg-left{background:var(--bubble-other);color:var(--bubble-other-text)}
-.msg-right{background:var(--bubble-self);color:var(--bubble-self-text)}
+.msg-content{display:flex;flex-direction:column;max-width:72%}
+.msg-bubble{padding:10px 13px;border-radius:14px;font-size:14px;position:relative;word-break:break-word}
+.msg-left .msg-bubble{background:var(--bubble-other);color:var(--bubble-other-text)}
+.msg-right .msg-bubble{background:var(--bubble-self);color:var(--bubble-self-text)}
 .msg-img{max-width:180px;border-radius:12px;margin:8px 0;display:block}
-.msg-time{font-size:10px;color:#aaa;text-align:center;margin:4px 0}
+.msg-status{font-size:10px;color:#999;margin-top:2px}
+.msg-left .msg-status{text-align:left;padding-left:4px}
+.msg-right .msg-status{text-align:right;padding-right:4px}
+.msg-right .msg-status .read-mark{color:#07c160}
+.msg-time-divider{text-align:center;font-size:12px;color:#999;margin:12px 0}
 .typing-tip{text-align:center;font-size:12px;color:#999;margin:6px 0;display:none}
-.read-mark{font-size:10px;color:#07c160;position:absolute;right:8px;bottom:2px}
 
 .chat-input-wrap{border-top:1px solid #eee;padding:8px 10px;background:#fff;display:flex;gap:10px;align-items:center;flex-shrink:0}
 .btn-voice,.btn-face,.btn-more{width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#444;background:transparent;border:none}
 .btn-voice svg,.btn-face svg,.btn-more svg{width:22px;height:22px}
 .chat-input{flex:1;height:42px;border:1px solid #ddd;border-radius:8px;padding:0 12px;font-size:15px;outline:none}
+.voice-hold-btn{flex:1;height:42px;border:1px solid #ddd;border-radius:8px;background:#f5f5f5;display:none;align-items:center;justify-content:center;font-size:15px;color:#333;cursor:pointer;user-select:none}
 
 .emoji-panel{background:#fff;border-top:1px solid #eee;display:none;flex-direction:column;flex-shrink:0}
 .emoji-top-tabs{display:flex;padding:8px 12px;gap:8px;border-bottom:1px solid #eee}
@@ -114,6 +119,44 @@ body{background:#f2f2f5;margin:0;padding:0;width:100%;height:100vh;overflow:hidd
 .cover-preview-img{max-width:90%;max-height:90%;object-fit:contain}
 .cover-change-btn{position:absolute;bottom:40px;right:24px;width:36px;height:36px;background:rgba(255,255,255,0.65);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#333;cursor:pointer}
 .file-input{display:none}
+
+/* 加号菜单 */
+.plus-menu-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:20px}
+.plus-menu-item{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer}
+.plus-menu-icon{width:56px;height:56px;border-radius:12px;background:#f5f5f5;display:flex;align-items:center;justify-content:center}
+.plus-menu-icon i{font-size:24px;color:#333}
+.plus-menu-label{font-size:12px;color:#333}
+
+/* 卡片消息 */
+.redpack-msg{width:220px;background:#e63923;border-radius:8px;color:#fff;padding:14px 12px}
+.redpack-msg .rp-amount{font-size:20px;font-weight:500;margin-bottom:4px}
+.redpack-msg .rp-desc{font-size:13px;opacity:0.9}
+.redpack-msg .rp-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:12px}
+.redpack-msg .rp-open-btn{background:#fff;color:#e63923;border:none;padding:4px 10px;border-radius:4px;font-size:12px;cursor:pointer}
+
+.transfer-msg{width:220px;background:#ffb340;border-radius:8px;color:#fff;padding:14px 12px}
+.transfer-msg .tf-amount{font-size:20px;font-weight:500;margin-bottom:4px}
+.transfer-msg .tf-desc{font-size:13px;opacity:0.9}
+.transfer-msg .tf-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:12px}
+.transfer-msg .tf-receive-btn{background:#fff;color:#ff8800;border:none;padding:4px 10px;border-radius:4px;font-size:12px;cursor:pointer}
+
+.gift-msg{width:220px;background:#2563eb;border-radius:8px;color:#fff;padding:14px 12px}
+.gift-msg .gift-title{font-size:16px;font-weight:500;margin-bottom:4px}
+.gift-msg .gift-desc{font-size:13px;opacity:0.9}
+
+.music-msg{width:240px;background:#f7f7f7;border-radius:8px;padding:12px;display:flex;gap:10px;color:#222}
+.music-cover{width:50px;height:50px;border-radius:6px;background:#ccc;flex-shrink:0}
+.music-info{flex:1;display:flex;flex-direction:column;justify-content:center}
+.music-song{font-size:14px;font-weight:500}
+.music-singer{font-size:12px;color:#666;margin-top:2px}
+
+.modal-mask{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9996}
+.modal-panel{display:none;position:fixed;bottom:0;left:0;width:100%;background:#fff;border-radius:16px 16px 0 0;z-index:9997;padding:20px}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.modal-title{font-size:17px;font-weight:500}
+.modal-close{font-size:18px;color:#999;cursor:pointer}
+.modal-input{width:100%;padding:14px 12px;border:1px solid #eee;border-radius:10px;font-size:15px;outline:none;margin-bottom:16px}
+.modal-btn{width:100%;height:48px;border:none;border-radius:8px;font-size:16px;cursor:pointer;color:#fff}
 </style>
 </head>
 <body>
@@ -128,7 +171,7 @@ body{background:#f2f2f5;margin:0;padding:0;width:100%;height:100vh;overflow:hidd
             </div>
             <div class="wx-title-wrap"><div class="wx-title" id="noteTitle">梦角</div></div>
             <div class="wx-top-right">
-                <span class="wx-icon" onclick="alert('小手机')">
+                <span class="wx-icon" onclick="alert('手机')">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
                 </span>
                 <span class="wx-icon" onclick="alert('设置')">
@@ -159,10 +202,11 @@ body{background:#f2f2f5;margin:0;padding:0;width:100%;height:100vh;overflow:hidd
                 </div>
             </div>
             <div class="chat-input-wrap">
-                <div class="btn-voice" onclick="alert('语音')">
+                <div class="btn-voice" id="btnVoice" onclick="toggleVoiceInput()">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
                 </div>
                 <input type="text" class="chat-input" id="chatInput" placeholder="输入消息">
+                <div class="voice-hold-btn" id="voiceHoldBtn" ontouchstart="startVoice()" ontouchend="endVoice()">按住说话</div>
                 <div class="btn-face" id="btnFace">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
                 </div>
@@ -201,7 +245,7 @@ body{background:#f2f2f5;margin:0;padding:0;width:100%;height:100vh;overflow:hidd
                 <div class="contact-group-title">朋友</div>
                 <div class="contact-item">
                     <div class="contact-avatar"></div>
-                    <div class="contact-name">梦角</div>
+                    <div class="contact-name" id="contactName">梦角</div>
                 </div>
             </div>
         </div>
@@ -260,17 +304,42 @@ body{background:#f2f2f5;margin:0;padding:0;width:100%;height:100vh;overflow:hidd
 
     <input type="file" class="file-input" id="fileInputCover" accept="image/*">
     <input type="file" class="file-input" id="fileInputMomentPic" accept="image/*">
+
+    <div class="modal-mask" id="modalMask"></div>
+    <div class="modal-panel" id="redpacketModal">
+        <div class="modal-header">
+            <div class="modal-title">发红包</div>
+            <div class="modal-close" onclick="closeModal('redpacketModal')">×</div>
+        </div>
+        <input class="modal-input" id="rpMoney" type="number" placeholder="金额">
+        <input class="modal-input" id="rpRemark" placeholder="恭喜发财，大吉大利">
+        <button class="modal-btn" style="background:#e64340;" onclick="sendRedpacket()">塞钱进红包</button>
+    </div>
+    <div class="modal-panel" id="transferModal">
+        <div class="modal-header">
+            <div class="modal-title">转账</div>
+            <div class="modal-close" onclick="closeModal('transferModal')">×</div>
+        </div>
+        <input class="modal-input" id="tfMoney" type="number" placeholder="转账金额">
+        <input class="modal-input" id="tfRemark" placeholder="添加转账说明">
+        <button class="modal-btn" style="background:#ff9500;" onclick="sendTransfer()">转账</button>
+    </div>
 </div>
 
 <script>
 let lastMsgIsMe = null;
+let lastMsgTime = null;
 let avatarConfig = { myAvatar: '', otherAvatar: '' };
 let kaomojiList = ['(๑•̀ㅂ•́)و✧','(≧∇≦)ﾉ','(｡•́︿•̀｡)','ヽ(✿ﾟ▽ﾟ)ノ','(>﹏<)','( ´･ᴗ･` )'];
 let stickerList = [];
 const emojiList = ['😀','😃','😄','😁','😆','😅','😂','🤣','😊','😇','🙂','🙃','😉','😌','😍','🥰','😘','😗','😙','😚','😋','😜','😝','😛','🤑','😎','🤓','🧐','😏','😒','🙄','😮','😯','😲','😳','🥺','😦','😧','😨','😰','😥','😢','😭','😱','😖','😣','😞','😓','😩','😫','🥱','😴','❤️','🧡','💛','💚','💙','💜','🤍','🤎','🖤','💔','❣️','💕','💞','💓','💗','💖','💘','💝','💟','💌','💋','💍','💎','🔥','💯','✨','💫','⭐','🌟','💥','💢','💦','💨','💤','💬','💭','💮','🪷','🌸','🌺','🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🙈','🙉','🙊','🐔','🐧','🐦','🐤','🦆','🦅','🦉','🦇','🐺','🐗','🐴','🦄'];
 
 const pages = { chatDetail: document.getElementById('pageChatDetail'), chatList: document.getElementById('pageChatList'), contact: document.getElementById('pageContact'), moment: document.getElementById('pageMoment') };
-function showPage(id) { Object.values(pages).forEach(p => p.classList.remove('active')); pages[id].classList.add('active'); }
+function showPage(id) { 
+    Object.values(pages).forEach(p => p.classList.remove('active')); 
+    pages[id].classList.add('active');
+    document.getElementById('tabBar').style.display = (id === 'chatDetail') ? 'none' : 'flex';
+}
 showPage('chatDetail');
 
 const tabBar = document.getElementById('tabBar');
@@ -288,7 +357,12 @@ document.getElementById('noteTitle').onclick = function() {
     this.innerHTML = '';
     this.appendChild(input);
     input.focus();
-    input.onblur = () => { this.innerText = input.value.trim() || old; document.getElementById('listName').textContent = this.innerText; };
+    input.onblur = () => { 
+        const val = input.value.trim() || old;
+        this.innerText = val; 
+        document.getElementById('listName').textContent = val;
+        document.getElementById('contactName').textContent = val;
+    };
     input.onkeydown = (e) => { if (e.key === 'Enter') input.blur(); };
 };
 
@@ -304,7 +378,9 @@ const barImg = document.getElementById('barImg');
 const fileSticker = document.getElementById('fileSticker');
 const typingTip = document.getElementById('typingTip');
 
-function getNowTime() { const d = new Date(); return `${d.getHours()}:${d.getMinutes().toString().padStart(2,'0')}`; }
+function getNowTime() { const d = new Date(); return `${d.getHours()}:${d.getMinutes().toString().padStart(2,'0')}:${d.getSeconds().toString().padStart(2,'0')}`; }
+function getNowMinutes() { const d = new Date(); return `${d.getHours()}:${d.getMinutes().toString().padStart(2,'0')}`; }
+
 function renderEmoji() { gridEmoji.innerHTML = ''; emojiList.forEach(e => { const div = document.createElement('div'); div.className = 'emoji-item'; div.textContent = e; div.onclick = () => { chatInput.value += e; }; gridEmoji.appendChild(div); }); }
 function renderKaomoji() { gridKaomoji.innerHTML = ''; kaomojiList.forEach(text => { const div = document.createElement('div'); div.className = 'emoji-item'; div.textContent = text; div.onclick = () => { chatInput.value += text; }; gridKaomoji.appendChild(div); }); }
 function renderStickers() { gridImg.innerHTML = ''; stickerList.forEach(src => { const wrap = document.createElement('div'); wrap.className = 'img-sticker-item'; const img = document.createElement('img'); img.src = src; wrap.appendChild(img); wrap.onclick = () => sendImageMsg(src); gridImg.appendChild(wrap); }); }
@@ -315,7 +391,20 @@ document.querySelectorAll('.emoji-top-tab').forEach(tab => { tab.onclick = funct
 btnFace.onclick = () => { emojiPanel.style.display = emojiPanel.style.display === 'flex' ? 'none' : 'flex'; };
 document.addEventListener('click', e => { if (!emojiPanel.contains(e.target) && !btnFace.contains(e.target)) emojiPanel.style.display = 'none'; });
 
+function checkTimeDivider() {
+    const now = new Date();
+    const nowMinutes = `${now.getHours()}:${now.getMinutes().toString().padStart(2,'0')}`;
+    if (lastMsgTime && lastMsgTime !== nowMinutes) {
+        const divider = document.createElement('div');
+        divider.className = 'msg-time-divider';
+        divider.innerText = nowMinutes;
+        chatBox.appendChild(divider);
+    }
+    lastMsgTime = nowMinutes;
+}
+
 function addBubble(text, isMe, imgSrc = null) {
+    checkTimeDivider();
     const showAvatar = (lastMsgIsMe !== isMe);
     lastMsgIsMe = isMe;
     const row = document.createElement('div');
@@ -326,14 +415,20 @@ function addBubble(text, isMe, imgSrc = null) {
     avatar.style.background = avatarSrc ? `url(${avatarSrc})` : '#ccc';
     avatar.onclick = e => { e.stopPropagation(); changeAvatar(isMe); };
     avatar.ondblclick = e => { e.stopPropagation(); triggerPatPat(isMe); };
+    const content = document.createElement('div');
+    content.className = 'msg-content';
     const bubble = document.createElement('div');
-    bubble.className = `msg-bubble ${isMe ? 'msg-right' : 'msg-left'}`;
+    bubble.className = 'msg-bubble';
     if (imgSrc) { const img = document.createElement('img'); img.className = 'msg-img'; img.src = imgSrc; bubble.appendChild(img); } else { bubble.innerText = text; }
-    if (isMe) bubble.innerHTML += '<span class="read-mark">已读</span>';
-    row.appendChild(avatar);
-    row.appendChild(bubble);
+    const status = document.createElement('div');
+    status.className = 'msg-status';
+    if (isMe) status.innerHTML = `<span class="read-mark">已读</span> ${getNowTime()}`;
+    else status.innerText = getNowTime();
+    content.appendChild(bubble);
+    content.appendChild(status);
+    if (isMe) { row.appendChild(content); row.appendChild(avatar); }
+    else { row.appendChild(avatar); row.appendChild(content); }
     chatBox.appendChild(row);
-    const timeDom = document.createElement('div'); timeDom.className = 'msg-time'; timeDom.innerText = getNowTime(); chatBox.appendChild(timeDom);
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
@@ -362,12 +457,159 @@ function changeAvatar(isMe) {
 
 function triggerPatPat(isMe) { if (isMe) alert('你拍了拍自己'); else alert('你拍了拍梦角'); }
 
+let isVoiceMode = false;
+function toggleVoiceInput() {
+    isVoiceMode = !isVoiceMode;
+    const input = document.getElementById('chatInput');
+    const voiceBtn = document.getElementById('voiceHoldBtn');
+    if (isVoiceMode) { input.style.display = 'none'; voiceBtn.style.display = 'flex'; }
+    else { input.style.display = 'block'; voiceBtn.style.display = 'none'; }
+}
+function startVoice() { document.getElementById('voiceHoldBtn').textContent = '松开结束'; document.getElementById('voiceHoldBtn').style.background = '#ccc'; }
+function endVoice() {
+    document.getElementById('voiceHoldBtn').textContent = '按住说话';
+    document.getElementById('voiceHoldBtn').style.background = '#f5f5f5';
+    addBubble('🎤 语音消息', true);
+    setTimeout(() => { typingTip.style.display = 'block'; setTimeout(() => { typingTip.style.display = 'none'; addBubble('收到啦🥰', false); }, 1200); }, 500);
+}
+
 function showPlusMenu() {
-    const menu = document.createElement('div');
-    menu.style.cssText = 'position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:#fff;border-radius:12px;padding:16px;box-shadow:0 2px 20px rgba(0,0,0,0.2);z-index:999;display:flex;gap:24px;';
-    menu.innerHTML = '<div style="text-align:center;cursor:pointer;" onclick="alert(\'📞语音通话\');this.parentElement.remove()"><div style="font-size:32px;">📞</div><div style="font-size:12px;">语音</div></div><div style="text-align:center;cursor:pointer;" onclick="alert(\'📹视频通话\');this.parentElement.remove()"><div style="font-size:32px;">📹</div><div style="font-size:12px;">视频</div></div><div style="text-align:center;cursor:pointer;" onclick="alert(\'💰转账\');this.parentElement.remove()"><div style="font-size:32px;">💰</div><div style="font-size:12px;">转账</div></div><div style="text-align:center;cursor:pointer;" onclick="alert(\'🧧红包\');this.parentElement.remove()"><div style="font-size:32px;">🧧</div><div style="font-size:12px;">红包</div></div>';
-    document.body.appendChild(menu);
-    setTimeout(() => { document.addEventListener('click', function close(e) { if (!menu.contains(e.target)) { menu.remove(); document.removeEventListener('click', close); } }); }, 100);
+    const modal = document.createElement('div');
+    modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:999;display:flex;align-items:flex-end;';
+    modal.innerHTML = `
+        <div style="width:100%;background:#fff;border-radius:20px 20px 0 0;padding:20px;">
+            <div class="plus-menu-grid">
+                <div class="plus-menu-item" onclick="showModal('redpacketModal')">
+                    <div class="plus-menu-icon"><i class="fa fa-envelope-o"></i></div>
+                    <div class="plus-menu-label">红包</div>
+                </div>
+                <div class="plus-menu-item" onclick="showModal('transferModal')">
+                    <div class="plus-menu-icon"><i class="fa fa-money"></i></div>
+                    <div class="plus-menu-label">转账</div>
+                </div>
+                <div class="plus-menu-item" onclick="this.closest('div[style]').parentElement.remove();addGiftMsg()">
+                    <div class="plus-menu-icon"><i class="fa fa-gift"></i></div>
+                    <div class="plus-menu-label">礼物</div>
+                </div>
+                <div class="plus-menu-item" onclick="this.closest('div[style]').parentElement.remove();addMusicMsg()">
+                    <div class="plus-menu-icon"><i class="fa fa-music"></i></div>
+                    <div class="plus-menu-label">音乐</div>
+                </div>
+                <div class="plus-menu-item" onclick="this.closest('div[style]').parentElement.remove();alert('视频通话')">
+                    <div class="plus-menu-icon"><i class="fa fa-video-camera"></i></div>
+                    <div class="plus-menu-label">视频</div>
+                </div>
+                <div class="plus-menu-item" onclick="this.closest('div[style]').parentElement.remove();alert('语音通话')">
+                    <div class="plus-menu-icon"><i class="fa fa-phone"></i></div>
+                    <div class="plus-menu-label">语音</div>
+                </div>
+            </div>
+        </div>`;
+    document.body.appendChild(modal);
+    modal.onclick = e => { if (e.target === modal) modal.remove(); };
+}
+
+function showModal(id) {
+    document.getElementById('modalMask').style.display = 'block';
+    document.getElementById(id).style.display = 'block';
+}
+function closeModal(id) {
+    document.getElementById('modalMask').style.display = 'none';
+    document.getElementById(id).style.display = 'none';
+}
+document.getElementById('modalMask').onclick = () => {
+    document.getElementById('modalMask').style.display = 'none';
+    document.querySelectorAll('.modal-panel').forEach(p => p.style.display = 'none');
+};
+
+function sendRedpacket() {
+    const money = document.getElementById('rpMoney').value.trim();
+    const remark = document.getElementById('rpRemark').value.trim() || '恭喜发财';
+    if (!money) return alert('请输入金额');
+    addRedpackMsg(money, remark);
+    closeModal('redpacketModal');
+    document.getElementById('rpMoney').value = '';
+    document.getElementById('rpRemark').value = '';
+}
+function sendTransfer() {
+    const money = document.getElementById('tfMoney').value.trim();
+    const remark = document.getElementById('tfRemark').value.trim() || '自愿赠予';
+    if (!money) return alert('请输入金额');
+    addTransferMsg(money, remark);
+    closeModal('transferModal');
+    document.getElementById('tfMoney').value = '';
+    document.getElementById('tfRemark').value = '';
+}
+
+function addRedpackMsg(money, remark) {
+    const row = document.createElement('div');
+    row.className = 'msg-row msg-row-right';
+    row.innerHTML = `
+        <div class="msg-content">
+            <div class="msg-bubble msg-right">
+                <div class="redpack-msg">
+                    <div class="rp-amount">¥${money}</div>
+                    <div class="rp-desc">${remark}</div>
+                    <div class="rp-footer"><span>你发了一个红包</span><button class="rp-open-btn">开红包</button></div>
+                </div>
+            </div>
+            <div class="msg-status"><span class="read-mark">已读</span> ${getNowTime()}</div>
+        </div>
+        <div class="msg-avatar" style="background:${avatarConfig.myAvatar ? `url(${avatarConfig.myAvatar})` : '#ccc'};background-size:cover"></div>`;
+    chatBox.appendChild(row);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function addTransferMsg(money, remark) {
+    const row = document.createElement('div');
+    row.className = 'msg-row msg-row-right';
+    row.innerHTML = `
+        <div class="msg-content">
+            <div class="msg-bubble msg-right">
+                <div class="transfer-msg">
+                    <div class="tf-amount">¥${money}</div>
+                    <div class="tf-desc">${remark}</div>
+                    <div class="tf-footer"><span>你发起了一笔转账</span><button class="tf-receive-btn">确认收款</button></div>
+                </div>
+            </div>
+            <div class="msg-status"><span class="read-mark">已读</span> ${getNowTime()}</div>
+        </div>
+        <div class="msg-avatar" style="background:${avatarConfig.myAvatar ? `url(${avatarConfig.myAvatar})` : '#ccc'};background-size:cover"></div>`;
+    chatBox.appendChild(row);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function addGiftMsg() {
+    const row = document.createElement('div');
+    row.className = 'msg-row msg-row-right';
+    row.innerHTML = `
+        <div class="msg-content">
+            <div class="msg-bubble msg-right">
+                <div class="gift-msg"><div class="gift-title">送你一份小礼物🎁</div><div class="gift-desc">一份心意</div></div>
+            </div>
+            <div class="msg-status"><span class="read-mark">已读</span> ${getNowTime()}</div>
+        </div>
+        <div class="msg-avatar" style="background:${avatarConfig.myAvatar ? `url(${avatarConfig.myAvatar})` : '#ccc'};background-size:cover"></div>`;
+    chatBox.appendChild(row);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function addMusicMsg() {
+    const row = document.createElement('div');
+    row.className = 'msg-row msg-row-right';
+    row.innerHTML = `
+        <div class="msg-content">
+            <div class="msg-bubble msg-right">
+                <div class="music-msg">
+                    <div class="music-cover"></div>
+                    <div class="music-info"><div class="music-song">示例歌曲</div><div class="music-singer">歌手名字</div></div>
+                </div>
+            </div>
+            <div class="msg-status"><span class="read-mark">已读</span> ${getNowTime()}</div>
+        </div>
+        <div class="msg-avatar" style="background:${avatarConfig.myAvatar ? `url(${avatarConfig.myAvatar})` : '#ccc'};background-size:cover"></div>`;
+    chatBox.appendChild(row);
+    chatBox.scrollTop = chatBox.scrollHeight;
 }
 
 function showAddMenu() {
