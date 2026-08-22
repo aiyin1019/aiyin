@@ -1,824 +1,671 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>微信</title>
-    <style>
-        :root {
-            --bg: #ededed;
-            --panel: #f7f7f7;
-            --white: #ffffff;
-            --green: #07c160;
-            --green-dark: #06ad56;
-            --text: #1a1a1a;
-            --gray: #888;
-            --light-gray: #e0e0e0;
-            --bubble-in: #95ec69;
-            --bubble-out: #ffffff;
-            --border: #e0e0e0;
-            --shadow: 0 2px 12px rgba(0,0,0,0.08);
-            --radius: 16px;
-            --chat-bg: #ededed;
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-        }
-        body {
-            background: #111;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 12px;
-        }
-        .phone {
-            width: 390px;
-            height: 844px;
-            background: var(--bg);
-            border-radius: 40px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.4), 0 0 0 8px #2c2c2c;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            border: 1px solid #444;
-        }
-        .status-bar {
-            background: var(--panel);
-            padding: 14px 20px 6px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 14px;
-            font-weight: 600;
-            color: #000;
-            border-bottom: 1px solid #ddd;
-            flex-shrink: 0;
-        }
-        .app-view {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            background: var(--bg);
-        }
-        .bottom-nav {
-            display: flex;
-            background: #f7f7f7;
-            border-top: 1px solid #ccc;
-            padding: 8px 0 6px;
-            flex-shrink: 0;
-        }
-        .nav-item {
-            flex: 1;
-            text-align: center;
-            font-size: 12px;
-            color: #666;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .nav-item.active {
-            color: var(--green);
-            font-weight: 600;
-        }
-        .nav-icon {
-            font-size: 24px;
-            display: block;
-            margin-bottom: 2px;
-        }
-        .chat-list, .contact-list, .moments-list {
-            background: var(--white);
-            flex: 1;
-            overflow-y: auto;
-        }
-        .list-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 16px;
-            border-bottom: 1px solid #f0f0f0;
-            cursor: pointer;
-            transition: 0.1s;
-            background: white;
-            position: relative;
-        }
-        .list-item:active { background: #f2f2f2; }
-        .avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 8px;
-            background: #ddd;
-            margin-right: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: white;
-            flex-shrink: 0;
-            cursor: pointer;
-        }
-        .item-info { flex: 1; }
-        .item-title { font-size: 16px; font-weight: 500; }
-        .item-message { font-size: 13px; color: #999; margin-top: 4px; }
-        .item-time { font-size: 12px; color: #aaa; }
-        .pinned-badge {
-            background: #f0f0f0;
-            color: #666;
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 10px;
-            margin-left: 6px;
-        }
-        .chat-page {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            background: var(--chat-bg);
-        }
-        .chat-header {
-            background: #f7f7f7;
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid #ddd;
-        }
-        .chat-header-left, .chat-header-right {
-            display: flex;
-            align-items: center;
-            gap: 18px;
-        }
-        .back-btn, .header-icon {
-            cursor: pointer;
-            font-size: 22px;
-        }
-        .chat-title {
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        .status-indicator {
-            font-size: 11px;
-            color: #999;
-            display: block;
-            text-align: center;
-        }
-        .messages-area {
-            flex: 1;
-            overflow-y: auto;
-            padding: 16px 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .msg-row {
-            display: flex;
-            gap: 8px;
-            max-width: 80%;
-        }
-        .msg-row.out { align-self: flex-end; flex-direction: row-reverse; }
-        .msg-bubble {
-            padding: 10px 14px;
-            border-radius: 18px;
-            background: var(--bubble-in);
-            font-size: 15px;
-            word-break: break-word;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        }
-        .msg-row.in .msg-bubble { background: white; }
-        .msg-status { font-size: 11px; color: #999; margin-top: 4px; }
-        .input-bar {
-            background: #f7f7f7;
-            padding: 8px 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border-top: 1px solid #ddd;
-        }
-        .icon-btn {
-            background: none;
-            border: none;
-            font-size: 26px;
-            cursor: pointer;
-            color: #333;
-        }
-        .input-field {
-            flex: 1;
-            background: white;
-            border-radius: 20px;
-            padding: 10px 16px;
-            border: 1px solid #ddd;
-            font-size: 16px;
-            outline: none;
-        }
-        .plus-btn { font-size: 28px; }
-        .emoji-panel {
-            background: white;
-            border-top: 1px solid #ccc;
-            padding: 12px;
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-        .emoji-tab { padding: 6px 12px; background: #f0f0f0; border-radius: 20px; cursor: pointer; }
-        .emoji-item { font-size: 28px; cursor: pointer; padding: 4px; }
-        .modal-backdrop {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 50;
-        }
-        .modal-card {
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            width: 340px;
-            max-height: 80%;
-            overflow-y: auto;
-        }
-        .switch-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 12px 0;
-        }
-        .switch {
-            width: 48px; height: 28px; background: #ccc; border-radius: 15px; position: relative;
-            cursor: pointer;
-        }
-        .switch.on { background: var(--green); }
-        .switch::after {
-            content: ''; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px;
-            background: white; border-radius: 50%; transition: 0.2s;
-        }
-        .switch.on::after { left: 23px; }
-        .slider-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin: 8px 0;
-        }
-        .slider-row input[type="range"] {
-            flex: 1;
-        }
-        .hidden { display: none; }
-        .tag {
-            display: inline-block;
-            padding: 4px 10px;
-            background: #f0f0f0;
-            border-radius: 12px;
-            margin: 4px;
-            font-size: 13px;
-            cursor: pointer;
-        }
-        .btn {
-            padding: 10px 16px;
-            background: var(--green);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 15px;
-        }
-        .btn-secondary {
-            background: #f0f0f0;
-            color: #333;
-        }
-        .input-field-mini {
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-            width: 100%;
-            margin: 4px 0;
-        }
-        .list-item-actions {
-            display: flex;
-            gap: 8px;
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-        .phone-app-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            padding: 20px;
-        }
-        .app-icon {
-            background: white;
-            border-radius: 16px;
-            padding: 16px 0;
-            text-align: center;
-            box-shadow: var(--shadow);
-            cursor: pointer;
-            font-size: 14px;
-        }
-        .app-icon span { font-size: 28px; display: block; margin-bottom: 6px; }
-        .tarot-card {
-            background: #faf3e8;
-            border-radius: 12px;
-            padding: 16px;
-            margin: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .music-player {
-            background: #f0f0f0;
-            border-radius: 12px;
-            padding: 12px;
-            margin: 8px 0;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .music-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #ccc;
-            animation: spin 4s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>艾因</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,Roboto}
+body{background:#f2f2f5;margin:0;padding:0}
+:root{
+    --chat-bg:#f5f5f5;
+    --bubble-self:#95ec90;
+    --bubble-self-text:#000;
+    --bubble-other:#ffffff;
+    --bubble-other-text:#333;
+    --wx-green:#07c160;
+    --red-dot:#f53737;
+}
+
+.wrapper{width:100%;max-width:375px;height:100vh;margin:0 auto;background:#fff;display:flex;flex-direction:column;overflow:hidden}
+.page{display:none;width:100%;height:100%;display:flex;flex-direction:column}
+.page.active{display:flex}
+
+/* 聊天列表页顶部 */
+.wx-home-top{
+    height:56px;
+    background:#f7f7f9;
+    border-bottom:1px solid #eee;
+    display:flex;
+    align-items:center;
+    padding:0 12px;
+    position:relative;
+}
+.wx-home-title{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    font-size:17px;
+    font-weight:500;
+}
+.wx-home-right{
+    margin-left:auto;
+    cursor:pointer;
+    color:#333;
+}
+.round-plus{
+    width:24px;
+    height:24px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#333;
+}
+
+/* 聊天详情页顶部 */
+.wx-top-bar{height:56px;background:#f7f7f9;border-bottom:1px solid #eee;display:flex;align-items:center;padding:0 12px;position:relative;flex-shrink:0}
+.wx-left-area{
+    display:flex;
+    align-items:center;
+    gap:4px;
+    position:absolute;
+    left:8px;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:10;
+}
+.wx-back{
+    width:32px;
+    height:32px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    background:transparent;
+    padding:0;
+    margin:0;
+    transition:.15s ease;
+}
+.wx-back svg{
+    width:18px;
+    height:18px;
+}
+.wx-back:active{opacity:0.5;}
+.status-tag{
+    padding:11px 12px;
+    background:#eef0f3;
+    border-radius:8px;
+    font-size:12px;
+    color:#555;
+    white-space:nowrap;
+    text-align:center;
+    line-height:1;
+}
+.wx-title-wrap{flex:1;display:flex;align-items:center;justify-content:center;}
+.wx-title{font-size:17px;font-weight:500;cursor:pointer;user-select:none}
+.note-input{
+    font-size:17px;
+    font-weight:500;
+    border:none;
+    outline:none;
+    background:transparent;
+    text-align:center;
+    width:100px;
+}
+.wx-top-right{
+    display:flex;
+    gap:14px;
+    font-size:20px;
+    position:absolute;
+    right:12px;
+    top:50%;
+    transform:translateY(-50%);
+    align-items:center;
+}
+.wx-icon{
+    cursor:pointer;
+    color:#333;
+    width:20px;
+    height:20px;
+}
+
+/* 聊天消息区域 */
+.chat-area{flex:1;display:flex;flex-direction:column;min-height:0}
+.chat-box{flex:1;overflow-y:auto;padding:12px;background:var(--chat-bg);min-height:0}
+.msg-row{
+    display:flex;
+    gap:10px;
+    margin:8px 0;
+}
+.msg-row-left{justify-content:flex-start;}
+.msg-row-right{justify-content:flex-end;}
+.msg-avatar{
+    width:40px;
+    height:40px;
+    border-radius:6px;
+    background:#ccc;
+    background-size:cover;
+    background-position:center;
+    flex-shrink:0;
+    cursor:pointer;
+}
+.msg-row-hide-avatar .msg-avatar{
+    visibility:hidden;
+}
+.msg-bubble{max-width:72%;padding:10px 13px;border-radius:14px;font-size:14px;position:relative}
+.msg-left{background:var(--bubble-other);color:var(--bubble-other-text);}
+.msg-right{background:var(--bubble-self);color:var(--bubble-self-text);}
+.msg-img{max-width:180px;border-radius:12px;margin:8px 0;display:block}
+
+/* 底部输入栏 */
+.chat-input-wrap{border-top:1px solid #eee;padding:12px 10px;background:#fff;display:flex;gap:10px;align-items:center;flex-shrink:0}
+.btn-voice, .btn-face, .btn-more{
+    width:36px;height:36px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px;
+    cursor:pointer;
+    color:#444;
+}
+.chat-input{
+    flex:1;
+    height:42px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    padding:0 12px;
+    font-size:15px;
+    outline:none;
+}
+
+/* 底部tab导航栏 */
+.tab-bar{
+    height:60px;
+    background:#fff;
+    display:flex;
+    border-top:1px solid #e5e5e5;
+    flex-shrink:0;
+}
+.tab-item{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+    cursor:pointer;
+    font-size:11px;
+    color:#666;
+    padding-bottom:4px;
+}
+.tab-item.active{color:var(--wx-green);}
+.tab-icon svg{
+    width:24px;
+    height:24px;
+    display:block;
+}
+
+/* 朋友圈页面 */
+.moment-page{background:#f5f5f5;overflow-y:auto;}
+.moment-top-bar{
+    height:56px;
+    background:#f7f7f9;
+    border-bottom:1px solid #eee;
+    display:flex;
+    align-items:center;
+    padding:0 12px;
+    position:relative;
+}
+.moment-top-title{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    font-size:17px;
+    font-weight:500;
+}
+
+/* 封面背景区域 */
+.moment-header{
+    height:180px;
+    background:#999;
+    position:relative;
+    background-size:cover;
+    background-position:center;
+    cursor:pointer;
+}
+
+/* ========== 封面右上角：发朋友圈相机图标【常驻显示】 ========== */
+.moment-header-top-camera{
+    position:absolute;
+    top:12px;
+    right:16px;
+    width:24px;
+    height:24px;
+    color:#ffffff;
+    cursor:pointer;
+    z-index:6;
+}
+
+.moment-avatar{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    border:2px solid #fff;
+    position:absolute;
+    bottom:-35px;
+    right:16px;
+    background:#ccc;
+    background-size:cover;
+    background-position:center;
+    cursor:pointer;
+    z-index:4;
+}
+.moment-name{
+    position:absolute;
+    bottom:-35px;
+    left:16px;
+    color:#fff;
+    font-size:17px;
+    font-weight:600;
+    z-index:4;
+}
+.moment-publish-wrap{background:#fff;margin:8px 12px;padding:12px;border-radius:10px;}
+.moment-publish-input{width:100%;min-height:70px;border:none;outline:none;font-size:14px;resize:none;}
+.moment-publish-btn{background:var(--wx-green);color:#fff;text-align:center;padding:8px 0;border-radius:6px;margin-top:8px;cursor:pointer;}
+.moment-list{padding:0 12px;padding-bottom:20px;}
+.moment-item{background:#fff;margin-bottom:8px;padding:12px;border-radius:10px;}
+.moment-avatar-small{width:40px;height:40px;border-radius:50%;background:#ccc;float:left;margin-right:10px;background-size:cover;background-position:center;cursor:pointer;}
+.moment-name-small{font-size:15px;color:#333;font-weight:500;}
+.moment-time{font-size:12px;color:#999;margin-top:2px;}
+.moment-text{margin-top:8px;font-size:14px;line-height:1.5;}
+
+/* 纯文字朋友圈弹窗 */
+.text-moment-modal{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:#fff;
+    z-index:999;
+    display:none;
+    flex-direction:column;
+    padding:16px;
+}
+.text-moment-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:16px;
+}
+.text-moment-cancel{
+    font-size:16px;
+    color:#666;
+    cursor:pointer;
+}
+.text-moment-title{
+    font-size:17px;
+    font-weight:500;
+}
+.text-moment-send{
+    color:var(--wx-green);
+    font-size:16px;
+    cursor:pointer;
+}
+.text-moment-input{
+    flex:1;
+    width:100%;
+    border:none;
+    outline:none;
+    font-size:16px;
+    resize:none;
+}
+
+/* ========== 封面全屏预览弹窗 ========== */
+.cover-preview-modal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100vw;
+    height:100vh;
+    background:rgba(0,0,0,0.85);
+    z-index:9999;
+    justify-content:center;
+    align-items:center;
+}
+.cover-preview-img{
+    max-width:90%;
+    max-height:90%;
+    object-fit:contain;
+}
+/* 全屏预览右下角换封面按钮 */
+.cover-change-btn{
+    position:absolute;
+    bottom:40px;
+    right:24px;
+    width:36px;
+    height:36px;
+    background:rgba(255,255,255,0.65);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#333;
+    cursor:pointer;
+}
+
+/* 联系人页面 */
+.contact-page{background:#f5f5f5;overflow-y:auto;}
+.contact-group{background:#fff;margin-bottom:8px;border-radius:10px;}
+.contact-group-title{padding:6px 12px;background:#f2f2f5;font-size:13px;color:#666;}
+.contact-item{display:flex;align-items:center;padding:10px 12px;border-bottom:1px solid #eee;cursor:pointer;}
+.contact-avatar{width:42px;height:42px;border-radius:6px;background:#ccc;margin-right:12px;background-size:cover;background-position:center;cursor:pointer;}
+.contact-name{font-size:15px;}
+
+/* 聊天列表 */
+.chat-list-page{background:#fff;overflow-y:auto;}
+.chat-list-item{display:flex;align-items:center;padding:12px;border-bottom:1px solid #eee;cursor:pointer;}
+.chat-list-avatar{width:48px;height:48px;border-radius:6px;background:#ccc;margin-right:12px;background-size:cover;background-position:center;cursor:pointer;}
+.chat-list-info{flex:1;}
+.chat-list-name{font-size:16px;font-weight:500;}
+.chat-list-desc{font-size:13px;color:#999;margin-top:3px;}
+.chat-list-time{font-size:12px;color:#999;}
+
+.file-input{display:none}
+</style>
 </head>
 <body>
-<div class="phone" id="phoneContainer">
-    <div class="status-bar">
-        <span>9:41</span>
-        <span>📶 🔋 100%</span>
-    </div>
-    <div id="mainView" class="app-view"></div>
-    <div class="bottom-nav" id="bottomNav">
-        <div class="nav-item active" data-tab="wechat"><span class="nav-icon">💬</span>微信</div>
-        <div class="nav-item" data-tab="contacts"><span class="nav-icon">👥</span>通讯录</div>
-        <div class="nav-item" data-tab="moments"><span class="nav-icon">🌐</span>朋友圈</div>
-    </div>
-</div>
-<script>
-// 全局数据
-let contacts = [
-    { id: 1, name: '林知夏', avatar: '🌸', pinned: true, lastMsg: '今晚一起听歌吗？', time: '10:24', remark: '林知夏' }
-];
-let friends = [
-    { id: 1, name: '林知夏', avatar: '🌸', signature: '记得听歌' }
-];
-let wordCards = ['我喜欢你', '今天天气真好', '一起听歌吗', '晚安', '早安', '想你了', '哈哈哈', '好呀', '嗯嗯', '在干嘛'];
-let patPat = ['拍了拍你的头', '拍了拍你的肩膀', '拍了拍你的手'];
-let statusList = ['✨今日好运', '🎵听歌中', '💤休息中'];
-let currentChat = null;
-let currentTab = 'wechat';
-let messageSpeedMin = 3, messageSpeedMax = 60;
-let autoReplyOn = true, autoReplyMin = 5, autoReplyMax = 30;
-let readReceipt = true, allowRecall = true, allowCall = true, allowMusic = true;
-let recallProbability = 10, callProbability = 3;
-
-function getColor(id) {
-    const colors = ['#7c9eb2', '#b28c7c', '#8fbc8f', '#b0a1c9', '#d4a76a', '#e8a87c', '#85cdca', '#e0a9c9'];
-    return colors[id % colors.length];
-}
-
-function renderMain(tab) {
-    const mainView = document.getElementById('mainView');
-    if (tab === 'wechat') {
-        mainView.innerHTML = `
-            <div class="chat-list">
-                ${contacts.map(c => `
-                    <div class="list-item" data-id="${c.id}">
-                        <div class="avatar" style="background:${getColor(c.id)}" onclick="event.stopPropagation();changeAvatar(${c.id})">${c.avatar}</div>
-                        <div class="item-info" onclick="openChat(${c.id})">
-                            <div class="item-title">${c.name} ${c.pinned ? '<span class="pinned-badge">置顶</span>' : ''}</div>
-                            <div class="item-message">${c.lastMsg}</div>
-                        </div>
-                        <div class="item-time">${c.time}</div>
-                    </div>`).join('')}
-                <div style="padding:20px;text-align:center;color:#999;font-size:13px;" onclick="showAddMenu()">➕ 添加联系人/群聊</div>
-            </div>
-        `;
-    } else if (tab === 'contacts') {
-        mainView.innerHTML = `
-            <div class="contact-list">
-                ${friends.map(f => `
-                    <div class="list-item">
-                        <div class="avatar" style="background:${getColor(f.id)}">${f.avatar}</div>
-                        <div class="item-info"><div class="item-title">${f.name}</div><div class="item-message">${f.signature}</div></div>
-                    </div>`).join('')}
-                <div style="padding:20px;text-align:center;color:#999;font-size:13px;" onclick="showAddContact()">➕ 添加联系人</div>
-            </div>
-        `;
-    } else if (tab === 'moments') {
-        mainView.innerHTML = `
-            <div class="moments-list" style="padding:16px;">
-                <h3>朋友圈</h3>
-                <div style="margin:12px 0;background:white;border-radius:16px;padding:16px;cursor:pointer;" onclick="showMomentsEditor()">
-                    <p><strong>我</strong> 刚刚</p>
-                    <p>今天天气真好，和喜欢的人一起听歌🎵</p>
-                </div>
-                <div style="background:white;border-radius:16px;padding:16px;margin-top:8px;">
-                    <p><strong>林知夏</strong> 评论：你也是我的风景</p>
-                </div>
-            </div>
-        `;
-    }
-}
-
-function openChat(id) {
-    const contact = contacts.find(c => c.id === id);
-    if (!contact) return;
-    currentChat = contact;
-    const mainView = document.getElementById('mainView');
-    mainView.innerHTML = `
-        <div class="chat-page">
-            <div class="chat-header">
-                <div class="chat-header-left">
-                    <span class="back-btn" onclick="renderMain('wechat')">←</span>
-                    <div onclick="editRemark(${contact.id})">
-                        <span class="chat-title" id="chatTitle">${contact.name}</span>
-                        <span class="status-indicator" id="typingIndicator"></span>
-                    </div>
-                </div>
-                <div class="chat-header-right">
-                    <span class="header-icon" onclick="openSettings()">⚙️</span>
-                    <span class="header-icon" onclick="openMiniPhone()">📱</span>
-                </div>
-            </div>
-            <div class="messages-area" id="messagesArea">
-                <div class="msg-row in"><div class="msg-bubble">你好呀，我在。</div></div>
-                <div class="msg-row out"><div class="msg-bubble">今晚一起听歌？</div></div>
-            </div>
-            <div class="input-bar">
-                <button class="icon-btn" onclick="sendVoice()">🎤</button>
-                <input class="input-field" id="msgInput" placeholder="发消息..." onkeypress="if(event.key==='Enter')sendMessage()" />
-                <button class="icon-btn" onclick="toggleEmojiPanel()">😊</button>
-                <button class="icon-btn plus-btn" onclick="showPlusMenu()">➕</button>
-            </div>
-            <div id="emojiPanel" class="emoji-panel hidden">
-                <span class="emoji-tab" onclick="showEmojiTab('sticker')">😀表情包</span>
-                <span class="emoji-tab" onclick="showEmojiTab('face')">😊黄脸</span>
-                <span class="emoji-tab" onclick="showEmojiTab('kaomoji')">(✿◡‿◡)颜文字</span>
-                <div id="emojiContent"></div>
+<div class="wrapper">
+    <!-- 聊天列表页 -->
+    <div id="pageChatList" class="page">
+        <div class="wx-home-top">
+            <div class="wx-home-title">微信</div>
+            <div class="wx-home-right" id="btnAdd">
+                <svg class="round-plus" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
             </div>
         </div>
-    `;
-    // 模拟对方输入
-    if (autoReplyOn) {
-        setTimeout(() => {
-            document.getElementById('typingIndicator').textContent = '正在输入中...';
-            setTimeout(() => {
-                document.getElementById('typingIndicator').textContent = '';
-                const area = document.getElementById('messagesArea');
-                area.innerHTML += `<div class="msg-row in"><div class="msg-bubble">${getRandomWordCard()}</div></div>`;
-            }, 2000);
-        }, 3000);
-    }
-}
-
-function sendMessage() {
-    const input = document.getElementById('msgInput');
-    const text = input.value.trim();
-    if (!text) return;
-    const area = document.getElementById('messagesArea');
-    area.innerHTML += `<div class="msg-row out"><div class="msg-bubble">${text}</div></div>`;
-    input.value = '';
-    area.scrollTop = area.scrollHeight;
-}
-
-function sendVoice() {
-    const area = document.getElementById('messagesArea');
-    area.innerHTML += `<div class="msg-row out"><div class="msg-bubble">🎤 语音消息</div></div>`;
-    area.scrollTop = area.scrollHeight;
-}
-
-function toggleEmojiPanel() {
-    const panel = document.getElementById('emojiPanel');
-    if (panel) panel.classList.toggle('hidden');
-    showEmojiTab('face');
-}
-
-function showEmojiTab(type) {
-    const container = document.getElementById('emojiContent');
-    if (!container) return;
-    if (type === 'face') {
-        container.innerHTML = ['😀','😄','😊','😍','😘','😜','🤗','😎','🥰','😭','😡','👍','👏','🙏','💪','🤝','👀','💋','❤️','✨'].map(e => `<span class="emoji-item">${e}</span>`).join('');
-    } else if (type === 'kaomoji') {
-        container.innerHTML = ['(✿◡‿◡)','(｡♥‿♥｡)','(◕‿◕)','(づ｡◕‿‿◕｡)づ','(•‿•)','(≧◡≦)','(ノ◕ヮ◕)ノ*:･ﾟ✧','(¬‿¬)','(⁄ ⁄•⁄ω⁄•⁄ ⁄)','(ง •̀_•́)ง'].map(e => `<span class="emoji-item">${e}</span>`).join('');
-    } else {
-        container.innerHTML = ['🐱','🐶','🐼','🐸','🐵','🦊','🐰','🐻','🐨','🐯','🦁','🐮'].map(e => `<span class="emoji-item">${e}</span>`).join('');
-    }
-}
-
-function showPlusMenu() {
-    const modal = document.createElement('div');
-    modal.className = 'modal-backdrop';
-    modal.innerHTML = `
-        <div class="modal-card">
-            <h3>功能</h3>
-            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0;">
-                <div class="app-icon" onclick="alert('视频通话')"><span>📹</span>视频</div>
-                <div class="app-icon" onclick="alert('语音通话')"><span>📞</span>语音</div>
-                <div class="app-icon" onclick="alert('转账')"><span>💰</span>转账</div>
-                <div class="app-icon" onclick="alert('红包')"><span>🧧</span>红包</div>
-                <div class="app-icon" onclick="showMusicInvite()"><span>🎵</span>一起听</div>
-                <div class="app-icon" onclick="alert('送礼物')"><span>🎁</span>礼物</div>
-                <div class="app-icon" onclick="alert('相册')"><span>🖼️</span>相册</div>
-                <div class="app-icon" onclick="alert('收藏')"><span>⭐</span>收藏</div>
-            </div>
-            <button class="btn" onclick="this.closest('.modal-backdrop').remove()">关闭</button>
-        </div>`;
-    document.getElementById('phoneContainer').appendChild(modal);
-}
-
-function showMusicInvite() {
-    const modal = document.createElement('div');
-    modal.className = 'modal-backdrop';
-    modal.innerHTML = `
-        <div class="modal-card">
-            <h3>邀请一起听歌</h3>
-            <div class="music-player">
-                <div class="music-avatar">🎵</div>
-                <div>正在一起听歌<br><small>《慢慢喜欢你》</small></div>
-                <button class="btn" onclick="this.closest('.modal-backdrop').remove()">开始</button>
-            </div>
-        </div>`;
-    document.getElementById('phoneContainer').appendChild(modal);
-}
-
-function openSettings() {
-    const modal = document.createElement('div');
-    modal.className = 'modal-backdrop';
-    modal.innerHTML = `
-        <div class="modal-card">
-            <h3>聊天设置</h3>
-            <div style="margin:12px 0;">
-                <label>回复速度（秒）</label>
-                <div class="slider-row"><span>最快</span><input type="range" min="3" max="300" value="${messageSpeedMin}" onchange="messageSpeedMin=this.value"><span>${messageSpeedMin}秒</span></div>
-                <div class="slider-row"><span>最慢</span><input type="range" min="3" max="300" value="${messageSpeedMax}" onchange="messageSpeedMax=this.value"><span>${messageSpeedMax}秒</span></div>
-            </div>
-            <div class="switch-row"><span>主动发消息</span><div class="switch ${autoReplyOn?'on':''}" onclick="autoReplyOn=!autoReplyOn;this.classList.toggle('on')"></div></div>
-            <div class="switch-row"><span>已读不回</span><div class="switch on"></div></div>
-            <div class="switch-row"><span>允许撤回(10%)</span><div class="switch on"></div></div>
-            <div class="switch-row"><span>允许语音视频(3%)</span><div class="switch on"></div></div>
-            <div class="switch-row"><span>允许音乐(3%)</span><div class="switch on"></div></div>
-            <hr>
-            <h4>字卡管理</h4>
-            <div style="margin:8px 0;">
-                <input class="input-field-mini" placeholder="搜索字卡..." onkeyup="filterWordCards(this.value)">
-                <div id="wordCardList">
-                    ${wordCards.map((w,i) => `<span class="tag">${w} <small onclick="deleteWordCard(${i})">🗑️</small></span>`).join('')}
+        <div class="chat-list-page">
+            <div class="chat-list-item" data-chat="chat1">
+                <div class="chat-list-avatar" id="avatarOtherList"></div>
+                <div class="chat-list-info">
+                    <div class="chat-list-name">梦角</div>
+                    <div class="chat-list-desc">点击进入聊天</div>
                 </div>
-                <input class="input-field-mini" placeholder="批量添加，一行一个" onchange="addWordCards(this.value);this.value=''">
+                <div class="chat-list-time">今天</div>
             </div>
-            <hr>
-            <h4>拍一拍</h4>
-            <div id="patpatList">
-                ${patPat.map((p,i) => `<span class="tag">${p} <small onclick="deletePatPat(${i})">🗑️</small></span>`).join('')}
+        </div>
+    </div>
+
+    <!-- 聊天详情页 -->
+    <div id="pageChatDetail" class="page">
+        <div class="wx-top-bar">
+            <div class="wx-left-area">
+                <div class="wx-back" id="btnBack">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                </div>
+                <div class="status-tag">在线</div>
             </div>
-            <input class="input-field-mini" placeholder="添加拍一拍" onchange="addPatPat(this.value);this.value=''">
-            <hr>
-            <h4>状态</h4>
-            <div id="statusList">
-                ${statusList.map((s,i) => `<span class="tag">${s} <small onclick="deleteStatus(${i})">🗑️</small></span>`).join('')}
+            <div class="wx-title-wrap">
+                <div class="wx-title">梦角</div>
             </div>
-            <input class="input-field-mini" placeholder="添加状态" onchange="addStatus(this.value);this.value=''">
-            <hr>
-            <button class="btn" onclick="backupAll()">💾 备份所有内容</button>
-            <button class="btn btn-secondary" style="margin-top:8px;" onclick="this.closest('.modal-backdrop').remove()">关闭</button>
-        </div>`;
-    document.getElementById('phoneContainer').appendChild(modal);
+            <div class="wx-top-right">
+                <div class="wx-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="5" y="2" width="14" height="20" rx="2"/>
+                        <line x1="12" y1="18" x2="12" y2="18"/>
+                    </svg>
+                </div>
+                <div class="wx-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="chat-area">
+            <div class="chat-box" id="chatBox">
+            </div>
+            <div class="chat-input-wrap">
+                <div class="btn-voice">🎤</div>
+                <input class="chat-input" id="msgInput" placeholder="输入消息"/>
+                <div class="btn-face">😊</div>
+                <div class="btn-more">➕</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 联系人页 -->
+    <div id="pageContact" class="page">
+        <div class="wx-home-top">
+            <div class="wx-home-title">联系人</div>
+        </div>
+        <div class="contact-page">
+            <div class="contact-group">
+                <div class="contact-group-title">朋友</div>
+                <div class="contact-item">
+                    <div class="contact-avatar" id="avatarOtherContact"></div>
+                    <div class="contact-name">梦角</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 朋友圈页 -->
+    <div id="pageMoment" class="page">
+        <div class="moment-top-bar">
+            <div class="moment-top-title">发现</div>
+        </div>
+        <div class="moment-header" id="momentCover">
+            <!-- 右上角：发朋友圈相机图标（常驻） -->
+            <div class="moment-header-top-camera" id="momentHeaderTopCamera">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                    <circle cx="12" cy="13" r="4"/>
+                </svg>
+            </div>
+            <div class="moment-avatar" id="momentMyAvatar"></div>
+            <div class="moment-name">我</div>
+        </div>
+        <div class="moment-publish-wrap">
+            <textarea class="moment-publish-input" placeholder="这一刻的想法..."></textarea>
+            <div class="moment-publish-btn">发表</div>
+        </div>
+        <div class="moment-list" id="momentList">
+        </div>
+    </div>
+
+    <!-- 纯文字朋友圈弹窗 -->
+    <div class="text-moment-modal" id="textMomentModal">
+        <div class="text-moment-header">
+            <div class="text-moment-cancel" id="textMomentCancel">取消</div>
+            <div class="text-moment-title">发表文字</div>
+            <div class="text-moment-send" id="textMomentSend">发表</div>
+        </div>
+        <textarea class="text-moment-input" placeholder="这一刻的想法..."></textarea>
+    </div>
+
+    <!-- 封面全屏预览弹窗 -->
+    <div class="cover-preview-modal" id="coverPreviewModal">
+        <img class="cover-preview-img" id="coverPreviewImg"/>
+        <div class="cover-change-btn" id="coverChangeBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                <circle cx="12" cy="13" r="4"/>
+            </svg>
+        </div>
+    </div>
+
+    <input type="file" class="file-input" id="fileInputCover" accept="image/*">
+    <input type="file" class="file-input" id="fileInputAvatar" accept="image/*">
+    <input type="file" class="file-input" id="fileInputMomentPic" accept="image/*">
+</div>
+
+<script>
+// 页面切换
+const pages = {
+    chatList:document.getElementById('pageChatList'),
+    chatDetail:document.getElementById('pageChatDetail'),
+    contact:document.getElementById('pageContact'),
+    moment:document.getElementById('pageMoment')
+}
+function showPage(id){
+    Object.values(pages).forEach(p=>p.classList.remove('active'));
+    pages[id].classList.add('active');
+}
+showPage('chatList');
+
+// 底部tab
+const tabItems = document.querySelectorAll('.tab-item');
+tabItems.forEach((tab,idx)=>{
+    tab.onclick = ()=>{
+        tabItems.forEach(t=>t.classList.remove('active'));
+        tab.classList.add('active');
+        if(idx===0) showPage('chatList');
+        if(idx===1) showPage('contact');
+        if(idx===3) showPage('moment');
+    }
+})
+
+// 返回按钮
+document.getElementById('btnBack').onclick = ()=>{
+    showPage('chatList');
+}
+// 聊天列表进入聊天
+document.querySelector('.chat-list-item').onclick = ()=>{
+    showPage('chatDetail');
 }
 
-function filterWordCards(keyword) {
-    const container = document.getElementById('wordCardList');
-    if (!container) return;
-    const filtered = wordCards.filter(w => w.includes(keyword));
-    container.innerHTML = filtered.map((w,i) => `<span class="tag">${w} <small onclick="deleteWordCard(${i})">🗑️</small></span>`).join('');
+// ==========点击封面，打开全屏预览==========
+const momentCover = document.getElementById('momentCover');
+const coverPreviewModal = document.getElementById('coverPreviewModal');
+const coverPreviewImg = document.getElementById('coverPreviewImg');
+const coverChangeBtn = document.getElementById('coverChangeBtn');
+
+momentCover.onclick = (e)=>{
+    // 不要点击右上角发朋友圈相机时触发全屏
+    if(e.target.closest('.moment-header-top-camera')) return;
+    const bgStyle = getComputedStyle(momentCover).backgroundImage;
+    const urlMatch = bgStyle.match(/url\("?(.*?)"?\)/);
+    const imgUrl = urlMatch ? urlMatch[1] : '';
+    coverPreviewImg.src = imgUrl;
+    coverPreviewModal.style.display='flex';
 }
 
-function deleteWordCard(index) { wordCards.splice(index, 1); openSettings(); }
-function addWordCards(text) {
-    const lines = text.split('\n').filter(l => l.trim());
-    wordCards.push(...lines);
-    openSettings();
-}
-function deletePatPat(index) { patPat.splice(index, 1); openSettings(); }
-function addPatPat(text) { if(text.trim()){patPat.push(text.trim()); openSettings();} }
-function deleteStatus(index) { statusList.splice(index, 1); openSettings(); }
-function addStatus(text) { if(text.trim()){statusList.push(text.trim()); openSettings();} }
-
-function getRandomWordCard() {
-    return wordCards[Math.floor(Math.random() * wordCards.length)] || '嗯嗯';
-}
-
-function backupAll() {
-    const data = {
-        contacts, friends, wordCards, patPat, statusList,
-        settings: { messageSpeedMin, messageSpeedMax, autoReplyOn, readReceipt }
-    };
-    const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'backup.json';
-    a.click();
-}
-
-function changeAvatar(id) {
-    const contact = contacts.find(c => c.id === id);
-    const newAvatar = prompt('输入新头像（emoji）:', contact.avatar);
-    if (newAvatar) { contact.avatar = newAvatar; renderMain('wechat'); }
-}
-
-function editRemark(id) {
-    const contact = contacts.find(c => c.id === id);
-    const newName = prompt('输入备注名:', contact.name);
-    if (newName) { contact.name = newName; document.getElementById('chatTitle').textContent = newName; }
-}
-
-function showAddMenu() {
-    const modal = document.createElement('div');
-    modal.className = 'modal-backdrop';
-    modal.innerHTML = `
-        <div class="modal-card">
-            <h3>添加</h3>
-            <button class="btn" style="width:100%;margin:8px 0;" onclick="showAddContact()">添加联系人</button>
-            <button class="btn" style="width:100%;margin:8px 0;" onclick="showAddGroup()">创建群聊</button>
-            <button class="btn btn-secondary" style="width:100%;margin:8px 0;" onclick="this.closest('.modal-backdrop').remove()">取消</button>
-        </div>`;
-    document.getElementById('phoneContainer').appendChild(modal);
-}
-
-function showAddContact() {
-    const modal = document.createElement('div');
-    modal.className = 'modal-backdrop';
-    modal.innerHTML = `
-        <div class="modal-card">
-            <h3>添加联系人</h3>
-            <input class="input-field-mini" id="newName" placeholder="名字">
-            <input class="input-field-mini" id="newAvatar" placeholder="头像（emoji）">
-            <input class="input-field-mini" id="newSignature" placeholder="签名">
-            <button class="btn" style="width:100%;margin-top:8px;" onclick="saveNewContact()">保存</button>
-            <button class="btn btn-secondary" style="width:100%;margin-top:8px;" onclick="this.closest('.modal-backdrop').remove()">取消</button>
-        </div>`;
-    document.getElementById('phoneContainer').appendChild(modal);
-}
-
-function saveNewContact() {
-    const name = document.getElementById('newName').value;
-    const avatar = document.getElementById('newAvatar').value || '😊';
-    const signature = document.getElementById('newSignature').value || '';
-    if (!name) return alert('请输入名字');
-    const id = contacts.length + 1;
-    contacts.push({ id, name, avatar, pinned: false, lastMsg: '', time: '刚刚', remark: name });
-    friends.push({ id, name, avatar, signature });
-    renderMain('wechat');
-    document.querySelector('.modal-backdrop').remove();
-}
-
-function showAddGroup() {
-    const name = prompt('输入群聊名称:');
-    if (name) {
-        const id = contacts.length + 1;
-        contacts.push({ id, name, avatar: '👥', pinned: false, lastMsg: '群聊已创建', time: '刚刚', remark: name });
-        renderMain('wechat');
+// 点击遮罩关闭全屏预览
+coverPreviewModal.onclick = (e)=>{
+    if(e.target === coverPreviewModal){
+        coverPreviewModal.style.display='none';
     }
 }
 
-function openMiniPhone() {
-    const modal = document.createElement('div');
-    modal.className = 'modal-backdrop';
-    modal.innerHTML = `
-        <div class="modal-card" style="width:350px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;">
-                <h3>小手机</h3><span onclick="this.closest('.modal-backdrop').remove()">✕</span>
-            </div>
-            <div style="text-align:center;margin:12px 0;">
-                <p style="font-size:12px;color:#999;">今日心情</p>
-                <p style="font-size:18px;">✨今天很开心，想和你一起听歌</p>
-            </div>
-            <div class="phone-app-grid">
-                <div class="app-icon" onclick="this.closest('.modal-backdrop').remove();renderMain('wechat')"><span>💬</span>微信</div>
-                <div class="app-icon" onclick="showMusicPlayer()"><span>🎵</span>音乐</div>
-                <div class="app-icon" onclick="showShopping()"><span>🛍️</span>购物</div>
-                <div class="app-icon" onclick="showTarot()"><span>🔮</span>塔罗</div>
-                <div class="app-icon" onclick="showMoodJournal()"><span>📔</span>心情账本</div>
-                <div class="app-icon" onclick="showThemeSettings()"><span>🎨</span>主题</div>
-            </div>
-        </div>`;
-    document.getElementById('phoneContainer').appendChild(modal);
+// ==========全屏预览右下角：换封面按钮==========
+coverChangeBtn.onclick = ()=>{
+    document.getElementById('fileInputCover').click();
 }
-
-function showMusicPlayer() {
-    const modal = document.createElement('div');
-    modal.className = 'modal-backdrop';
-    modal.innerHTML = `
-        <div class="modal-card">
-            <h3>🎵 音乐</h3>
-            <div class="music-player">
-                <div class="music-avatar">🎵</div>
-                <div>《慢慢喜欢你》<br><small>莫文蔚</small></div>
-            </div>
-            <div class="music-player">
-                <div class="music-avatar">🎵</div>
-                <div>《小幸运》<br><small>田馥甄</small></div>
-            </div>
-            <button class="btn" style="width:100%;margin-top:8px;" onclick="this.closest('.modal-backdrop').remove()">关闭</button>
-        </div>`;
-    document.getElementById('phoneContainer').appendChild(modal);
-}
-
-function showShopping() {
-    const modal = document.createElement('div');
-    modal.className = 'modal-backdrop';
-    modal.innerHTML = `
-        <div class="modal-card">
-            <h3>🛍️ 购物</h3>
-            <p>余额：<strong>¥520,000</strong></p>
-            <div style="margin:8px 0;">
-                <span class="tag">🌹 玫瑰花 - ¥99</span>
-                <span class="tag">🍫 巧克力 - ¥128</span>
-                <span class="tag">🧸 玩偶 - ¥199</span>
-            </div>
-            <button class="btn" style="width:100%;" onclick="this.closest('.modal-backdrop').remove()">关闭</button>
-        </div>`;
-    document.getElementById('phoneContainer').appendChild(modal);
-}
-
-function showTarot() {
-    const modal = document.createElement('div');
-    modal.className = 'modal-backdrop';
-    modal.innerHTML = `
-        <div class="modal-card">
-            <h3>🔮 塔罗占卜</h3>
-            <p>问：今天运势如何？</p>
-            <div class="tarot-card">
-                <p>🃏 正位 愚者</p>
-                <p>🃏 逆位 宝剑三</p>
-                <p>🃏 正位 星币十</p>
-                <p><strong>解读：</strong>你们之间的爱充满自由与纯真，短暂悲伤后是稳固的承诺。对方非常爱你，你们的未来很美好。</p>
-            </div>
-            <button class="btn" style="width:100%;" onclick="this.closest('.modal-backdrop').remove()">关闭</button>
-        </div>`;
-    document.getElementById('phoneContainer').appendChild(modal);
-}
-
-function showMoodJournal() {
-    const modal = document.createElement('div');
-    modal.className = 'modal-backdrop';
-    modal.innerHTML = `
-        <div class="modal-card">
-            <h3>📔 心情账本</h3>
-            <textarea class="input-field-mini" rows="3" placeholder="今天的心情和想说的话..."></textarea>
-            <button class="btn" style="width:100%;margin-top:8px;" onclick="alert('已保存');this.closest('.modal-backdrop').remove()">保存</button>
-        </div>`;
-    document.getElementById('phoneContainer').appendChild(modal);
-}
-
-function showThemeSettings() {
-    const modal = document.createElement('div');
-    modal.className = 'modal-backdrop';
-    modal.innerHTML = `
-        <div class="modal-card">
-            <h3>🎨 主题设置</h3>
-            <label>聊天气泡颜色：</label>
-            <input type="color" value="#95ec69" onchange="document.documentElement.style.setProperty('--bubble-in', this.value)">
-            <label style="margin-top:8px;">聊天背景颜色：</label>
-            <input type="color" value="#ededed" onchange="document.documentElement.style.setProperty('--chat-bg', this.value)">
-            <button class="btn" style="width:100%;margin-top:12px;" onclick="this.closest('.modal-backdrop').remove()">确定</button>
-        </div>`;
-    document.getElementById('phoneContainer').appendChild(modal);
-}
-
-function showMomentsEditor() {
-    const text = prompt('发朋友圈内容:');
-    if (text) {
-        alert('已发布！林知夏评论：' + getRandomWordCard());
-        renderMain('moments');
+document.getElementById('fileInputCover').onchange = function(e){
+    const f = e.target.files[0];
+    if(f){
+        const url = URL.createObjectURL(f);
+        momentCover.style.backgroundImage = `url(${url})`;
+        coverPreviewModal.style.display='none';
     }
 }
 
-// 底部导航
-document.querySelectorAll('.nav-item').forEach(item => {
-    item.addEventListener('click', function() {
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        this.classList.add('active');
-        currentTab = this.dataset.tab;
-        renderMain(currentTab);
-    });
+// ==========右上角相机：发朋友圈 单击选图，长按纯文字==========
+const headerTopCamera = document.getElementById('momentHeaderTopCamera');
+let pressTimer = null;
+
+headerTopCamera.addEventListener('mousedown', ()=>{
+    pressTimer = setTimeout(()=>{
+        document.getElementById('textMomentModal').style.display='flex';
+    }, 600);
 });
 
-// 初始打开聊天页面
-window.onload = function() {
-    openChat(1);
-};
+headerTopCamera.addEventListener('mouseup', ()=>{
+    clearTimeout(pressTimer);
+    document.getElementById('fileInputMomentPic').click();
+});
+
+headerTopCamera.addEventListener('mouseleave', ()=>{
+    clearTimeout(pressTimer);
+});
+
+// 纯文字朋友圈弹窗
+document.getElementById('textMomentCancel').onclick = ()=>{
+    document.getElementById('textMomentModal').style.display='none';
+}
+document.getElementById('textMomentSend').onclick = ()=>{
+    const val = document.querySelector('.text-moment-input').value.trim();
+    if(val){
+        addMomentItem('我', val);
+        document.getElementById('textMomentModal').style.display='none';
+        document.querySelector('.text-moment-input').value='';
+    }
+}
+
+// 发表朋友圈按钮
+document.querySelector('.moment-publish-btn').onclick = ()=>{
+    const val = document.querySelector('.moment-publish-input').value.trim();
+    if(val){
+        addMomentItem('我', val);
+        document.querySelector('.moment-publish-input').value='';
+    }
+}
+
+// 选择图片发朋友圈
+document.getElementById('fileInputMomentPic').onchange = function(e){
+    const f = e.target.files[0];
+    if(f){
+        const url = URL.createObjectURL(f);
+        addMomentItem('我', `<img src="${url}" style="max-width:100%;border-radius:8px;margin-top:6px">`);
+    }
+}
+
+// 添加朋友圈条目
+function addMomentItem(name, content){
+    const wrap = document.getElementById('momentList');
+    const div = document.createElement('div');
+    div.className='moment-item';
+    div.innerHTML = `
+        <div class="moment-avatar-small"></div>
+        <div class="moment-name-small">${name}</div>
+        <div class="moment-time">刚刚</div>
+        <div class="moment-text">${content}</div>
+    `;
+    wrap.prepend(div);
+}
+
+// 聊天发送消息
+const msgInput = document.getElementById('msgInput');
+const chatBox = document.getElementById('chatBox');
+msgInput.addEventListener('keydown',(e)=>{
+    if(e.key==='Enter'){
+        const txt = msgInput.value.trim();
+        if(!txt) return;
+        addMsg('right',txt);
+        msgInput.value='';
+        setTimeout(()=>{
+            addMsg('left','收到啦');
+        },800);
+    }
+})
+
+function addMsg(dir,text){
+    const row = document.createElement('div');
+    row.className = `msg-row msg-row-${dir}`;
+    let html = '';
+    if(dir==='left'){
+        html = `
+            <div class="msg-avatar"></div>
+            <div class="msg-bubble msg-left">${text}</div>
+        `
+    }else{
+        html = `
+            <div class="msg-bubble msg-right">${text}</div>
+            <div class="msg-avatar"></div>
+        `
+    }
+    row.innerHTML = html;
+    chatBox.appendChild(row);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
 </script>
 </body>
 </html>
