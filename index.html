@@ -48,7 +48,6 @@ body{background:#f2f2f5;margin:0;padding:0;width:100%;height:100vh;overflow:hidd
 .msg-right .msg-status{text-align:right;padding-right:4px}
 .msg-right .msg-status .read-mark{color:#07c160}
 .msg-time-divider{text-align:center;font-size:12px;color:#999;margin:12px 0}
-.typing-tip{text-align:center;font-size:12px;color:#999;margin:6px 0;display:none}
 
 .chat-input-wrap{border-top:1px solid #eee;padding:8px 10px;background:#fff;display:flex;gap:10px;align-items:center;flex-shrink:0}
 .btn-voice,.btn-face,.btn-more{width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#444;background:transparent;border:none}
@@ -75,8 +74,9 @@ body{background:#f2f2f5;margin:0;padding:0;width:100%;height:100vh;overflow:hidd
 .file-input-hide{display:none}
 
 .tab-bar{height:60px;background:#fff;display:flex;border-top:1px solid #e5e5e5;flex-shrink:0}
-.tab-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;font-size:11px;color:#666}
+.tab-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;font-size:11px;color:#666;position:relative}
 .tab-item.active{color:var(--wx-green)}
+.red-dot{position:absolute;top:8px;right:50%;margin-right:-14px;width:8px;height:8px;background:#f53737;border-radius:50%;display:none}
 
 .chat-list-page{background:#fff;overflow-y:auto;flex:1}
 .chat-list-item{display:flex;align-items:center;padding:12px;border-bottom:1px solid #eee;cursor:pointer;position:relative}
@@ -98,15 +98,18 @@ body{background:#f2f2f5;margin:0;padding:0;width:100%;height:100vh;overflow:hidd
 .moment-header-top-camera{position:absolute;top:12px;right:16px;width:24px;height:24px;color:#fff;cursor:pointer;z-index:6}
 .moment-avatar{width:70px;height:70px;border-radius:50%;border:2px solid #fff;position:absolute;bottom:-35px;right:16px;background:#ccc;cursor:pointer;z-index:4;background-size:cover;background-position:center}
 .moment-name{position:absolute;bottom:15px;right:100px;color:#fff;font-size:17px;font-weight:600;z-index:5;text-shadow:0 1px 3px rgba(0,0,0,0.5)}
-.moment-publish-wrap{background:#fff;margin:44px 12px 8px;padding:12px;border-radius:10px}
-.moment-publish-input{width:100%;min-height:60px;border:none;outline:none;font-size:14px;resize:none}
-.moment-publish-btn{background:var(--wx-green);color:#fff;text-align:center;padding:8px 0;border-radius:6px;margin-top:8px;cursor:pointer}
-.moment-list{padding:0 12px 20px}
+.moment-list{padding:44px 12px 20px}
 .moment-item{background:#fff;margin-bottom:8px;padding:12px;border-radius:10px}
 .moment-avatar-small{width:40px;height:40px;border-radius:50%;background:#ccc;float:left;margin-right:10px;background-size:cover;background-position:center}
 .moment-name-small{font-size:15px;color:#333;font-weight:500}
 .moment-time{font-size:12px;color:#999;margin-top:2px}
 .moment-text{margin-top:8px;font-size:14px;line-height:1.5}
+.moment-actions{display:flex;justify-content:flex-end;gap:16px;margin-top:8px}
+.moment-actions .action-btn{display:flex;align-items:center;gap:4px;cursor:pointer;font-size:13px;color:#666;border:none;background:none}
+.moment-actions .action-btn.liked{color:#e64340}
+.comment-box{margin-top:8px;padding:8px;background:#f5f5f5;border-radius:6px;font-size:13px}
+.comment-box .comment-item{margin:4px 0}
+.comment-box .comment-reply{color:#576b95;cursor:pointer;margin-left:8px}
 
 .text-moment-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;z-index:999;display:none;flex-direction:column;padding:16px}
 .text-moment-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
@@ -120,25 +123,21 @@ body{background:#f2f2f5;margin:0;padding:0;width:100%;height:100vh;overflow:hidd
 .cover-change-btn{position:absolute;bottom:40px;right:24px;width:36px;height:36px;background:rgba(255,255,255,0.65);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#333;cursor:pointer}
 .file-input{display:none}
 
-/* 加号菜单 */
 .plus-menu-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:20px}
 .plus-menu-item{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer}
 .plus-menu-icon{width:56px;height:56px;border-radius:12px;background:#f5f5f5;display:flex;align-items:center;justify-content:center}
 .plus-menu-icon i{font-size:24px;color:#333}
 .plus-menu-label{font-size:12px;color:#333}
 
-/* 卡片消息 */
-.redpack-msg{width:220px;background:#e63923;border-radius:8px;color:#fff;padding:14px 12px}
+.redpack-msg{width:220px;background:#e63923;border-radius:8px;color:#fff;padding:14px 12px;cursor:pointer}
 .redpack-msg .rp-amount{font-size:20px;font-weight:500;margin-bottom:4px}
 .redpack-msg .rp-desc{font-size:13px;opacity:0.9}
 .redpack-msg .rp-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:12px}
-.redpack-msg .rp-open-btn{background:#fff;color:#e63923;border:none;padding:4px 10px;border-radius:4px;font-size:12px;cursor:pointer}
 
-.transfer-msg{width:220px;background:#ffb340;border-radius:8px;color:#fff;padding:14px 12px}
+.transfer-msg{width:220px;background:#ffb340;border-radius:8px;color:#fff;padding:14px 12px;cursor:pointer}
 .transfer-msg .tf-amount{font-size:20px;font-weight:500;margin-bottom:4px}
 .transfer-msg .tf-desc{font-size:13px;opacity:0.9}
 .transfer-msg .tf-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:12px}
-.transfer-msg .tf-receive-btn{background:#fff;color:#ff8800;border:none;padding:4px 10px;border-radius:4px;font-size:12px;cursor:pointer}
 
 .gift-msg{width:220px;background:#2563eb;border-radius:8px;color:#fff;padding:14px 12px}
 .gift-msg .gift-title{font-size:16px;font-weight:500;margin-bottom:4px}
@@ -157,6 +156,12 @@ body{background:#f2f2f5;margin:0;padding:0;width:100%;height:100vh;overflow:hidd
 .modal-close{font-size:18px;color:#999;cursor:pointer}
 .modal-input{width:100%;padding:14px 12px;border:1px solid #eee;border-radius:10px;font-size:15px;outline:none;margin-bottom:16px}
 .modal-btn{width:100%;height:48px;border:none;border-radius:8px;font-size:16px;cursor:pointer;color:#fff}
+
+.call-float{display:none;position:fixed;top:80px;right:16px;width:100px;border-radius:12px;z-index:9999;overflow:hidden;cursor:move;background-size:cover;background-position:center;background-color:#333}
+.call-float-content{background:rgba(0,0,0,0.6);padding:10px;display:flex;flex-direction:column;align-items:center;gap:8px;color:#fff}
+.call-float-avatar{width:40px;height:40px;border-radius:50%;background:#666;overflow:hidden}
+.call-float-status{font-size:11px;color:#ccc}
+.call-hangup-btn{width:36px;height:36px;border-radius:50%;background:#f53f3f;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
 </style>
 </head>
 <body>
@@ -180,7 +185,7 @@ body{background:#f2f2f5;margin:0;padding:0;width:100%;height:100vh;overflow:hidd
             </div>
         </div>
         <div class="chat-area">
-            <div class="chat-box" id="chatBox"><div class="typing-tip" id="typingTip">梦角正在输入…</div></div>
+            <div class="chat-box" id="chatBox"></div>
             <div class="emoji-panel" id="emojiPanel">
                 <div class="emoji-top-tabs">
                     <div class="emoji-top-tab active" data-type="emoji">emoji</div>
@@ -263,10 +268,6 @@ body{background:#f2f2f5;margin:0;padding:0;width:100%;height:100vh;overflow:hidd
                 <div class="moment-avatar" id="momentMyAvatar"></div>
                 <div class="moment-name">我</div>
             </div>
-            <div class="moment-publish-wrap">
-                <textarea class="moment-publish-input" placeholder="这一刻的想法..."></textarea>
-                <div class="moment-publish-btn">发表</div>
-            </div>
             <div class="moment-list" id="momentList"></div>
         </div>
     </div>
@@ -283,6 +284,7 @@ body{background:#f2f2f5;margin:0;padding:0;width:100%;height:100vh;overflow:hidd
         <div class="tab-item" data-tab="moment">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
             <span>朋友圈</span>
+            <span class="red-dot" id="momentRedDot"></span>
         </div>
     </div>
 
@@ -307,22 +309,25 @@ body{background:#f2f2f5;margin:0;padding:0;width:100%;height:100vh;overflow:hidd
 
     <div class="modal-mask" id="modalMask"></div>
     <div class="modal-panel" id="redpacketModal">
-        <div class="modal-header">
-            <div class="modal-title">发红包</div>
-            <div class="modal-close" onclick="closeModal('redpacketModal')">×</div>
-        </div>
+        <div class="modal-header"><div class="modal-title">发红包</div><div class="modal-close" onclick="closeModal('redpacketModal')">×</div></div>
         <input class="modal-input" id="rpMoney" type="number" placeholder="金额">
         <input class="modal-input" id="rpRemark" placeholder="恭喜发财，大吉大利">
         <button class="modal-btn" style="background:#e64340;" onclick="sendRedpacket()">塞钱进红包</button>
     </div>
     <div class="modal-panel" id="transferModal">
-        <div class="modal-header">
-            <div class="modal-title">转账</div>
-            <div class="modal-close" onclick="closeModal('transferModal')">×</div>
-        </div>
+        <div class="modal-header"><div class="modal-title">转账</div><div class="modal-close" onclick="closeModal('transferModal')">×</div></div>
         <input class="modal-input" id="tfMoney" type="number" placeholder="转账金额">
-        <input class="modal-input" id="tfRemark" placeholder="添加转账说明">
         <button class="modal-btn" style="background:#ff9500;" onclick="sendTransfer()">转账</button>
+    </div>
+
+    <div class="call-float" id="callFloat">
+        <div class="call-float-content">
+            <div class="call-float-avatar"></div>
+            <div class="call-float-status" id="callStatus">正在呼叫...</div>
+            <button class="call-hangup-btn" onclick="endCall()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.574 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </button>
+        </div>
     </div>
 </div>
 
@@ -332,20 +337,16 @@ let lastMsgTime = null;
 let avatarConfig = { myAvatar: '', otherAvatar: '' };
 let kaomojiList = ['(๑•̀ㅂ•́)و✧','(≧∇≦)ﾉ','(｡•́︿•̀｡)','ヽ(✿ﾟ▽ﾟ)ノ','(>﹏<)','( ´･ᴗ･` )'];
 let stickerList = [];
+let friends = [{id:1, name:'梦角', avatar:''}];
 const emojiList = ['😀','😃','😄','😁','😆','😅','😂','🤣','😊','😇','🙂','🙃','😉','😌','😍','🥰','😘','😗','😙','😚','😋','😜','😝','😛','🤑','😎','🤓','🧐','😏','😒','🙄','😮','😯','😲','😳','🥺','😦','😧','😨','😰','😥','😢','😭','😱','😖','😣','😞','😓','😩','😫','🥱','😴','❤️','🧡','💛','💚','💙','💜','🤍','🤎','🖤','💔','❣️','💕','💞','💓','💗','💖','💘','💝','💟','💌','💋','💍','💎','🔥','💯','✨','💫','⭐','🌟','💥','💢','💦','💨','💤','💬','💭','💮','🪷','🌸','🌺','🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🙈','🙉','🙊','🐔','🐧','🐦','🐤','🦆','🦅','🦉','🦇','🐺','🐗','🐴','🦄'];
 
 const pages = { chatDetail: document.getElementById('pageChatDetail'), chatList: document.getElementById('pageChatList'), contact: document.getElementById('pageContact'), moment: document.getElementById('pageMoment') };
-function showPage(id) { 
-    Object.values(pages).forEach(p => p.classList.remove('active')); 
-    pages[id].classList.add('active');
-    document.getElementById('tabBar').style.display = (id === 'chatDetail') ? 'none' : 'flex';
-}
+function showPage(id) { Object.values(pages).forEach(p => p.classList.remove('active')); pages[id].classList.add('active'); document.getElementById('tabBar').style.display = (id === 'chatDetail') ? 'none' : 'flex'; }
 showPage('chatDetail');
 
 const tabBar = document.getElementById('tabBar');
 const tabItems = tabBar.querySelectorAll('.tab-item');
 tabItems.forEach(tab => { tab.onclick = () => { tabItems.forEach(t => t.classList.remove('active')); tab.classList.add('active'); const name = tab.dataset.tab; if (name === 'chatList') showPage('chatList'); if (name === 'contact') showPage('contact'); if (name === 'moment') showPage('moment'); }; });
-
 document.getElementById('btnBack').onclick = () => { showPage('chatList'); tabItems.forEach(t => t.classList.remove('active')); tabItems[0].classList.add('active'); };
 document.getElementById('goToChat').onclick = () => { showPage('chatDetail'); tabItems.forEach(t => t.classList.remove('active')); tabItems[0].classList.add('active'); };
 
@@ -357,12 +358,7 @@ document.getElementById('noteTitle').onclick = function() {
     this.innerHTML = '';
     this.appendChild(input);
     input.focus();
-    input.onblur = () => { 
-        const val = input.value.trim() || old;
-        this.innerText = val; 
-        document.getElementById('listName').textContent = val;
-        document.getElementById('contactName').textContent = val;
-    };
+    input.onblur = () => { const val = input.value.trim() || old; this.innerText = val; document.getElementById('listName').textContent = val; document.getElementById('contactName').textContent = val; };
     input.onkeydown = (e) => { if (e.key === 'Enter') input.blur(); };
 };
 
@@ -376,17 +372,14 @@ const gridImg = document.getElementById('emojiGridImg');
 const barKaomoji = document.getElementById('barKaomoji');
 const barImg = document.getElementById('barImg');
 const fileSticker = document.getElementById('fileSticker');
-const typingTip = document.getElementById('typingTip');
 
 function getNowTime() { const d = new Date(); return `${d.getHours()}:${d.getMinutes().toString().padStart(2,'0')}:${d.getSeconds().toString().padStart(2,'0')}`; }
 function getNowMinutes() { const d = new Date(); return `${d.getHours()}:${d.getMinutes().toString().padStart(2,'0')}`; }
-
 function renderEmoji() { gridEmoji.innerHTML = ''; emojiList.forEach(e => { const div = document.createElement('div'); div.className = 'emoji-item'; div.textContent = e; div.onclick = () => { chatInput.value += e; }; gridEmoji.appendChild(div); }); }
 function renderKaomoji() { gridKaomoji.innerHTML = ''; kaomojiList.forEach(text => { const div = document.createElement('div'); div.className = 'emoji-item'; div.textContent = text; div.onclick = () => { chatInput.value += text; }; gridKaomoji.appendChild(div); }); }
 function renderStickers() { gridImg.innerHTML = ''; stickerList.forEach(src => { const wrap = document.createElement('div'); wrap.className = 'img-sticker-item'; const img = document.createElement('img'); img.src = src; wrap.appendChild(img); wrap.onclick = () => sendImageMsg(src); gridImg.appendChild(wrap); }); }
 function addKaomojiText() { const input = document.getElementById('newKaomojiInput'); const val = input.value.trim(); if (!val) return; kaomojiList.push(val); input.value = ''; renderKaomoji(); }
 fileSticker.onchange = function(e) { const files = e.target.files; for (let i = 0; i < files.length; i++) { const reader = new FileReader(); reader.onload = ev => { stickerList.push(ev.target.result); renderStickers(); }; reader.readAsDataURL(files[i]); } fileSticker.value = ''; };
-
 document.querySelectorAll('.emoji-top-tab').forEach(tab => { tab.onclick = function() { document.querySelectorAll('.emoji-top-tab').forEach(t => t.classList.remove('active')); this.classList.add('active'); const type = this.dataset.type; gridEmoji.style.display = 'none'; gridKaomoji.style.display = 'none'; gridImg.style.display = 'none'; barKaomoji.style.display = 'none'; barImg.style.display = 'none'; if (type === 'emoji') gridEmoji.style.display = 'grid'; if (type === 'kaomoji') { gridKaomoji.style.display = 'grid'; barKaomoji.style.display = 'flex'; } if (type === 'img') { gridImg.style.display = 'grid'; barImg.style.display = 'flex'; } }; });
 btnFace.onclick = () => { emojiPanel.style.display = emojiPanel.style.display === 'flex' ? 'none' : 'flex'; };
 document.addEventListener('click', e => { if (!emojiPanel.contains(e.target) && !btnFace.contains(e.target)) emojiPanel.style.display = 'none'; });
@@ -401,6 +394,13 @@ function checkTimeDivider() {
         chatBox.appendChild(divider);
     }
     lastMsgTime = nowMinutes;
+}
+
+function showTypingOnTitle() {
+    const title = document.getElementById('noteTitle');
+    const original = title.innerText;
+    title.innerText = '输入中...';
+    setTimeout(() => { title.innerText = original; }, 2000);
 }
 
 function addBubble(text, isMe, imgSrc = null) {
@@ -422,18 +422,27 @@ function addBubble(text, isMe, imgSrc = null) {
     if (imgSrc) { const img = document.createElement('img'); img.className = 'msg-img'; img.src = imgSrc; bubble.appendChild(img); } else { bubble.innerText = text; }
     const status = document.createElement('div');
     status.className = 'msg-status';
-    if (isMe) status.innerHTML = `<span class="read-mark">已读</span> ${getNowTime()}`;
+    if (isMe) { const isRead = Math.random() > 0.05; if (isRead) status.innerHTML = `<span class="read-mark">已读</span> ${getNowTime()}`; else status.innerText = getNowTime(); }
     else status.innerText = getNowTime();
     content.appendChild(bubble);
     content.appendChild(status);
-    if (isMe) { row.appendChild(content); row.appendChild(avatar); }
-    else { row.appendChild(avatar); row.appendChild(content); }
+    if (isMe) { row.appendChild(content); row.appendChild(avatar); } else { row.appendChild(avatar); row.appendChild(content); }
     chatBox.appendChild(row);
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-function sendMsg() { const text = chatInput.value.trim(); if (!text) return; addBubble(text, true); chatInput.value = ''; typingTip.style.display = 'block'; setTimeout(() => { typingTip.style.display = 'none'; addBubble('收到啦🥰', false); }, 1200); }
-function sendImageMsg(imgSrc) { addBubble('', true, imgSrc); typingTip.style.display = 'block'; setTimeout(() => { typingTip.style.display = 'none'; addBubble('这个图片好可爱✨', false); }, 1200); }
+function sendMsg() {
+    const text = chatInput.value.trim();
+    if (!text) return;
+    addBubble(text, true);
+    chatInput.value = '';
+    showTypingOnTitle();
+    setTimeout(() => {
+        if (Math.random() < 0.1) { addBubble('对方撤回了一条消息', false); }
+        else { addBubble('收到啦🥰', false); }
+    }, 1500);
+}
+function sendImageMsg(imgSrc) { addBubble('', true, imgSrc); showTypingOnTitle(); setTimeout(() => { addBubble('这个图片好可爱✨', false); }, 1500); }
 chatInput.addEventListener('keydown', e => { if (e.key === 'Enter') sendMsg(); });
 
 function changeAvatar(isMe) {
@@ -465,62 +474,32 @@ function toggleVoiceInput() {
     if (isVoiceMode) { input.style.display = 'none'; voiceBtn.style.display = 'flex'; }
     else { input.style.display = 'block'; voiceBtn.style.display = 'none'; }
 }
-function startVoice() { document.getElementById('voiceHoldBtn').textContent = '松开结束'; document.getElementById('voiceHoldBtn').style.background = '#ccc'; }
+function startVoice() { document.getElementById('voiceHoldBtn').textContent = '松开结束'; }
 function endVoice() {
     document.getElementById('voiceHoldBtn').textContent = '按住说话';
-    document.getElementById('voiceHoldBtn').style.background = '#f5f5f5';
     addBubble('🎤 语音消息', true);
-    setTimeout(() => { typingTip.style.display = 'block'; setTimeout(() => { typingTip.style.display = 'none'; addBubble('收到啦🥰', false); }, 1200); }, 500);
+    showTypingOnTitle();
+    setTimeout(() => { addBubble('收到啦🥰', false); }, 1500);
 }
 
 function showPlusMenu() {
     const modal = document.createElement('div');
     modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:999;display:flex;align-items:flex-end;';
-    modal.innerHTML = `
-        <div style="width:100%;background:#fff;border-radius:20px 20px 0 0;padding:20px;">
-            <div class="plus-menu-grid">
-                <div class="plus-menu-item" onclick="showModal('redpacketModal')">
-                    <div class="plus-menu-icon"><i class="fa fa-envelope-o"></i></div>
-                    <div class="plus-menu-label">红包</div>
-                </div>
-                <div class="plus-menu-item" onclick="showModal('transferModal')">
-                    <div class="plus-menu-icon"><i class="fa fa-money"></i></div>
-                    <div class="plus-menu-label">转账</div>
-                </div>
-                <div class="plus-menu-item" onclick="this.closest('div[style]').parentElement.remove();addGiftMsg()">
-                    <div class="plus-menu-icon"><i class="fa fa-gift"></i></div>
-                    <div class="plus-menu-label">礼物</div>
-                </div>
-                <div class="plus-menu-item" onclick="this.closest('div[style]').parentElement.remove();addMusicMsg()">
-                    <div class="plus-menu-icon"><i class="fa fa-music"></i></div>
-                    <div class="plus-menu-label">音乐</div>
-                </div>
-                <div class="plus-menu-item" onclick="this.closest('div[style]').parentElement.remove();alert('视频通话')">
-                    <div class="plus-menu-icon"><i class="fa fa-video-camera"></i></div>
-                    <div class="plus-menu-label">视频</div>
-                </div>
-                <div class="plus-menu-item" onclick="this.closest('div[style]').parentElement.remove();alert('语音通话')">
-                    <div class="plus-menu-icon"><i class="fa fa-phone"></i></div>
-                    <div class="plus-menu-label">语音</div>
-                </div>
-            </div>
-        </div>`;
+    modal.innerHTML = `<div style="width:100%;background:#fff;border-radius:20px 20px 0 0;padding:20px;"><div class="plus-menu-grid">
+        <div class="plus-menu-item" onclick="showModal('redpacketModal')"><div class="plus-menu-icon"><i class="fa fa-envelope-o"></i></div><div class="plus-menu-label">红包</div></div>
+        <div class="plus-menu-item" onclick="showModal('transferModal')"><div class="plus-menu-icon"><i class="fa fa-money"></i></div><div class="plus-menu-label">转账</div></div>
+        <div class="plus-menu-item" onclick="this.closest('div[style]').parentElement.remove();addGiftMsg()"><div class="plus-menu-icon"><i class="fa fa-gift"></i></div><div class="plus-menu-label">礼物</div></div>
+        <div class="plus-menu-item" onclick="this.closest('div[style]').parentElement.remove();addMusicMsg()"><div class="plus-menu-icon"><i class="fa fa-music"></i></div><div class="plus-menu-label">音乐</div></div>
+        <div class="plus-menu-item" onclick="this.closest('div[style]').parentElement.remove();startCall()"><div class="plus-menu-icon"><i class="fa fa-video-camera"></i></div><div class="plus-menu-label">视频</div></div>
+        <div class="plus-menu-item" onclick="this.closest('div[style]').parentElement.remove();startCall()"><div class="plus-menu-icon"><i class="fa fa-phone"></i></div><div class="plus-menu-label">语音</div></div>
+    </div></div>`;
     document.body.appendChild(modal);
     modal.onclick = e => { if (e.target === modal) modal.remove(); };
 }
 
-function showModal(id) {
-    document.getElementById('modalMask').style.display = 'block';
-    document.getElementById(id).style.display = 'block';
-}
-function closeModal(id) {
-    document.getElementById('modalMask').style.display = 'none';
-    document.getElementById(id).style.display = 'none';
-}
-document.getElementById('modalMask').onclick = () => {
-    document.getElementById('modalMask').style.display = 'none';
-    document.querySelectorAll('.modal-panel').forEach(p => p.style.display = 'none');
-};
+function showModal(id) { document.getElementById('modalMask').style.display = 'block'; document.getElementById(id).style.display = 'block'; }
+function closeModal(id) { document.getElementById('modalMask').style.display = 'none'; document.getElementById(id).style.display = 'none'; }
+document.getElementById('modalMask').onclick = () => { document.getElementById('modalMask').style.display = 'none'; document.querySelectorAll('.modal-panel').forEach(p => p.style.display = 'none'); };
 
 function sendRedpacket() {
     const money = document.getElementById('rpMoney').value.trim();
@@ -533,63 +512,54 @@ function sendRedpacket() {
 }
 function sendTransfer() {
     const money = document.getElementById('tfMoney').value.trim();
-    const remark = document.getElementById('tfRemark').value.trim() || '自愿赠予';
     if (!money) return alert('请输入金额');
-    addTransferMsg(money, remark);
+    addTransferMsg(money);
     closeModal('transferModal');
     document.getElementById('tfMoney').value = '';
-    document.getElementById('tfRemark').value = '';
 }
 
 function addRedpackMsg(money, remark) {
     const row = document.createElement('div');
     row.className = 'msg-row msg-row-right';
-    row.innerHTML = `
-        <div class="msg-content">
-            <div class="msg-bubble msg-right">
-                <div class="redpack-msg">
-                    <div class="rp-amount">¥${money}</div>
-                    <div class="rp-desc">${remark}</div>
-                    <div class="rp-footer"><span>你发了一个红包</span><button class="rp-open-btn">开红包</button></div>
-                </div>
-            </div>
-            <div class="msg-status"><span class="read-mark">已读</span> ${getNowTime()}</div>
-        </div>
-        <div class="msg-avatar" style="background:${avatarConfig.myAvatar ? `url(${avatarConfig.myAvatar})` : '#ccc'};background-size:cover"></div>`;
+    row.innerHTML = `<div class="msg-content"><div class="msg-bubble msg-right"><div class="redpack-msg" onclick="openRedpacket(this,'${money}','${remark}')"><div class="rp-amount">¥${money}</div><div class="rp-desc">${remark}</div><div class="rp-footer"><span>你发了一个红包</span></div></div></div><div class="msg-status"><span class="read-mark">已读</span> ${getNowTime()}</div></div><div class="msg-avatar" style="background:${avatarConfig.myAvatar ? `url(${avatarConfig.myAvatar})` : '#ccc'};background-size:cover"></div>`;
     chatBox.appendChild(row);
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-function addTransferMsg(money, remark) {
+function openRedpacket(element, money, remark) {
+    const modal = document.createElement('div');
+    modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;';
+    modal.innerHTML = `<div style="width:280px;background:#e63923;border-radius:16px;overflow:hidden;text-align:center;"><div style="padding:40px 20px 30px;background:linear-gradient(180deg,#f5553c,#e63923);"><div style="color:#fdd835;font-size:14px;margin-bottom:20px;">${remark}</div><div style="width:80px;height:80px;border-radius:50%;background:#fdd835;margin:0 auto;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:28px;color:#e63923;font-weight:bold;" onclick="receiveRedpacket(this,'${money}')">開</div><div style="color:#fff;font-size:12px;margin-top:20px;">梦角发来的红包</div></div><div style="background:#fff;padding:16px;font-size:13px;color:#999;" onclick="this.closest('div[style]').remove()">关闭</div></div>`;
+    document.body.appendChild(modal);
+    modal.onclick = e => { if (e.target === modal) modal.remove(); };
+}
+
+function receiveRedpacket(btn, money) {
+    const amount = (Math.random() * parseFloat(money)).toFixed(2);
+    btn.parentElement.innerHTML = `<div style="color:#fdd835;font-size:14px;margin-bottom:10px;">已领取</div><div style="color:#fff;font-size:36px;font-weight:bold;">¥${amount}</div><div style="color:#fdd835;font-size:12px;margin-top:10px;">已存入零钱</div>`;
+}
+
+function addTransferMsg(money) {
     const row = document.createElement('div');
     row.className = 'msg-row msg-row-right';
-    row.innerHTML = `
-        <div class="msg-content">
-            <div class="msg-bubble msg-right">
-                <div class="transfer-msg">
-                    <div class="tf-amount">¥${money}</div>
-                    <div class="tf-desc">${remark}</div>
-                    <div class="tf-footer"><span>你发起了一笔转账</span><button class="tf-receive-btn">确认收款</button></div>
-                </div>
-            </div>
-            <div class="msg-status"><span class="read-mark">已读</span> ${getNowTime()}</div>
-        </div>
-        <div class="msg-avatar" style="background:${avatarConfig.myAvatar ? `url(${avatarConfig.myAvatar})` : '#ccc'};background-size:cover"></div>`;
+    row.innerHTML = `<div class="msg-content"><div class="msg-bubble msg-right"><div class="transfer-msg" onclick="confirmTransfer(this,'${money}')"><div class="tf-amount">¥${money}</div><div class="tf-desc">转账</div><div class="tf-footer"><span>你发起了一笔转账</span></div></div></div><div class="msg-status"><span class="read-mark">已读</span> ${getNowTime()}</div></div><div class="msg-avatar" style="background:${avatarConfig.myAvatar ? `url(${avatarConfig.myAvatar})` : '#ccc'};background-size:cover"></div>`;
     chatBox.appendChild(row);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function confirmTransfer(element, money) {
+    element.querySelector('.tf-footer').innerHTML = '<span>已收款</span>';
+    const tip = document.createElement('div');
+    tip.className = 'msg-time-divider';
+    tip.innerText = '梦角已收款 ¥' + money;
+    chatBox.appendChild(tip);
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
 function addGiftMsg() {
     const row = document.createElement('div');
     row.className = 'msg-row msg-row-right';
-    row.innerHTML = `
-        <div class="msg-content">
-            <div class="msg-bubble msg-right">
-                <div class="gift-msg"><div class="gift-title">送你一份小礼物🎁</div><div class="gift-desc">一份心意</div></div>
-            </div>
-            <div class="msg-status"><span class="read-mark">已读</span> ${getNowTime()}</div>
-        </div>
-        <div class="msg-avatar" style="background:${avatarConfig.myAvatar ? `url(${avatarConfig.myAvatar})` : '#ccc'};background-size:cover"></div>`;
+    row.innerHTML = `<div class="msg-content"><div class="msg-bubble msg-right"><div class="gift-msg"><div class="gift-title">送你一份小礼物🎁</div><div class="gift-desc">一份心意</div></div></div><div class="msg-status"><span class="read-mark">已读</span> ${getNowTime()}</div></div><div class="msg-avatar" style="background:${avatarConfig.myAvatar ? `url(${avatarConfig.myAvatar})` : '#ccc'};background-size:cover"></div>`;
     chatBox.appendChild(row);
     chatBox.scrollTop = chatBox.scrollHeight;
 }
@@ -597,20 +567,21 @@ function addGiftMsg() {
 function addMusicMsg() {
     const row = document.createElement('div');
     row.className = 'msg-row msg-row-right';
-    row.innerHTML = `
-        <div class="msg-content">
-            <div class="msg-bubble msg-right">
-                <div class="music-msg">
-                    <div class="music-cover"></div>
-                    <div class="music-info"><div class="music-song">示例歌曲</div><div class="music-singer">歌手名字</div></div>
-                </div>
-            </div>
-            <div class="msg-status"><span class="read-mark">已读</span> ${getNowTime()}</div>
-        </div>
-        <div class="msg-avatar" style="background:${avatarConfig.myAvatar ? `url(${avatarConfig.myAvatar})` : '#ccc'};background-size:cover"></div>`;
+    row.innerHTML = `<div class="msg-content"><div class="msg-bubble msg-right"><div class="music-msg"><div class="music-cover"></div><div class="music-info"><div class="music-song">示例歌曲</div><div class="music-singer">歌手名字</div></div></div></div><div class="msg-status"><span class="read-mark">已读</span> ${getNowTime()}</div></div><div class="msg-avatar" style="background:${avatarConfig.myAvatar ? `url(${avatarConfig.myAvatar})` : '#ccc'};background-size:cover"></div>`;
     chatBox.appendChild(row);
     chatBox.scrollTop = chatBox.scrollHeight;
 }
+
+function startCall() {
+    const callFloat = document.getElementById('callFloat');
+    callFloat.style.display = 'block';
+    document.getElementById('callStatus').textContent = '正在呼叫...';
+    setTimeout(() => {
+        if (Math.random() < 0.6) { document.getElementById('callStatus').textContent = '对方无法接听'; setTimeout(() => { callFloat.style.display = 'none'; }, 2000); }
+        else { document.getElementById('callStatus').textContent = '通话中'; }
+    }, 2000);
+}
+function endCall() { document.getElementById('callFloat').style.display = 'none'; }
 
 function showAddMenu() {
     const menu = document.createElement('div');
@@ -638,14 +609,78 @@ coverPreviewModal.onclick = e => { if (e.target === coverPreviewModal) coverPrev
 document.getElementById('coverChangeBtn').onclick = () => document.getElementById('fileInputCover').click();
 document.getElementById('fileInputCover').onchange = function(e) { if (e.target.files[0]) { momentCover.style.backgroundImage = `url(${URL.createObjectURL(e.target.files[0])})`; coverPreviewModal.style.display = 'none'; } };
 
-document.querySelector('.moment-publish-btn').onclick = () => { const val = document.querySelector('.moment-publish-input').value.trim(); if (val) { addMomentItem('我', val); document.querySelector('.moment-publish-input').value = ''; } };
-document.getElementById('momentHeaderTopCamera').onclick = () => document.getElementById('fileInputMomentPic').click();
+const headerTopCamera = document.getElementById('momentHeaderTopCamera');
+let pressTimer = null;
+headerTopCamera.addEventListener('touchstart', () => { pressTimer = setTimeout(() => { document.getElementById('textMomentModal').style.display = 'flex'; }, 600); });
+headerTopCamera.addEventListener('touchend', () => { clearTimeout(pressTimer); document.getElementById('fileInputMomentPic').click(); });
+headerTopCamera.addEventListener('touchmove', () => clearTimeout(pressTimer));
 document.getElementById('fileInputMomentPic').onchange = function(e) { if (e.target.files[0]) addMomentItem('我', `<img src="${URL.createObjectURL(e.target.files[0])}" style="max-width:100%;border-radius:8px;margin-top:6px">`); };
 document.getElementById('textMomentCancel').onclick = () => document.getElementById('textMomentModal').style.display = 'none';
 document.getElementById('textMomentSend').onclick = () => { const val = document.querySelector('.text-moment-input').value.trim(); if (val) { addMomentItem('我', val); document.getElementById('textMomentModal').style.display = 'none'; document.querySelector('.text-moment-input').value = ''; } };
-function addMomentItem(name, content) { const div = document.createElement('div'); div.className = 'moment-item'; div.innerHTML = `<div class="moment-avatar-small"></div><div class="moment-name-small">${name}</div><div class="moment-time">刚刚</div><div class="moment-text">${content}</div>`; document.getElementById('momentList').prepend(div); }
+
+function addMomentItem(name, content) {
+    const div = document.createElement('div');
+    div.className = 'moment-item';
+    div.innerHTML = `<div class="moment-avatar-small"></div><div class="moment-name-small">${name}</div><div class="moment-time">刚刚</div><div class="moment-text">${content}</div><div class="moment-actions"><button class="action-btn" onclick="this.classList.toggle('liked')">❤️ <span>点赞</span></button><button class="action-btn" onclick="commentMoment(this)">💬 <span>评论</span></button></div><div class="comment-box" style="display:none"></div>`;
+    document.getElementById('momentList').prepend(div);
+    if (Math.random() < 0.5) {
+        setTimeout(() => {
+            const commentBox = div.querySelector('.comment-box');
+            commentBox.style.display = 'block';
+            commentBox.innerHTML = `<div class="comment-item"><strong>梦角</strong>：${kaomojiList[Math.floor(Math.random()*kaomojiList.length)]}<span class="comment-reply" onclick="replyComment(this)">回复</span></div>`;
+            document.getElementById('momentRedDot').style.display = 'block';
+        }, 2000);
+    }
+    if (Math.random() < 0.5) {
+        setTimeout(() => {
+            const autoDiv = document.createElement('div');
+            autoDiv.className = 'moment-item';
+            autoDiv.innerHTML = `<div class="moment-avatar-small"></div><div class="moment-name-small">梦角</div><div class="moment-time">刚刚</div><div class="moment-text">${kaomojiList[Math.floor(Math.random()*kaomojiList.length)]}</div><div class="moment-actions"><button class="action-btn" onclick="this.classList.toggle('liked')">❤️ <span>点赞</span></button><button class="action-btn" onclick="commentMoment(this)">💬 <span>评论</span></button></div><div class="comment-box" style="display:none"></div>`;
+            document.getElementById('momentList').prepend(autoDiv);
+            document.getElementById('momentRedDot').style.display = 'block';
+        }, 5000);
+    }
+}
+
+function commentMoment(btn) {
+    const commentBox = btn.closest('.moment-item').querySelector('.comment-box');
+    commentBox.style.display = 'block';
+    const input = document.createElement('input');
+    input.style.cssText = 'width:100%;padding:8px;border:1px solid #ddd;border-radius:6px;font-size:13px;margin-top:4px;';
+    input.placeholder = '写评论...';
+    input.onkeydown = e => {
+        if (e.key === 'Enter' && input.value.trim()) {
+            commentBox.innerHTML += `<div class="comment-item"><strong>我</strong>：${input.value}</div>`;
+            input.remove();
+        }
+    };
+    commentBox.appendChild(input);
+    input.focus();
+}
+
+function replyComment(span) {
+    const commentBox = span.closest('.comment-box');
+    const input = document.createElement('input');
+    input.style.cssText = 'width:100%;padding:8px;border:1px solid #ddd;border-radius:6px;font-size:13px;margin-top:4px;';
+    input.placeholder = '回复...';
+    input.onkeydown = e => {
+        if (e.key === 'Enter' && input.value.trim()) {
+            commentBox.innerHTML += `<div class="comment-item"><strong>我</strong> 回复 <strong>梦角</strong>：${input.value}</div>`;
+            input.remove();
+        }
+    };
+    commentBox.appendChild(input);
+    input.focus();
+}
 
 renderEmoji(); renderKaomoji(); renderStickers();
+
+// 对方主动打电话（5%概率）
+setInterval(() => {
+    if (Math.random() < 0.05 && document.getElementById('callFloat').style.display !== 'block') {
+        startCall();
+    }
+}, 30000);
 </script>
 </body>
 </html>
