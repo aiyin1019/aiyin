@@ -19,14 +19,14 @@ body{background:#f2f2f5;margin:0;padding:0;width:100%;height:100vh;overflow:hidd
 .status-tag{padding:10px 12px;background:#eef0f3;border-radius:8px;font-size:12px;color:#555;white-space:nowrap}
 .wx-title-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:0 60px}
 .wx-title{font-size:17px;font-weight:500;cursor:pointer}
-.wx-top-right{display:flex;gap:12px;position:absolute;right:12px;top:50%;transform:translateY(-50%);align-items:center}
-.wx-icon{cursor:pointer;color:#333;width:20px;height:20px;display:flex;align-items:center;justify-content:center}
+.wx-top-right{display:flex;gap:10px;position:absolute;right:10px;top:50%;transform:translateY(-50%);align-items:center}
+.wx-icon{cursor:pointer;color:#333;width:18px;height:18px;display:flex;align-items:center;justify-content:center}
 .chat-area{flex:1;display:flex;flex-direction:column;min-height:0}
 .chat-box{flex:1;overflow-y:auto;padding:12px;background:var(--chat-bg);min-height:0;display:flex;flex-direction:column}
 .msg-row{display:flex;align-items:flex-start;gap:8px;margin:4px 0;width:100%}
 .msg-row-left{justify-content:flex-start}
 .msg-row-right{justify-content:flex-end}
-.msg-avatar{width:40px;height:40px;border-radius:6px;background:#ccc;flex-shrink:0;cursor:pointer;background-size:cover;background-position:center}
+.msg-avatar{width:40px;height:40px;border-radius:6px;background:#ccc;flex-shrink:0;cursor:pointer;background-size:cover;background-position:center;font-size:20px;display:flex;align-items:center;justify-content:center}
 .msg-avatar-hidden{visibility:hidden}
 .msg-content{display:flex;flex-direction:column;max-width:70%}
 .msg-bubble{padding:10px 13px;border-radius:14px;font-size:14px;word-break:break-word}
@@ -37,9 +37,9 @@ body{background:#f2f2f5;margin:0;padding:0;width:100%;height:100vh;overflow:hidd
 .msg-right .msg-status{text-align:right;padding-right:4px}
 .msg-right .read-mark{color:#07c160}
 .msg-time-divider{text-align:center;font-size:12px;color:#999;margin:12px 0}
-.chat-input-wrap{border-top:1px solid #eee;padding:8px 10px;background:#fff;display:flex;gap:6px;align-items:center;flex-shrink:0}
-.btn-voice,.btn-face,.btn-more,.btn-send{width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#444;background:transparent;border:none;flex-shrink:0}
-.btn-voice svg,.btn-face svg,.btn-more svg,.btn-send svg{width:20px;height:20px}
+.chat-input-wrap{border-top:1px solid #eee;padding:8px 6px;background:#fff;display:flex;gap:4px;align-items:center;flex-shrink:0}
+.btn-voice,.btn-face,.btn-more,.btn-send{width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#444;background:transparent;border:none;flex-shrink:0}
+.btn-voice svg,.btn-face svg,.btn-more svg,.btn-send svg{width:18px;height:18px}
 .chat-input{flex:1;height:40px;border:1px solid #ddd;border-radius:8px;padding:0 12px;font-size:15px;outline:none;min-width:0}
 .voice-hold-btn{flex:1;height:40px;border:1px solid #ddd;border-radius:8px;background:#f5f5f5;display:none;align-items:center;justify-content:center;font-size:15px;color:#333;cursor:pointer}
 .emoji-panel{background:#fff;border-top:1px solid #eee;display:none;flex-direction:column;flex-shrink:0}
@@ -66,7 +66,7 @@ body{background:#f2f2f5;margin:0;padding:0;width:100%;height:100vh;overflow:hidd
 .red-dot{position:absolute;top:6px;right:50%;margin-right:-14px;width:8px;height:8px;background:#f53737;border-radius:50%;display:none}
 .chat-list-page{background:#fff;overflow-y:auto;flex:1}
 .chat-list-item{display:flex;align-items:center;padding:12px;border-bottom:1px solid #eee;cursor:pointer}
-.chat-list-avatar{width:48px;height:48px;border-radius:6px;background:#ccc;margin-right:12px;cursor:pointer;background-size:cover;background-position:center}
+.chat-list-avatar{width:48px;height:48px;border-radius:6px;background:#ccc;margin-right:12px;cursor:pointer;background-size:cover;background-position:center;font-size:24px;display:flex;align-items:center;justify-content:center}
 .chat-list-info{flex:1}
 .chat-list-name{font-size:16px;font-weight:500}
 .chat-list-desc{font-size:13px;color:#999;margin-top:3px}
@@ -74,7 +74,7 @@ body{background:#f2f2f5;margin:0;padding:0;width:100%;height:100vh;overflow:hidd
 .contact-group{background:#fff;margin-bottom:8px}
 .contact-group-title{padding:6px 14px;background:#f2f2f5;font-size:13px;color:#666}
 .contact-item{display:flex;align-items:center;padding:10px 14px;cursor:pointer}
-.contact-avatar{width:40px;height:40px;border-radius:6px;background:#ccc;margin-right:12px}
+.contact-avatar{width:40px;height:40px;border-radius:6px;background:#ccc;margin-right:12px;font-size:20px;display:flex;align-items:center;justify-content:center}
 .contact-name{font-size:15px}
 .moment-page{background:#f5f5f5;overflow-y:auto;flex:1}
 .moment-header{height:200px;background:#999;position:relative;background-size:cover;background-position:center;cursor:pointer}
@@ -94,7 +94,8 @@ body{background:#f2f2f5;margin:0;padding:0;width:100%;height:100vh;overflow:hidd
 .action-btn.liked svg{fill:#e64340;stroke:#e64340}
 .like-list{font-size:11px;color:#576b95;margin-top:4px;display:none}
 .comment-box{margin-top:6px;padding:6px;background:#f5f5f5;border-radius:6px;font-size:12px;display:none}
-.comment-item{margin:3px 0;cursor:pointer}
+.comment-item{margin:3px 0;cursor:pointer;padding:4px 6px;border-radius:4px}
+.comment-item:hover{background:#e8e8e8}
 .text-moment-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;z-index:999;display:none;flex-direction:column;padding:16px}
 .text-moment-cancel{font-size:15px;color:#666;cursor:pointer}
 .text-moment-send{color:var(--wx-green);font-size:15px;cursor:pointer}
@@ -107,8 +108,8 @@ body{background:#f2f2f5;margin:0;padding:0;width:100%;height:100vh;overflow:hidd
 .plus-menu-icon{width:48px;height:48px;border-radius:10px;background:#f5f5f5;display:flex;align-items:center;justify-content:center}
 .plus-menu-icon i{font-size:20px;color:#333}
 .plus-menu-label{font-size:11px;color:#333}
-.redpack-msg{width:200px;background:#e63923;border-radius:8px;color:#fff;padding:12px;cursor:pointer;position:relative}
-.redpack-msg::after{content:'';position:absolute;bottom:0;left:0;right:0;height:16px;background:#fdd835;border-radius:0 0 8px 8px}
+.redpack-msg{width:200px;background:#e63923;border-radius:8px;color:#fff;padding:12px;cursor:pointer;position:relative;overflow:hidden}
+.redpack-msg::after{content:'';position:absolute;bottom:0;left:0;right:0;height:30px;background:rgba(253,216,53,0.7);border-radius:0 0 8px 8px}
 .redpack-msg.opened{opacity:0.5;pointer-events:none}
 .transfer-msg{width:200px;background:#ffb340;border-radius:8px;color:#fff;padding:12px;cursor:pointer}
 .transfer-msg.received{opacity:0.5;pointer-events:none}
@@ -185,14 +186,14 @@ body{background:#f2f2f5;margin:0;padding:0;width:100%;height:100vh;overflow:hidd
 <input type="file" class="file-input" id="fileInputMomentPic" accept="image/*">
 <div class="modal-mask" id="modalMask"></div>
 <div class="modal-panel" id="redpacketModal"><div class="modal-header"><span>发红包</span><span class="modal-close" onclick="closeModal('redpacketModal')">×</span></div><input class="modal-input" id="rpMoney" type="number" placeholder="金额"><input class="modal-input" id="rpRemark" placeholder="恭喜发财"><button class="modal-btn" style="background:#e64340;" onclick="sendRedpacket()">塞钱进红包</button></div>
-<div class="modal-panel" id="transferModal"><div class="modal-header"><span>转账</span><span class="modal-close" onclick="closeModal('transferModal')">×</span></div><input class="modal-input" id="tfMoney" type="number" placeholder="金额"><button class="modal-btn" style="background:#ff9500;" onclick="sendTransfer()">转账</button></div>
-<div class="modal-panel" id="addContactModal"><div class="modal-header"><span>添加联系人</span><span class="modal-close" onclick="closeModal('addContactModal')">×</span></div><input class="modal-input" id="newName" placeholder="名字"><input class="modal-input" id="newAvatar" placeholder="头像emoji"><button class="modal-btn" style="background:#07c160;" onclick="saveContact()">保存</button></div>
+<div class="modal-panel" id="transferModal"><div class="modal-header"><span>转账</span><span class="modal-close" onclick="closeModal('transferModal')">×</span></div><input class="modal-input" id="tfMoney" type="number" placeholder="转账金额"><input class="modal-input" id="tfRemark" placeholder="添加转账说明"><button class="modal-btn" style="background:#ff9500;" onclick="sendTransfer()">转账</button></div>
+<div class="modal-panel" id="addContactModal"><div class="modal-header"><span>添加联系人</span><span class="modal-close" onclick="closeModal('addContactModal')">×</span></div><input class="modal-input" id="newName" placeholder="名字"><input class="modal-input" id="newAvatar" placeholder="头像（emoji或图片URL）"><button class="modal-btn" style="background:#07c160;" onclick="saveContact()">保存</button></div>
 <div class="modal-panel" id="createGroupModal"><div class="modal-header"><span>创建群聊</span><span class="modal-close" onclick="closeModal('createGroupModal')">×</span></div><div id="memberSelect"></div><input class="modal-input" id="groupName" placeholder="群名"><button class="modal-btn" style="background:#07c160;" onclick="createGroup()">创建</button></div>
 <div class="call-float" id="callFloat"><div class="call-float-content"><div id="callStatus">呼叫中...</div><button class="call-hangup-btn" onclick="endCall()">📞</button></div></div>
 </div>
 
 <script>
-const DATA_KEY='wx_stable_v1';
+const DATA_KEY='wx_final_v1';
 function saveAll(){try{localStorage.setItem(DATA_KEY,JSON.stringify({chatBox:document.getElementById('chatBox').innerHTML,momentList:document.getElementById('momentList').innerHTML,avatarConfig,friends,kaomojiList,stickerList,noteTitle:document.getElementById('noteTitle').innerText,lastMsgIsMe,lastMsgTime}));}catch(e){}}
 function loadAll(){try{const d=JSON.parse(localStorage.getItem(DATA_KEY));if(!d)return;if(d.chatBox)document.getElementById('chatBox').innerHTML=d.chatBox;if(d.momentList)document.getElementById('momentList').innerHTML=d.momentList;if(d.avatarConfig)avatarConfig=d.avatarConfig;if(d.friends)friends=d.friends;if(d.kaomojiList)kaomojiList=d.kaomojiList;if(d.stickerList)stickerList=d.stickerList;if(d.noteTitle)document.getElementById('noteTitle').innerText=d.noteTitle;if(d.lastMsgIsMe!==undefined)lastMsgIsMe=d.lastMsgIsMe;if(d.lastMsgTime)lastMsgTime=d.lastMsgTime;}catch(e){}renderChatList();renderContact();renderKaomoji();renderStickers();}
 
@@ -200,7 +201,7 @@ let lastMsgIsMe=null,lastMsgTime=null;
 let avatarConfig={myAvatar:'',otherAvatar:''};
 let kaomojiList=['(๑•̀ㅂ•́)و✧','(≧∇≦)ﾉ','(｡•́︿•̀｡)','ヽ(✿ﾟ▽ﾟ)ノ'];
 let stickerList=[];
-let friends=[{id:1,name:'梦角',avatar:''}];
+let friends=[{id:1,name:'梦角',avatar:'🌸'}];
 const emojiList=['😀','😄','😊','😍','😘','🥰','😭','😡','👍','❤️','✨','🔥'];
 
 const pages={chatDetail:document.getElementById('pageChatDetail'),chatList:document.getElementById('pageChatList'),contact:document.getElementById('pageContact'),moment:document.getElementById('pageMoment')};
@@ -208,7 +209,7 @@ function showPage(id){Object.values(pages).forEach(p=>p.classList.remove('active
 showPage('chatDetail');loadAll();
 
 document.getElementById('btnBack').onclick=()=>{showPage('chatList');saveAll();};
-document.querySelectorAll('.tab-item').forEach(tab=>{tab.onclick=()=>{document.querySelectorAll('.tab-item').forEach(t=>t.classList.remove('active'));tab.classList.add('active');showPage(tab.dataset.tab);};});
+document.querySelectorAll('.tab-item').forEach(tab=>{tab.onclick=()=>{document.querySelectorAll('.tab-item').forEach(t=>t.classList.remove('active'));tab.classList.add('active');showPage(tab.dataset.tab);if(tab.dataset.tab==='moment')document.getElementById('momentRedDot').style.display='none';};});
 
 document.getElementById('noteTitle').onclick=function(){const old=this.innerText;const input=document.createElement('input');input.style.cssText='font-size:16px;border:none;outline:none;text-align:center;width:100px;background:transparent';input.value=old;this.innerHTML='';this.appendChild(input);input.focus();input.onblur=()=>{this.innerText=input.value||old;saveAll();};};
 
@@ -225,9 +226,9 @@ document.querySelectorAll('.emoji-top-tab').forEach(tab=>{tab.onclick=function()
 btnFace.onclick=e=>{e.stopPropagation();emojiPanel.style.display=emojiPanel.style.display==='flex'?'none':'flex';};
 document.addEventListener('click',e=>{if(emojiPanel.style.display==='flex'&&!emojiPanel.contains(e.target)&&!btnFace.contains(e.target))emojiPanel.style.display='none';});
 
-function renderChatList(){const c=document.getElementById('chatListContainer');c.innerHTML='';friends.forEach(f=>{c.innerHTML+=`<div class="chat-list-item" onclick="openChat(${f.id})"><div class="chat-list-avatar" style="background:${f.avatar?`url(${f.avatar})`:'#ccc'};background-size:cover"></div><div class="chat-list-info"><div class="chat-list-name">${f.name}</div><div class="chat-list-desc">点击进入聊天</div></div></div>`;});}
+function renderChatList(){const c=document.getElementById('chatListContainer');c.innerHTML='';friends.forEach(f=>{const avatarHtml=f.avatar&&f.avatar.startsWith('http')?`<div class="chat-list-avatar" style="background-image:url('${f.avatar}')"></div>`:`<div class="chat-list-avatar">${f.avatar||'😊'}</div>`;c.innerHTML+=`<div class="chat-list-item" onclick="openChat(${f.id})">${avatarHtml}<div class="chat-list-info"><div class="chat-list-name">${f.name}</div><div class="chat-list-desc">点击进入聊天</div></div></div>`;});}
 function openChat(id){const f=friends.find(x=>x.id===id);if(!f)return;document.getElementById('noteTitle').innerText=f.name;showPage('chatDetail');}
-function renderContact(){const c=document.getElementById('contactList');c.innerHTML='';friends.forEach(f=>{c.innerHTML+=`<div class="contact-group"><div class="contact-group-title">朋友</div><div class="contact-item"><div class="contact-avatar">${f.avatar}</div><div class="contact-name">${f.name}</div></div></div>`;});}
+function renderContact(){const c=document.getElementById('contactList');c.innerHTML='';friends.forEach(f=>{c.innerHTML+=`<div class="contact-group"><div class="contact-group-title">朋友</div><div class="contact-item"><div class="contact-avatar">${f.avatar||'😊'}</div><div class="contact-name">${f.name}</div></div></div>`;});}
 
 function checkTime(){const m=getNowMin();if(lastMsgTime&&lastMsgTime!==m){const div=document.createElement('div');div.className='msg-time-divider';div.innerText=m;chatBox.appendChild(div);}lastMsgTime=m;}
 function showTyping(){const title=document.getElementById('noteTitle');const old=title.innerText;title.innerText='输入中...';setTimeout(()=>{title.innerText=old;},2000);}
@@ -252,7 +253,7 @@ chatBox.appendChild(row);chatBox.scrollTop=chatBox.scrollHeight;saveAll();
 function sendMsg(){const text=chatInput.value.trim();if(!text)return;addBubble(text,true);chatInput.value='';showTyping();setTimeout(()=>{if(Math.random()<0.1){addBubble('对方撤回了一条消息',false);}else{addBubble('收到啦🥰',false);}},1500);}
 chatInput.addEventListener('keydown',e=>{if(e.key==='Enter')sendMsg();});
 
-function changeAvatar(isMe){const input=document.createElement('input');input.type='file';input.accept='image/*';input.onchange=e=>{const f=e.target.files[0];if(f){const r=new FileReader();r.onload=ev=>{if(isMe){avatarConfig.myAvatar=ev.target.result;}else{avatarConfig.otherAvatar=ev.target.result;}saveAll();renderChatList();alert('头像已更换！');};r.readAsDataURL(f);}};input.click();}
+function changeAvatar(isMe){const input=document.createElement('input');input.type='file';input.accept='image/*';input.onchange=e=>{const f=e.target.files[0];if(f){const r=new FileReader();r.onload=ev=>{if(isMe){avatarConfig.myAvatar=ev.target.result;}else{avatarConfig.otherAvatar=ev.target.result;}saveAll();alert('头像已更换！刷新后保留');};r.readAsDataURL(f);}};input.click();}
 
 function toggleVoice(){const input=document.getElementById('chatInput');const voice=document.getElementById('voiceHoldBtn');if(input.style.display==='none'){input.style.display='block';voice.style.display='none';}else{input.style.display='none';voice.style.display='flex';}}
 document.getElementById('voiceHoldBtn').onclick=()=>{addBubble('🎤语音消息',true);showTyping();setTimeout(()=>addBubble('收到啦🥰',false),1500);};
@@ -263,18 +264,18 @@ function showModal(id){document.getElementById('modalMask').style.display='block
 function closeModal(id){document.getElementById('modalMask').style.display='none';document.getElementById(id).style.display='none';}
 document.getElementById('modalMask').onclick=()=>{document.getElementById('modalMask').style.display='none';document.querySelectorAll('.modal-panel').forEach(p=>p.style.display='none');};
 
-function sendRedpacket(){const m=document.getElementById('rpMoney').value;const r=document.getElementById('rpRemark').value||'恭喜发财';if(!m)return alert('请输入金额');addRedpack(m,r);closeModal('redpacketModal');}
-function sendTransfer(){const m=document.getElementById('tfMoney').value;if(!m)return alert('请输入金额');addTransfer(m);closeModal('transferModal');}
+function sendRedpacket(){const m=document.getElementById('rpMoney').value;const r=document.getElementById('rpRemark').value||'恭喜发财';if(!m)return alert('请输入金额');addRedpack(m,r);closeModal('redpacketModal');document.getElementById('rpMoney').value='';document.getElementById('rpRemark').value='';}
+function sendTransfer(){const m=document.getElementById('tfMoney').value;const r=document.getElementById('tfRemark').value||'';if(!m)return alert('请输入金额');addTransfer(m,r);closeModal('transferModal');document.getElementById('tfMoney').value='';document.getElementById('tfRemark').value='';}
 
 function addRedpack(money,remark){const row=document.createElement('div');row.className='msg-row msg-row-right';row.innerHTML=`<div class="msg-content"><div class="msg-bubble msg-right"><div class="redpack-msg" data-opened="0" onclick="openRedpacket(this,'${money}','${remark}')"><div style="font-size:18px;font-weight:500;">¥${money}</div><div style="font-size:12px;opacity:0.9;margin-top:4px;">${remark}</div></div></div><div class="msg-status"><span class="read-mark">已读</span> ${getNowTime()}</div></div><div class="msg-avatar" style="background:${avatarConfig.myAvatar?`url(${avatarConfig.myAvatar})`:'#ccc'};background-size:cover"></div>`;chatBox.appendChild(row);chatBox.scrollTop=chatBox.scrollHeight;saveAll();}
-function openRedpacket(el,money,remark){if(el.dataset.opened==='1')return;el.dataset.opened='1';const modal=document.createElement('div');modal.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;';modal.innerHTML=`<div style="width:260px;background:#e63923;border-radius:14px;text-align:center;overflow:hidden;"><div style="padding:24px 16px;background:linear-gradient(180deg,#f5553c,#e63923);"><div style="color:#fdd835;font-size:13px;">${remark}</div><div style="width:70px;height:70px;border-radius:50%;background:#fdd835;margin:16px auto;display:flex;align-items:center;justify-content:center;font-size:24px;color:#e63923;font-weight:bold;cursor:pointer;" onclick="receiveRedpack(this,'${money}')">開</div><div style="color:#fff;font-size:11px;">梦角的红包</div></div><div style="height:14px;background:#fdd835;"></div><div style="background:#fff;padding:12px;font-size:13px;color:#999;" onclick="this.closest('div[style]').remove()">关闭</div></div>`;document.body.appendChild(modal);modal.onclick=e=>{if(e.target===modal)modal.remove();};el.classList.add('opened');saveAll();}
+function openRedpacket(el,money,remark){if(el.dataset.opened==='1')return;el.dataset.opened='1';const modal=document.createElement('div');modal.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;';modal.innerHTML=`<div style="width:260px;background:#e63923;border-radius:14px;text-align:center;overflow:hidden;position:relative;"><div style="padding:24px 16px;background:linear-gradient(180deg,#f5553c,#e63923);"><div style="color:#fdd835;font-size:13px;">${remark}</div><div style="width:70px;height:70px;border-radius:50%;background:#fdd835;margin:16px auto;display:flex;align-items:center;justify-content:center;font-size:24px;color:#e63923;font-weight:bold;cursor:pointer;position:relative;z-index:2;" onclick="receiveRedpack(this,'${money}')">開</div><div style="color:#fff;font-size:11px;">梦角的红包</div></div><div style="height:50px;background:transparent;position:relative;"><div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:0;height:0;border-left:20px solid transparent;border-right:20px solid transparent;border-top:20px solid #fdd835;"></div><div style="position:absolute;top:15px;left:50%;transform:translateX(-50%);width:12px;height:12px;border-radius:50%;background:#fdd835;"></div></div><div style="background:#fff;padding:12px;font-size:13px;color:#999;" onclick="this.closest('div[style]').remove()">关闭</div></div>`;document.body.appendChild(modal);modal.onclick=e=>{if(e.target===modal)modal.remove();};el.classList.add('opened');saveAll();}
 function receiveRedpack(btn,money){btn.parentElement.innerHTML=`<div style="color:#fdd835;font-size:13px;">已领取</div><div style="color:#fff;font-size:32px;font-weight:bold;margin:8px 0;">¥${money}</div><div style="color:#fdd835;font-size:11px;">已存入零钱</div>`;}
 
-function addTransfer(money){const row=document.createElement('div');row.className='msg-row msg-row-right';row.innerHTML=`<div class="msg-content"><div class="msg-bubble msg-right"><div class="transfer-msg" data-received="0" onclick="confirmTransfer(this,'${money}')"><div style="font-size:18px;font-weight:500;">¥${money}</div><div style="font-size:12px;margin-top:4px;">转账</div></div></div><div class="msg-status"><span class="read-mark">已读</span> ${getNowTime()}</div></div><div class="msg-avatar" style="background:${avatarConfig.myAvatar?`url(${avatarConfig.myAvatar})`:'#ccc'};background-size:cover"></div>`;chatBox.appendChild(row);chatBox.scrollTop=chatBox.scrollHeight;saveAll();}
+function addTransfer(money,remark){const row=document.createElement('div');row.className='msg-row msg-row-right';row.innerHTML=`<div class="msg-content"><div class="msg-bubble msg-right"><div class="transfer-msg" data-received="0" onclick="confirmTransfer(this,'${money}')"><div style="font-size:18px;font-weight:500;">¥${money}</div><div style="font-size:12px;margin-top:4px;">${remark||'转账'}</div></div></div><div class="msg-status"><span class="read-mark">已读</span> ${getNowTime()}</div></div><div class="msg-avatar" style="background:${avatarConfig.myAvatar?`url(${avatarConfig.myAvatar})`:'#ccc'};background-size:cover"></div>`;chatBox.appendChild(row);chatBox.scrollTop=chatBox.scrollHeight;saveAll();}
 function confirmTransfer(el,money){if(el.dataset.received==='1')return;el.dataset.received='1';el.querySelector('div:last-child').innerText='已收款';el.classList.add('received');const tip=document.createElement('div');tip.className='msg-time-divider';tip.innerText=`梦角已收款 ¥${money}`;chatBox.appendChild(tip);chatBox.scrollTop=chatBox.scrollHeight;saveAll();}
 
 function addGift(){const row=document.createElement('div');row.className='msg-row msg-row-right';row.innerHTML=`<div class="msg-content"><div class="msg-bubble msg-right"><div class="gift-msg"><div style="font-size:15px;font-weight:500;">送你一份礼物🎁</div><div style="font-size:12px;opacity:0.8;margin-top:4px;">一份心意</div></div></div><div class="msg-status"><span class="read-mark">已读</span> ${getNowTime()}</div></div><div class="msg-avatar" style="background:#ccc"></div>`;chatBox.appendChild(row);chatBox.scrollTop=chatBox.scrollHeight;saveAll();}
-function addMusic(){const row=document.createElement('div');row.className='msg-row msg-row-right';row.innerHTML=`<div class="msg-content"><div class="msg-bubble msg-right"><div class="music-msg"><div class="music-cover" style="width:40px;height:40px;border-radius:6px;background:#ccc;"></div><div><div style="font-size:13px;font-weight:500;">示例歌曲</div><div style="font-size:11px;color:#666;">歌手</div></div></div></div><div class="msg-status"><span class="read-mark">已读</span> ${getNowTime()}</div></div><div class="msg-avatar" style="background:#ccc"></div>`;chatBox.appendChild(row);chatBox.scrollTop=chatBox.scrollHeight;saveAll();}
+function addMusic(){const row=document.createElement('div');row.className='msg-row msg-row-right';row.innerHTML=`<div class="msg-content"><div class="msg-bubble msg-right"><div class="music-msg"><div style="width:40px;height:40px;border-radius:6px;background:#ccc;"></div><div><div style="font-size:13px;font-weight:500;">示例歌曲</div><div style="font-size:11px;color:#666;">歌手</div></div></div></div><div class="msg-status"><span class="read-mark">已读</span> ${getNowTime()}</div></div><div class="msg-avatar" style="background:#ccc"></div>`;chatBox.appendChild(row);chatBox.scrollTop=chatBox.scrollHeight;saveAll();}
 
 function startCall(){const cf=document.getElementById('callFloat');cf.style.display='block';document.getElementById('callStatus').textContent='呼叫中...';setTimeout(()=>{const r=Math.random();if(r<0.3){document.getElementById('callStatus').textContent='对方正在忙';}else if(r<0.6){document.getElementById('callStatus').textContent='对方无法接听';}else if(r<0.8){document.getElementById('callStatus').textContent='对方不在';}else{document.getElementById('callStatus').textContent='通话中';}setTimeout(()=>cf.style.display='none',2000);},2000);}
 function endCall(){document.getElementById('callFloat').style.display='none';}
@@ -313,7 +314,6 @@ document.getElementById('coverChangeBtn').onclick=()=>document.getElementById('f
 document.getElementById('fileInputCover').onchange=e=>{if(e.target.files[0]){momentCover.style.backgroundImage=`url(${URL.createObjectURL(e.target.files[0])})`;coverPreviewModal.style.display='none';saveAll();}};
 
 renderEmoji();renderKaomoji();renderStickers();renderChatList();renderContact();
-if(avatarConfig.otherAvatar){const avatars=document.querySelectorAll('#chatListContainer .chat-list-avatar');if(avatars.length>0)avatars[0].style.background=`url(${avatarConfig.otherAvatar})`;}
 </script>
 </body>
 </html>
