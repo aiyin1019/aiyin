@@ -6,7 +6,7 @@
 <title>艾因</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,Roboto}
-body{background:#f2f2f5;margin:0;padding:0}
+body{background:#f2f2f5;margin:0;padding:0;width:100%;height:100vh;overflow:hidden}
 :root{
     --chat-bg:#f5f5f5;
     --bubble-self:#95ec90;
@@ -14,384 +14,98 @@ body{background:#f2f2f5;margin:0;padding:0}
     --bubble-other:#ffffff;
     --bubble-other-text:#333;
     --wx-green:#07c160;
-    --red-dot:#f53737;
 }
 
-.wrapper{width:100%;max-width:375px;height:100vh;margin:0 auto;background:#fff;display:flex;flex-direction:column;overflow:hidden}
-.page{display:none;width:100%;height:100%;display:flex;flex-direction:column}
+/* 全屏容器 */
+.wrapper{width:100%;height:100vh;background:#fff;display:flex;flex-direction:column;overflow:hidden}
+
+/* 页面切换 */
+.page{display:none;width:100%;height:100%;flex-direction:column;overflow:hidden}
 .page.active{display:flex}
 
-/* 聊天列表页顶部 */
-.wx-home-top{
-    height:56px;
-    background:#f7f7f9;
-    border-bottom:1px solid #eee;
-    display:flex;
-    align-items:center;
-    padding:0 12px;
-    position:relative;
-}
-.wx-home-title{
-    position:absolute;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%);
-    font-size:17px;
-    font-weight:500;
-}
-.wx-home-right{
-    margin-left:auto;
-    cursor:pointer;
-    color:#333;
-}
-.round-plus{
-    width:24px;
-    height:24px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#333;
-}
+/* 顶部栏 */
+.wx-top-bar{height:56px;background:#f7f7f9;border-bottom:1px solid #eee;display:flex;align-items:center;padding:0 8px;position:relative;flex-shrink:0}
+.wx-left-area{display:flex;align-items:center;gap:8px;position:absolute;left:8px;top:50%;transform:translateY(-50%);z-index:10}
+.wx-back{width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.wx-back svg{width:18px;height:18px}
+.status-tag{padding:8px 10px;background:#eef0f3;border-radius:8px;font-size:12px;color:#555;white-space:nowrap}
+.wx-title-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:0 70px}
+.wx-title{font-size:17px;font-weight:500;cursor:pointer}
+.wx-top-right{display:flex;gap:16px;font-size:20px;position:absolute;right:16px;top:50%;transform:translateY(-50%);align-items:center;cursor:pointer}
 
-/* 聊天详情页顶部 */
-.wx-top-bar{height:56px;background:#f7f7f9;border-bottom:1px solid #eee;display:flex;align-items:center;padding:0 12px;position:relative;flex-shrink:0}
-.wx-left-area{
-    display:flex;
-    align-items:center;
-    gap:4px;
-    position:absolute;
-    left:8px;
-    top:50%;
-    transform:translateY(-50%);
-    z-index:10;
-}
-.wx-back{
-    width:32px;
-    height:32px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    background:transparent;
-    padding:0;
-    margin:0;
-    transition:.15s ease;
-}
-.wx-back svg{
-    width:18px;
-    height:18px;
-}
-.wx-back:active{opacity:0.5;}
-.status-tag{
-    padding:11px 12px;
-    background:#eef0f3;
-    border-radius:8px;
-    font-size:12px;
-    color:#555;
-    white-space:nowrap;
-    text-align:center;
-    line-height:1;
-}
-.wx-title-wrap{flex:1;display:flex;align-items:center;justify-content:center;}
-.wx-title{font-size:17px;font-weight:500;cursor:pointer;user-select:none}
-.note-input{
-    font-size:17px;
-    font-weight:500;
-    border:none;
-    outline:none;
-    background:transparent;
-    text-align:center;
-    width:100px;
-}
-.wx-top-right{
-    display:flex;
-    gap:14px;
-    font-size:20px;
-    position:absolute;
-    right:12px;
-    top:50%;
-    transform:translateY(-50%);
-    align-items:center;
-}
-.wx-icon{
-    cursor:pointer;
-    color:#333;
-    width:20px;
-    height:20px;
-}
-
-/* 聊天消息区域 */
+/* 聊天区域 */
 .chat-area{flex:1;display:flex;flex-direction:column;min-height:0}
-.chat-box{flex:1;overflow-y:auto;padding:12px;background:var(--chat-bg);min-height:0}
-.msg-row{
-    display:flex;
-    gap:10px;
-    margin:8px 0;
-}
-.msg-row-left{justify-content:flex-start;}
-.msg-row-right{justify-content:flex-end;}
-.msg-avatar{
-    width:40px;
-    height:40px;
-    border-radius:6px;
-    background:#ccc;
-    background-size:cover;
-    background-position:center;
-    flex-shrink:0;
-    cursor:pointer;
-}
-.msg-row-hide-avatar .msg-avatar{
-    visibility:hidden;
-}
-.msg-bubble{max-width:72%;padding:10px 13px;border-radius:14px;font-size:14px;position:relative}
-.msg-left{background:var(--bubble-other);color:var(--bubble-other-text);}
-.msg-right{background:var(--bubble-self);color:var(--bubble-self-text);}
-.msg-img{max-width:180px;border-radius:12px;margin:8px 0;display:block}
+.chat-box{flex:1;overflow-y:auto;padding:12px;background:var(--chat-bg)}
+.msg-row{display:flex;gap:10px;margin:8px 0}
+.msg-row-left{justify-content:flex-start}
+.msg-row-right{justify-content:flex-end}
+.msg-avatar{width:40px;height:40px;border-radius:6px;background:#ccc;flex-shrink:0;cursor:pointer}
+.msg-bubble{max-width:72%;padding:10px 13px;border-radius:14px;font-size:14px}
+.msg-left{background:var(--bubble-other);color:var(--bubble-other-text)}
+.msg-right{background:var(--bubble-self);color:var(--bubble-self-text)}
 
-/* 底部输入栏 */
-.chat-input-wrap{border-top:1px solid #eee;padding:12px 10px;background:#fff;display:flex;gap:10px;align-items:center;flex-shrink:0}
-.btn-voice, .btn-face, .btn-more{
-    width:36px;height:36px;
-    display:flex;align-items:center;justify-content:center;
-    font-size:18px;
-    cursor:pointer;
-    color:#444;
-}
-.chat-input{
-    flex:1;
-    height:42px;
-    border:1px solid #ddd;
-    border-radius:8px;
-    padding:0 12px;
-    font-size:15px;
-    outline:none;
-}
+/* 输入栏 */
+.chat-input-wrap{border-top:1px solid #eee;padding:10px 8px;background:#fff;display:flex;gap:8px;align-items:center;flex-shrink:0}
+.btn-voice,.btn-face,.btn-more{width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;color:#444}
+.chat-input{flex:1;height:40px;border:1px solid #ddd;border-radius:8px;padding:0 12px;font-size:15px;outline:none}
 
-/* 底部tab导航栏 */
-.tab-bar{
-    height:60px;
-    background:#fff;
-    display:flex;
-    border-top:1px solid #e5e5e5;
-    flex-shrink:0;
-}
-.tab-item{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:4px;
-    cursor:pointer;
-    font-size:11px;
-    color:#666;
-    padding-bottom:4px;
-}
-.tab-item.active{color:var(--wx-green);}
-.tab-icon svg{
-    width:24px;
-    height:24px;
-    display:block;
-}
+/* 底部导航 */
+.tab-bar{height:60px;background:#fff;display:flex;border-top:1px solid #e5e5e5;flex-shrink:0}
+.tab-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;font-size:11px;color:#666}
+.tab-item.active{color:var(--wx-green)}
 
-/* 朋友圈页面 */
-.moment-page{background:#f5f5f5;overflow-y:auto;}
-.moment-top-bar{
-    height:56px;
-    background:#f7f7f9;
-    border-bottom:1px solid #eee;
-    display:flex;
-    align-items:center;
-    padding:0 12px;
-    position:relative;
-}
-.moment-top-title{
-    position:absolute;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%);
-    font-size:17px;
-    font-weight:500;
-}
+/* 聊天列表页 */
+.chat-list-page{background:#fff;overflow-y:auto;flex:1}
+.chat-list-item{display:flex;align-items:center;padding:12px;border-bottom:1px solid #eee;cursor:pointer}
+.chat-list-avatar{width:48px;height:48px;border-radius:6px;background:#ccc;margin-right:12px;cursor:pointer}
+.chat-list-info{flex:1}
+.chat-list-name{font-size:16px;font-weight:500}
+.chat-list-desc{font-size:13px;color:#999;margin-top:3px}
+.chat-list-time{font-size:12px;color:#999}
 
-/* 封面背景区域 */
-.moment-header{
-    height:180px;
-    background:#999;
-    position:relative;
-    background-size:cover;
-    background-position:center;
-    cursor:pointer;
-}
+/* 联系人页 */
+.contact-page{background:#f5f5f5;overflow-y:auto;flex:1}
+.contact-group{background:#fff;margin-bottom:8px}
+.contact-group-title{padding:6px 12px;background:#f2f2f5;font-size:13px;color:#666}
+.contact-item{display:flex;align-items:center;padding:10px 12px;border-bottom:1px solid #eee;cursor:pointer}
+.contact-avatar{width:42px;height:42px;border-radius:6px;background:#ccc;margin-right:12px;cursor:pointer}
+.contact-name{font-size:15px}
 
-/* ========== 封面右上角：发朋友圈相机图标【常驻显示】 ========== */
-.moment-header-top-camera{
-    position:absolute;
-    top:12px;
-    right:16px;
-    width:24px;
-    height:24px;
-    color:#ffffff;
-    cursor:pointer;
-    z-index:6;
-}
+/* 朋友圈页 */
+.moment-page{background:#f5f5f5;overflow-y:auto;flex:1}
+.moment-header{height:220px;background:#999;position:relative;background-size:cover;background-position:center;cursor:pointer}
+.moment-header-top-camera{position:absolute;top:12px;right:16px;width:24px;height:24px;color:#fff;cursor:pointer;z-index:6}
+.moment-avatar{width:70px;height:70px;border-radius:50%;border:2px solid #fff;position:absolute;bottom:-35px;right:16px;background:#ccc;cursor:pointer;z-index:4}
+.moment-name{position:absolute;bottom:-35px;left:16px;color:#fff;font-size:17px;font-weight:600;z-index:4}
+.moment-publish-wrap{background:#fff;margin:44px 12px 8px;padding:12px;border-radius:10px}
+.moment-publish-input{width:100%;min-height:60px;border:none;outline:none;font-size:14px;resize:none}
+.moment-publish-btn{background:var(--wx-green);color:#fff;text-align:center;padding:8px 0;border-radius:6px;margin-top:8px;cursor:pointer}
+.moment-list{padding:0 12px 20px}
+.moment-item{background:#fff;margin-bottom:8px;padding:12px;border-radius:10px}
+.moment-avatar-small{width:40px;height:40px;border-radius:50%;background:#ccc;float:left;margin-right:10px}
+.moment-name-small{font-size:15px;color:#333;font-weight:500}
+.moment-time{font-size:12px;color:#999;margin-top:2px}
+.moment-text{margin-top:8px;font-size:14px;line-height:1.5}
 
-.moment-avatar{
-    width:70px;
-    height:70px;
-    border-radius:50%;
-    border:2px solid #fff;
-    position:absolute;
-    bottom:-35px;
-    right:16px;
-    background:#ccc;
-    background-size:cover;
-    background-position:center;
-    cursor:pointer;
-    z-index:4;
-}
-.moment-name{
-    position:absolute;
-    bottom:-35px;
-    left:16px;
-    color:#fff;
-    font-size:17px;
-    font-weight:600;
-    z-index:4;
-}
-.moment-publish-wrap{background:#fff;margin:8px 12px;padding:12px;border-radius:10px;}
-.moment-publish-input{width:100%;min-height:70px;border:none;outline:none;font-size:14px;resize:none;}
-.moment-publish-btn{background:var(--wx-green);color:#fff;text-align:center;padding:8px 0;border-radius:6px;margin-top:8px;cursor:pointer;}
-.moment-list{padding:0 12px;padding-bottom:20px;}
-.moment-item{background:#fff;margin-bottom:8px;padding:12px;border-radius:10px;}
-.moment-avatar-small{width:40px;height:40px;border-radius:50%;background:#ccc;float:left;margin-right:10px;background-size:cover;background-position:center;cursor:pointer;}
-.moment-name-small{font-size:15px;color:#333;font-weight:500;}
-.moment-time{font-size:12px;color:#999;margin-top:2px;}
-.moment-text{margin-top:8px;font-size:14px;line-height:1.5;}
+/* 弹窗 */
+.text-moment-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;z-index:999;display:none;flex-direction:column;padding:16px}
+.text-moment-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.text-moment-cancel{font-size:16px;color:#666;cursor:pointer}
+.text-moment-title{font-size:17px;font-weight:500}
+.text-moment-send{color:var(--wx-green);font-size:16px;cursor:pointer}
+.text-moment-input{flex:1;width:100%;border:none;outline:none;font-size:16px;resize:none}
 
-/* 纯文字朋友圈弹窗 */
-.text-moment-modal{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:#fff;
-    z-index:999;
-    display:none;
-    flex-direction:column;
-    padding:16px;
-}
-.text-moment-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:16px;
-}
-.text-moment-cancel{
-    font-size:16px;
-    color:#666;
-    cursor:pointer;
-}
-.text-moment-title{
-    font-size:17px;
-    font-weight:500;
-}
-.text-moment-send{
-    color:var(--wx-green);
-    font-size:16px;
-    cursor:pointer;
-}
-.text-moment-input{
-    flex:1;
-    width:100%;
-    border:none;
-    outline:none;
-    font-size:16px;
-    resize:none;
-}
-
-/* ========== 封面全屏预览弹窗 ========== */
-.cover-preview-modal{
-    display:none;
-    position:fixed;
-    top:0;
-    left:0;
-    width:100vw;
-    height:100vh;
-    background:rgba(0,0,0,0.85);
-    z-index:9999;
-    justify-content:center;
-    align-items:center;
-}
-.cover-preview-img{
-    max-width:90%;
-    max-height:90%;
-    object-fit:contain;
-}
-/* 全屏预览右下角换封面按钮 */
-.cover-change-btn{
-    position:absolute;
-    bottom:40px;
-    right:24px;
-    width:36px;
-    height:36px;
-    background:rgba(255,255,255,0.65);
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#333;
-    cursor:pointer;
-}
-
-/* 联系人页面 */
-.contact-page{background:#f5f5f5;overflow-y:auto;}
-.contact-group{background:#fff;margin-bottom:8px;border-radius:10px;}
-.contact-group-title{padding:6px 12px;background:#f2f2f5;font-size:13px;color:#666;}
-.contact-item{display:flex;align-items:center;padding:10px 12px;border-bottom:1px solid #eee;cursor:pointer;}
-.contact-avatar{width:42px;height:42px;border-radius:6px;background:#ccc;margin-right:12px;background-size:cover;background-position:center;cursor:pointer;}
-.contact-name{font-size:15px;}
-
-/* 聊天列表 */
-.chat-list-page{background:#fff;overflow-y:auto;}
-.chat-list-item{display:flex;align-items:center;padding:12px;border-bottom:1px solid #eee;cursor:pointer;}
-.chat-list-avatar{width:48px;height:48px;border-radius:6px;background:#ccc;margin-right:12px;background-size:cover;background-position:center;cursor:pointer;}
-.chat-list-info{flex:1;}
-.chat-list-name{font-size:16px;font-weight:500;}
-.chat-list-desc{font-size:13px;color:#999;margin-top:3px;}
-.chat-list-time{font-size:12px;color:#999;}
+.cover-preview-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:9999;justify-content:center;align-items:center}
+.cover-preview-img{max-width:90%;max-height:90%;object-fit:contain}
+.cover-change-btn{position:absolute;bottom:40px;right:24px;width:36px;height:36px;background:rgba(255,255,255,0.65);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#333;cursor:pointer}
 
 .file-input{display:none}
 </style>
 </head>
 <body>
 <div class="wrapper">
-    <!-- 聊天列表页 -->
-    <div id="pageChatList" class="page">
-        <div class="wx-home-top">
-            <div class="wx-home-title">微信</div>
-            <div class="wx-home-right" id="btnAdd">
-                <svg class="round-plus" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-            </div>
-        </div>
-        <div class="chat-list-page">
-            <div class="chat-list-item" data-chat="chat1">
-                <div class="chat-list-avatar" id="avatarOtherList"></div>
-                <div class="chat-list-info">
-                    <div class="chat-list-name">梦角</div>
-                    <div class="chat-list-desc">点击进入聊天</div>
-                </div>
-                <div class="chat-list-time">今天</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 聊天详情页 -->
-    <div id="pageChatDetail" class="page">
+    <!-- 聊天详情页（默认打开） -->
+    <div id="pageChatDetail" class="page active">
         <div class="wx-top-bar">
             <div class="wx-left-area">
                 <div class="wx-back" id="btnBack">
@@ -405,42 +119,78 @@ body{background:#f2f2f5;margin:0;padding:0}
                 <div class="wx-title">梦角</div>
             </div>
             <div class="wx-top-right">
-                <div class="wx-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="5" y="2" width="14" height="20" rx="2"/>
-                        <line x1="12" y1="18" x2="12" y2="18"/>
-                    </svg>
-                </div>
-                <div class="wx-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="3"/>
-                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-                    </svg>
-                </div>
+                <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+  <line x1="12" y1="18" x2="12.01" y2="18"/>
+</svg>
+</span>
+                <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="3"/>
+  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+</svg>
+</span>
             </div>
         </div>
         <div class="chat-area">
             <div class="chat-box" id="chatBox">
+                <div class="msg-row msg-row-left">
+                    <div class="msg-avatar"></div>
+                    <div class="msg-bubble msg-left">你好呀，我在。</div>
+                </div>
+                <div class="msg-row msg-row-right">
+                    <div class="msg-bubble msg-right">今晚一起听歌？</div>
+                    <div class="msg-avatar"></div>
+                </div>
             </div>
             <div class="chat-input-wrap">
-                <div class="btn-voice">🎤</div>
+                <div class="btn-voice"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+  <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+  <line x1="12" y1="19" x2="12" y2="23"/>
+  <line x1="8" y1="23" x2="16" y2="23"/>
+</svg>
+</div>
                 <input class="chat-input" id="msgInput" placeholder="输入消息"/>
-                <div class="btn-face">😊</div>
+                <div class="btn-face"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"/>
+  <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+  <line x1="9" y1="9" x2="9.01" y2="9"/>
+  <line x1="15" y1="9" x2="15.01" y2="9"/>
+</svg>
+</div>
                 <div class="btn-more">➕</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 聊天列表页 -->
+    <div id="pageChatList" class="page">
+        <div style="height:56px;background:#f7f7f9;border-bottom:1px solid #eee;display:flex;align-items:center;justify-content:center;position:relative;">
+            <span style="font-size:17px;font-weight:500;">微信</span>
+            <span style="position:absolute;right:16px;font-size:20px;cursor:pointer;">➕</span>
+        </div>
+        <div class="chat-list-page">
+            <div class="chat-list-item" id="goToChat">
+                <div class="chat-list-avatar"></div>
+                <div class="chat-list-info">
+                    <div class="chat-list-name">梦角</div>
+                    <div class="chat-list-desc">点击进入聊天</div>
+                </div>
+                <div class="chat-list-time">今天</div>
             </div>
         </div>
     </div>
 
     <!-- 联系人页 -->
     <div id="pageContact" class="page">
-        <div class="wx-home-top">
-            <div class="wx-home-title">联系人</div>
+        <div style="height:56px;background:#f7f7f9;border-bottom:1px solid #eee;display:flex;align-items:center;justify-content:center;">
+            <span style="font-size:17px;font-weight:500;">联系人</span>
         </div>
         <div class="contact-page">
             <div class="contact-group">
                 <div class="contact-group-title">朋友</div>
                 <div class="contact-item">
-                    <div class="contact-avatar" id="avatarOtherContact"></div>
+                    <div class="contact-avatar"></div>
                     <div class="contact-name">梦角</div>
                 </div>
             </div>
@@ -449,29 +199,46 @@ body{background:#f2f2f5;margin:0;padding:0}
 
     <!-- 朋友圈页 -->
     <div id="pageMoment" class="page">
-        <div class="moment-top-bar">
-            <div class="moment-top-title">发现</div>
+        <div style="height:56px;background:#f7f7f9;border-bottom:1px solid #eee;display:flex;align-items:center;justify-content:center;">
+            <span style="font-size:17px;font-weight:500;">发现</span>
         </div>
-        <div class="moment-header" id="momentCover">
-            <!-- 右上角：发朋友圈相机图标（常驻） -->
-            <div class="moment-header-top-camera" id="momentHeaderTopCamera">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-                    <circle cx="12" cy="13" r="4"/>
-                </svg>
+        <div class="moment-page">
+            <div class="moment-header" id="momentCover">
+                <div class="moment-header-top-camera" id="momentHeaderTopCamera">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                        <circle cx="12" cy="13" r="4"/>
+                    </svg>
+                </div>
+                <div class="moment-avatar"></div>
+                <div class="moment-name">我</div>
             </div>
-            <div class="moment-avatar" id="momentMyAvatar"></div>
-            <div class="moment-name">我</div>
-        </div>
-        <div class="moment-publish-wrap">
-            <textarea class="moment-publish-input" placeholder="这一刻的想法..."></textarea>
-            <div class="moment-publish-btn">发表</div>
-        </div>
-        <div class="moment-list" id="momentList">
+            <div class="moment-publish-wrap">
+                <textarea class="moment-publish-input" placeholder="这一刻的想法..."></textarea>
+                <div class="moment-publish-btn">发表</div>
+            </div>
+            <div class="moment-list" id="momentList"></div>
         </div>
     </div>
 
-    <!-- 纯文字朋友圈弹窗 -->
+    <!-- 底部导航 -->
+    <div class="tab-bar" id="tabBar">
+        <div class="tab-item active" data-tab="chatList">💬 微信</div>
+        <div class="tab-item" data-tab="contact"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+  <circle cx="9" cy="7" r="4"/>
+  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+</svg>
+联系人</div>
+        <div class="tab-item" data-tab="moment"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="3" y="3" width="8" height="8" rx="1"/>
+  <rect x="13" y="13" width="8" height="8" rx="1"/>
+</svg>
+ 朋友圈</div>
+    </div>
+
+    <!-- 弹窗 -->
     <div class="text-moment-modal" id="textMomentModal">
         <div class="text-moment-header">
             <div class="text-moment-cancel" id="textMomentCancel">取消</div>
@@ -481,148 +248,154 @@ body{background:#f2f2f5;margin:0;padding:0}
         <textarea class="text-moment-input" placeholder="这一刻的想法..."></textarea>
     </div>
 
-    <!-- 封面全屏预览弹窗 -->
     <div class="cover-preview-modal" id="coverPreviewModal">
         <img class="cover-preview-img" id="coverPreviewImg"/>
-        <div class="cover-change-btn" id="coverChangeBtn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2">
-                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-                <circle cx="12" cy="13" r="4"/>
-            </svg>
-        </div>
+        <div class="cover-change-btn" id="coverChangeBtn">📷</div>
     </div>
 
     <input type="file" class="file-input" id="fileInputCover" accept="image/*">
-    <input type="file" class="file-input" id="fileInputAvatar" accept="image/*">
     <input type="file" class="file-input" id="fileInputMomentPic" accept="image/*">
 </div>
 
 <script>
 // 页面切换
 const pages = {
-    chatList:document.getElementById('pageChatList'),
-    chatDetail:document.getElementById('pageChatDetail'),
-    contact:document.getElementById('pageContact'),
-    moment:document.getElementById('pageMoment')
-}
-function showPage(id){
-    Object.values(pages).forEach(p=>p.classList.remove('active'));
+    chatDetail: document.getElementById('pageChatDetail'),
+    chatList: document.getElementById('pageChatList'),
+    contact: document.getElementById('pageContact'),
+    moment: document.getElementById('pageMoment')
+};
+
+function showPage(id) {
+    Object.values(pages).forEach(p => p.classList.remove('active'));
     pages[id].classList.add('active');
 }
-showPage('chatList');
 
-// 底部tab
-const tabItems = document.querySelectorAll('.tab-item');
-tabItems.forEach((tab,idx)=>{
-    tab.onclick = ()=>{
-        tabItems.forEach(t=>t.classList.remove('active'));
+// 默认打开聊天详情页
+showPage('chatDetail');
+
+// 底部导航
+const tabBar = document.getElementById('tabBar');
+const tabItems = tabBar.querySelectorAll('.tab-item');
+tabItems.forEach(tab => {
+    tab.onclick = () => {
+        tabItems.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
-        if(idx===0) showPage('chatList');
-        if(idx===1) showPage('contact');
-        if(idx===3) showPage('moment');
-    }
-})
+        const tabName = tab.dataset.tab;
+        if (tabName === 'chatList') showPage('chatList');
+        if (tabName === 'contact') showPage('contact');
+        if (tabName === 'moment') showPage('moment');
+    };
+});
 
 // 返回按钮
-document.getElementById('btnBack').onclick = ()=>{
+document.getElementById('btnBack').onclick = () => {
     showPage('chatList');
-}
-// 聊天列表进入聊天
-document.querySelector('.chat-list-item').onclick = ()=>{
+    tabItems.forEach(t => t.classList.remove('active'));
+    tabItems[0].classList.add('active');
+};
+
+// 从列表进入聊天
+document.getElementById('goToChat').onclick = () => {
     showPage('chatDetail');
+    tabItems.forEach(t => t.classList.remove('active'));
+    tabItems[0].classList.add('active');
+};
+
+// 发送消息
+const msgInput = document.getElementById('msgInput');
+const chatBox = document.getElementById('chatBox');
+msgInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        const txt = msgInput.value.trim();
+        if (!txt) return;
+        addMsg('right', txt);
+        msgInput.value = '';
+        setTimeout(() => {
+            addMsg('left', '收到啦');
+        }, 800);
+    }
+});
+
+function addMsg(dir, text) {
+    const row = document.createElement('div');
+    row.className = `msg-row msg-row-${dir}`;
+    if (dir === 'left') {
+        row.innerHTML = `<div class="msg-avatar"></div><div class="msg-bubble msg-left">${text}</div>`;
+    } else {
+        row.innerHTML = `<div class="msg-bubble msg-right">${text}</div><div class="msg-avatar"></div>`;
+    }
+    chatBox.appendChild(row);
+    chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-// ==========点击封面，打开全屏预览==========
+// 朋友圈封面
 const momentCover = document.getElementById('momentCover');
 const coverPreviewModal = document.getElementById('coverPreviewModal');
 const coverPreviewImg = document.getElementById('coverPreviewImg');
 const coverChangeBtn = document.getElementById('coverChangeBtn');
 
-momentCover.onclick = (e)=>{
-    // 不要点击右上角发朋友圈相机时触发全屏
-    if(e.target.closest('.moment-header-top-camera')) return;
+momentCover.onclick = (e) => {
+    if (e.target.closest('.moment-header-top-camera')) return;
     const bgStyle = getComputedStyle(momentCover).backgroundImage;
     const urlMatch = bgStyle.match(/url\("?(.*?)"?\)/);
     const imgUrl = urlMatch ? urlMatch[1] : '';
     coverPreviewImg.src = imgUrl;
-    coverPreviewModal.style.display='flex';
-}
+    coverPreviewModal.style.display = 'flex';
+};
 
-// 点击遮罩关闭全屏预览
-coverPreviewModal.onclick = (e)=>{
-    if(e.target === coverPreviewModal){
-        coverPreviewModal.style.display='none';
-    }
-}
+coverPreviewModal.onclick = (e) => {
+    if (e.target === coverPreviewModal) coverPreviewModal.style.display = 'none';
+};
 
-// ==========全屏预览右下角：换封面按钮==========
-coverChangeBtn.onclick = ()=>{
+coverChangeBtn.onclick = () => {
     document.getElementById('fileInputCover').click();
-}
-document.getElementById('fileInputCover').onchange = function(e){
+};
+
+document.getElementById('fileInputCover').onchange = function(e) {
     const f = e.target.files[0];
-    if(f){
-        const url = URL.createObjectURL(f);
-        momentCover.style.backgroundImage = `url(${url})`;
-        coverPreviewModal.style.display='none';
+    if (f) {
+        momentCover.style.backgroundImage = `url(${URL.createObjectURL(f)})`;
+        coverPreviewModal.style.display = 'none';
     }
-}
+};
 
-// ==========右上角相机：发朋友圈 单击选图，长按纯文字==========
-const headerTopCamera = document.getElementById('momentHeaderTopCamera');
-let pressTimer = null;
-
-headerTopCamera.addEventListener('mousedown', ()=>{
-    pressTimer = setTimeout(()=>{
-        document.getElementById('textMomentModal').style.display='flex';
-    }, 600);
-});
-
-headerTopCamera.addEventListener('mouseup', ()=>{
-    clearTimeout(pressTimer);
-    document.getElementById('fileInputMomentPic').click();
-});
-
-headerTopCamera.addEventListener('mouseleave', ()=>{
-    clearTimeout(pressTimer);
-});
-
-// 纯文字朋友圈弹窗
-document.getElementById('textMomentCancel').onclick = ()=>{
-    document.getElementById('textMomentModal').style.display='none';
-}
-document.getElementById('textMomentSend').onclick = ()=>{
-    const val = document.querySelector('.text-moment-input').value.trim();
-    if(val){
-        addMomentItem('我', val);
-        document.getElementById('textMomentModal').style.display='none';
-        document.querySelector('.text-moment-input').value='';
-    }
-}
-
-// 发表朋友圈按钮
-document.querySelector('.moment-publish-btn').onclick = ()=>{
+// 发朋友圈
+document.querySelector('.moment-publish-btn').onclick = () => {
     const val = document.querySelector('.moment-publish-input').value.trim();
-    if(val){
+    if (val) {
         addMomentItem('我', val);
-        document.querySelector('.moment-publish-input').value='';
+        document.querySelector('.moment-publish-input').value = '';
     }
-}
+};
 
-// 选择图片发朋友圈
-document.getElementById('fileInputMomentPic').onchange = function(e){
+document.getElementById('momentHeaderTopCamera').onclick = () => {
+    document.getElementById('fileInputMomentPic').click();
+};
+
+document.getElementById('fileInputMomentPic').onchange = function(e) {
     const f = e.target.files[0];
-    if(f){
-        const url = URL.createObjectURL(f);
-        addMomentItem('我', `<img src="${url}" style="max-width:100%;border-radius:8px;margin-top:6px">`);
+    if (f) {
+        addMomentItem('我', `<img src="${URL.createObjectURL(f)}" style="max-width:100%;border-radius:8px;margin-top:6px">`);
     }
-}
+};
 
-// 添加朋友圈条目
-function addMomentItem(name, content){
+document.getElementById('textMomentCancel').onclick = () => {
+    document.getElementById('textMomentModal').style.display = 'none';
+};
+document.getElementById('textMomentSend').onclick = () => {
+    const val = document.querySelector('.text-moment-input').value.trim();
+    if (val) {
+        addMomentItem('我', val);
+        document.getElementById('textMomentModal').style.display = 'none';
+        document.querySelector('.text-moment-input').value = '';
+    }
+};
+
+function addMomentItem(name, content) {
     const wrap = document.getElementById('momentList');
     const div = document.createElement('div');
-    div.className='moment-item';
+    div.className = 'moment-item';
     div.innerHTML = `
         <div class="moment-avatar-small"></div>
         <div class="moment-name-small">${name}</div>
@@ -630,41 +403,6 @@ function addMomentItem(name, content){
         <div class="moment-text">${content}</div>
     `;
     wrap.prepend(div);
-}
-
-// 聊天发送消息
-const msgInput = document.getElementById('msgInput');
-const chatBox = document.getElementById('chatBox');
-msgInput.addEventListener('keydown',(e)=>{
-    if(e.key==='Enter'){
-        const txt = msgInput.value.trim();
-        if(!txt) return;
-        addMsg('right',txt);
-        msgInput.value='';
-        setTimeout(()=>{
-            addMsg('left','收到啦');
-        },800);
-    }
-})
-
-function addMsg(dir,text){
-    const row = document.createElement('div');
-    row.className = `msg-row msg-row-${dir}`;
-    let html = '';
-    if(dir==='left'){
-        html = `
-            <div class="msg-avatar"></div>
-            <div class="msg-bubble msg-left">${text}</div>
-        `
-    }else{
-        html = `
-            <div class="msg-bubble msg-right">${text}</div>
-            <div class="msg-avatar"></div>
-        `
-    }
-    row.innerHTML = html;
-    chatBox.appendChild(row);
-    chatBox.scrollTop = chatBox.scrollHeight;
 }
 </script>
 </body>
