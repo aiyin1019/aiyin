@@ -109,7 +109,8 @@ body{background:#f2f2f5;margin:0;padding:0;width:100%;height:100vh;overflow:hidd
 .redpack-msg.opened{opacity:0.5;pointer-events:none}
 .transfer-msg{width:200px;background:#ffb340;border-radius:8px;color:#fff;padding:12px;cursor:pointer}
 .transfer-msg.received{opacity:0.5;pointer-events:none}
-.gift-msg{width:200px;background:#1a3a5c;border-radius:8px;color:#d4e6f1;padding:12px}
+.gift-msg{width:200px;background:#1a3a5c;border-radius:8px;color:#d4e6f1;padding:12px;cursor:pointer}
+.gift-msg.received{opacity:0.5;pointer-events:none}
 .music-msg{width:220px;background:#f7f7f7;border-radius:8px;padding:10px;display:flex;gap:8px}
 .modal-mask{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9996}
 .modal-panel{display:none;position:fixed;bottom:0;left:0;width:100%;background:#fff;border-radius:16px 16px 0 0;z-index:9997;padding:16px}
@@ -197,15 +198,16 @@ body{background:#f2f2f5;margin:0;padding:0;width:100%;height:100vh;overflow:hidd
 </div>
 
 <script>
-const DATA_KEY='wx_aiyin_v3';
+const DATA_KEY='wx_aiyin_final';
 let lastMsgIsMe=null,lastMsgTime=null;
 let avatarConfig={myAvatar:'',otherAvatar:''};
 let kaomojiList=['(๑•̀ㅂ•́)و✧','(≧∇≦)ﾉ','(｡•́︿•̀｡)','ヽ(✿ﾟ▽ﾟ)ノ'];
 let stickerList=[];
 let friends=[{id:1,name:'爱因',avatar:''}];
 let newAvatarData='';
-let chatMessages=[]; // 保存聊天记录
-let momentItems=[]; // 保存朋友圈
+let currentChatId=1;
+let chatHistory={}; // 每个好友独立的聊天记录 {friendId:[{text,isMe,imgSrc,time}]}
+let momentItems=[];
 const emojiList=['😀','😃','😄','😁','😆','😅','😂','🤣','😊','😇',
     '🙂','🙃','😉','😌','😍','🥰','😘','😗','😙','😚',
     '😋','😜','😝','😛','🤑','😎','🤓','🧐','😏','😒',
@@ -222,17 +224,11 @@ const emojiList=['😀','😃','😄','😁','😆','😅','😂','🤣','😊',
 function saveAll(){
 try{
 localStorage.setItem(DATA_KEY,JSON.stringify({
-avatarConfig:avatarConfig,
-friends:friends,
-kaomojiList:kaomojiList,
-stickerList:stickerList,
-noteTitle:document.getElementById('noteTitle').innerText,
-chatMessages:chatMessages,
-momentItems:momentItems
+avatarConfig:avatarConfig,friends:friends,kaomojiList:kaomojiList,stickerList:stickerList,
+noteTitle:document.getElementById('noteTitle').innerText,chatHistory:chatHistory,momentItems:momentItems
 }));
 }catch(e){}
 }
-
 function loadAll(){
 try{
 const d=JSON.parse(localStorage.getItem(DATA_KEY));
@@ -242,17 +238,28 @@ if(d.friends)friends=d.friends;
 if(d.kaomojiList)kaomojiList=d.kaomojiList;
 if(d.stickerList)stickerList=d.stickerList;
 if(d.noteTitle)document.getElementById('noteTitle').innerText=d.noteTitle;
-if(d.chatMessages){chatMessages=d.chatMessages;document.getElementById('chatBox').innerHTML='';chatMessages.forEach(m=>{addBubbleDirect(m.text,m.isMe,m.imgSrc,m.time);});}
+if(d.chatHistory)chatHistory=d.chatHistory;
 if(d.momentItems){momentItems=d.momentItems;document.getElementById('momentList').innerHTML='';momentItems.forEach(m=>{addMomentDirect(m.name,m.content);});}
 }catch(e){}
 renderChatList();renderContact();renderKaomoji();renderStickers();renderEmoji();
+loadChat(currentChatId);
+}
+
+function loadChat(friendId){
+currentChatId=friendId;
+document.getElementById('chatBox').innerHTML='';
+lastMsgIsMe=null;lastMsgTime=null;
+const msgs=chatHistory[friendId]||[];
+msgs.forEach(m=>{addBubbleDirect(m.text,m.isMe,m.imgSrc,m.time);});
 }
 
 function addBubbleDirect(text,isMe,imgSrc,time){
 const showAvatar=(lastMsgIsMe!==isMe);lastMsgIsMe=isMe;
 const row=document.createElement('div');row.className=`msg-row ${isMe?'msg-row-right':'msg-row-left'}`;
 const avatar=document.createElement('div');avatar.className=`msg-avatar ${showAvatar?'':'msg-avatar-hidden'}`;
-avatar.style.background=(isMe?avatarConfig.myAvatar:avatarConfig.otherAvatar)?`url(${isMe?avatarConfig.myAvatar:avatarConfig.otherAvatar})`:'#ccc';
+const av=(isMe?avatarConfig.myAvatar:avatarConfig.otherAvatar);
+avatar.style.background=av?`url(${av})`:'#ccc';
+avatar.style.backgroundSize='cover';avatar.style.backgroundPosition='center';
 avatar.onclick=()=>changeAvatar(isMe);
 const content=document.createElement('div');content.className='msg-content';
 const bubble=document.createElement('div');bubble.className='msg-bubble';
@@ -276,7 +283,6 @@ showPage('chatDetail');loadAll();
 
 document.getElementById('btnBack').onclick=()=>{showPage('chatList');saveAll();};
 document.querySelectorAll('.tab-item').forEach(tab=>{tab.onclick=()=>{document.querySelectorAll('.tab-item').forEach(t=>t.classList.remove('active'));tab.classList.add('active');showPage(tab.dataset.tab);if(tab.dataset.tab==='moment')document.getElementById('momentRedDot').style.display='none';};});
-
 document.getElementById('noteTitle').onclick=function(){const old=this.innerText;const input=document.createElement('input');input.style.cssText='font-size:16px;border:none;outline:none;text-align:center;width:100px;background:transparent';input.value=old;this.innerHTML='';this.appendChild(input);input.focus();input.onblur=()=>{this.innerText=input.value||old;saveAll();};};
 
 const chatBox=document.getElementById('chatBox'),chatInput=document.getElementById('chatInput'),emojiPanel=document.getElementById('emojiPanel'),btnFace=document.getElementById('btnFace'),gridEmoji=document.getElementById('emojiGridEmoji'),gridKaomoji=document.getElementById('emojiGridKaomoji'),gridImg=document.getElementById('emojiGridImg'),barKaomoji=document.getElementById('barKaomoji'),barImg=document.getElementById('barImg');
@@ -293,7 +299,7 @@ btnFace.onclick=e=>{e.stopPropagation();emojiPanel.style.display=emojiPanel.styl
 document.addEventListener('click',e=>{if(emojiPanel.style.display==='flex'&&!emojiPanel.contains(e.target)&&!btnFace.contains(e.target))emojiPanel.style.display='none';});
 
 function renderChatList(){const c=document.getElementById('chatListContainer');c.innerHTML='';friends.forEach(f=>{const bg=f.avatar?`background-image:url('${f.avatar}')`:'background:#ccc';c.innerHTML+=`<div class="chat-list-item" onclick="openChat(${f.id})"><div class="chat-list-avatar" style="${bg}"></div><div class="chat-list-info"><div class="chat-list-name">${f.name}</div><div class="chat-list-desc">点击进入聊天</div></div></div>`;});}
-function openChat(id){const f=friends.find(x=>x.id===id);if(!f)return;document.getElementById('noteTitle').innerText=f.name;avatarConfig.otherAvatar=f.avatar||'';showPage('chatDetail');}
+function openChat(id){const f=friends.find(x=>x.id===id);if(!f)return;document.getElementById('noteTitle').innerText=f.name;avatarConfig.otherAvatar=f.avatar||'';showPage('chatDetail');loadChat(id);}
 function renderContact(){const c=document.getElementById('contactList');c.innerHTML='';friends.forEach(f=>{const bg=f.avatar?`background-image:url('${f.avatar}')`:'background:#ccc';c.innerHTML+=`<div class="contact-group"><div class="contact-group-title">朋友</div><div class="contact-item"><div class="contact-avatar" style="${bg}"></div><div class="contact-name">${f.name}</div></div></div>`;});}
 
 function checkTime(){const m=getNowMin();if(lastMsgTime&&lastMsgTime!==m){const div=document.createElement('div');div.className='msg-time-divider';div.innerText=m;chatBox.appendChild(div);}lastMsgTime=m;}
@@ -301,15 +307,17 @@ function showTyping(){const title=document.getElementById('noteTitle');const old
 
 function addBubble(text,isMe,imgSrc=null){
 checkTime();
-addBubbleDirect(text,isMe,imgSrc,getNowTime());
-chatMessages.push({text,isMe,imgSrc,time:getNowTime()});
+const time=getNowTime();
+addBubbleDirect(text,isMe,imgSrc,time);
+if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];
+chatHistory[currentChatId].push({text,isMe,imgSrc,time});
 saveAll();
 }
 
 function sendMsg(){const text=chatInput.value.trim();if(!text)return;addBubble(text,true);chatInput.value='';showTyping();setTimeout(()=>{if(Math.random()<0.1){addBubble('对方撤回了一条消息',false);}else{addBubble('收到啦🥰',false);}},1500);}
 chatInput.addEventListener('keydown',e=>{if(e.key==='Enter')sendMsg();});
 
-function changeAvatar(isMe){const input=document.createElement('input');input.type='file';input.accept='image/*';input.onchange=e=>{const f=e.target.files[0];if(f){const r=new FileReader();r.onload=ev=>{if(isMe){avatarConfig.myAvatar=ev.target.result;}else{avatarConfig.otherAvatar=ev.target.result;const f0=friends.find(x=>x.id===1);if(f0)f0.avatar=ev.target.result;}saveAll();renderChatList();alert('头像已更换！');};r.readAsDataURL(f);}};input.click();}
+function changeAvatar(isMe){const input=document.createElement('input');input.type='file';input.accept='image/*';input.onchange=e=>{const f=e.target.files[0];if(f){const r=new FileReader();r.onload=ev=>{if(isMe){avatarConfig.myAvatar=ev.target.result;}else{avatarConfig.otherAvatar=ev.target.result;const f0=friends.find(x=>x.id===currentChatId);if(f0)f0.avatar=ev.target.result;}saveAll();renderChatList();renderContact();alert('头像已更换！');};r.readAsDataURL(f);}};input.click();}
 
 function toggleVoice(){const input=document.getElementById('chatInput');const voice=document.getElementById('voiceHoldBtn');if(input.style.display==='none'){input.style.display='block';voice.style.display='none';}else{input.style.display='none';voice.style.display='flex';}}
 document.getElementById('voiceHoldBtn').onclick=()=>{addBubble('🎤语音消息',true);showTyping();setTimeout(()=>addBubble('收到啦🥰',false),1500);};
@@ -323,14 +331,16 @@ document.getElementById('modalMask').onclick=()=>{document.getElementById('modal
 function sendRedpacket(){const m=document.getElementById('rpMoney').value;const r=document.getElementById('rpRemark').value||'恭喜发财';if(!m)return alert('请输入金额');addRedpack(m,r);closeModal('redpacketModal');document.getElementById('rpMoney').value='';document.getElementById('rpRemark').value='';}
 function sendTransfer(){const m=document.getElementById('tfMoney').value;const r=document.getElementById('tfRemark').value||'';if(!m)return alert('请输入金额');addTransfer(m,r);closeModal('transferModal');document.getElementById('tfMoney').value='';document.getElementById('tfRemark').value='';}
 
-function addRedpack(money,remark){const row=document.createElement('div');row.className='msg-row msg-row-right';row.innerHTML=`<div class="msg-content"><div class="msg-bubble msg-right"><div class="redpack-msg" data-opened="0" onclick="openRedpacket(this,'${money}','${remark}')"><div style="font-size:18px;font-weight:500;">¥${money}</div><div style="font-size:12px;opacity:0.9;margin-top:4px;">${remark}</div></div></div><div class="msg-status">${getNowTime()}</div></div><div class="msg-avatar" style="background:${avatarConfig.myAvatar?`url(${avatarConfig.myAvatar})`:'#ccc'};background-size:cover"></div>`;chatBox.appendChild(row);chatBox.scrollTop=chatBox.scrollHeight;chatMessages.push({text:`[红包]¥${money}`,isMe:true,imgSrc:null,time:getNowTime()});saveAll();}
+function addRedpack(money,remark){const row=document.createElement('div');row.className='msg-row msg-row-right';row.innerHTML=`<div class="msg-content"><div class="msg-bubble msg-right"><div class="redpack-msg" data-opened="0" onclick="openRedpacket(this,'${money}','${remark}')"><div style="font-size:18px;font-weight:500;">¥${money}</div><div style="font-size:12px;opacity:0.9;margin-top:4px;">${remark}</div></div></div><div class="msg-status">${getNowTime()}</div></div><div class="msg-avatar" style="background:${avatarConfig.myAvatar?`url(${avatarConfig.myAvatar})`:'#ccc'};background-size:cover"></div>`;chatBox.appendChild(row);chatBox.scrollTop=chatBox.scrollHeight;if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({text:`[红包]¥${money}`,isMe:true,imgSrc:null,time:getNowTime()});saveAll();}
 function openRedpacket(el,money,remark){if(el.dataset.opened==='1')return;el.dataset.opened='1';const modal=document.createElement('div');modal.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;';modal.innerHTML=`<div style="width:260px;background:#e63923;border-radius:14px;text-align:center;overflow:hidden;position:relative;"><div style="padding:24px 16px;background:linear-gradient(180deg,#f5553c,#e63923);"><div style="color:#fdd835;font-size:13px;">${remark}</div><div style="width:70px;height:70px;border-radius:50%;background:#fdd835;margin:16px auto;display:flex;align-items:center;justify-content:center;font-size:24px;color:#e63923;font-weight:bold;cursor:pointer;" onclick="receiveRedpack(this,'${money}')">開</div><div style="color:#fff;font-size:11px;">爱因的红包</div></div><div style="height:50px;background:transparent;position:relative;"><div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:0;height:0;border-left:20px solid transparent;border-right:20px solid transparent;border-top:20px solid #fdd835;"></div><div style="position:absolute;top:15px;left:50%;transform:translateX(-50%);width:12px;height:12px;border-radius:50%;background:#fdd835;"></div></div><div style="background:#fff;padding:12px;font-size:13px;color:#999;" onclick="this.closest('div[style]').remove()">关闭</div></div>`;document.body.appendChild(modal);modal.onclick=e=>{if(e.target===modal)modal.remove();};el.classList.add('opened');saveAll();}
 function receiveRedpack(btn,money){btn.parentElement.innerHTML=`<div style="color:#fdd835;font-size:13px;">已领取</div><div style="color:#fff;font-size:32px;font-weight:bold;margin:8px 0;">¥${money}</div><div style="color:#fdd835;font-size:11px;">已存入零钱</div>`;}
 
-function addTransfer(money,remark){const row=document.createElement('div');row.className='msg-row msg-row-right';row.innerHTML=`<div class="msg-content"><div class="msg-bubble msg-right"><div class="transfer-msg" data-received="0" onclick="confirmTransfer(this,'${money}')"><div style="font-size:18px;font-weight:500;">¥${money}</div><div style="font-size:12px;margin-top:4px;">${remark||'转账'}</div></div></div><div class="msg-status">${getNowTime()}</div></div><div class="msg-avatar" style="background:${avatarConfig.myAvatar?`url(${avatarConfig.myAvatar})`:'#ccc'};background-size:cover"></div>`;chatBox.appendChild(row);chatBox.scrollTop=chatBox.scrollHeight;chatMessages.push({text:`[转账]¥${money}`,isMe:true,imgSrc:null,time:getNowTime()});saveAll();}
+function addTransfer(money,remark){const row=document.createElement('div');row.className='msg-row msg-row-right';row.innerHTML=`<div class="msg-content"><div class="msg-bubble msg-right"><div class="transfer-msg" data-received="0" onclick="confirmTransfer(this,'${money}')"><div style="font-size:18px;font-weight:500;">¥${money}</div><div style="font-size:12px;margin-top:4px;">${remark||'转账'}</div></div></div><div class="msg-status">${getNowTime()}</div></div><div class="msg-avatar" style="background:${avatarConfig.myAvatar?`url(${avatarConfig.myAvatar})`:'#ccc'};background-size:cover"></div>`;chatBox.appendChild(row);chatBox.scrollTop=chatBox.scrollHeight;if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({text:`[转账]¥${money}`,isMe:true,imgSrc:null,time:getNowTime()});saveAll();}
 function confirmTransfer(el,money){if(el.dataset.received==='1')return;el.dataset.received='1';el.querySelector('div:last-child').innerText='已收款';el.classList.add('received');const tip=document.createElement('div');tip.className='msg-time-divider';tip.innerText=`爱因已收款 ¥${money}`;chatBox.appendChild(tip);chatBox.scrollTop=chatBox.scrollHeight;saveAll();}
 
-function addGift(){const row=document.createElement('div');row.className='msg-row msg-row-right';row.innerHTML=`<div class="msg-content"><div class="msg-bubble msg-right"><div class="gift-msg"><div style="font-size:15px;font-weight:500;">送你一份礼物🎁</div><div style="font-size:12px;opacity:0.8;margin-top:4px;">一份心意</div></div></div><div class="msg-status">${getNowTime()}</div></div><div class="msg-avatar" style="background:#ccc"></div>`;chatBox.appendChild(row);chatBox.scrollTop=chatBox.scrollHeight;saveAll();}
+function addGift(){const row=document.createElement('div');row.className='msg-row msg-row-right';row.innerHTML=`<div class="msg-content"><div class="msg-bubble msg-right"><div class="gift-msg" onclick="receiveGift(this)"><div style="font-size:15px;font-weight:500;">送你一份礼物🎁</div><div style="font-size:12px;opacity:0.8;margin-top:4px;">一份心意</div></div></div><div class="msg-status">${getNowTime()}</div></div><div class="msg-avatar" style="background:#ccc"></div>`;chatBox.appendChild(row);chatBox.scrollTop=chatBox.scrollHeight;saveAll();}
+function receiveGift(el){if(el.dataset.received==='1')return;el.dataset.received='1';el.classList.add('received');el.querySelector('div:first-child').innerText='已收下礼物🎁';const tip=document.createElement('div');tip.className='msg-time-divider';tip.innerText='爱因已收下礼物';chatBox.appendChild(tip);chatBox.scrollTop=chatBox.scrollHeight;saveAll();}
+
 function addMusic(){const row=document.createElement('div');row.className='msg-row msg-row-right';row.innerHTML=`<div class="msg-content"><div class="msg-bubble msg-right"><div class="music-msg"><div style="width:40px;height:40px;border-radius:6px;background:#ccc;"></div><div><div style="font-size:13px;font-weight:500;">示例歌曲</div><div style="font-size:11px;color:#666;">歌手</div></div></div></div><div class="msg-status">${getNowTime()}</div></div><div class="msg-avatar" style="background:#ccc"></div>`;chatBox.appendChild(row);chatBox.scrollTop=chatBox.scrollHeight;saveAll();}
 
 function startCall(){const cf=document.getElementById('callFloat');cf.style.display='block';document.getElementById('callStatus').textContent='呼叫中...';setTimeout(()=>{const r=Math.random();if(r<0.3){document.getElementById('callStatus').textContent='对方正在忙';}else if(r<0.6){document.getElementById('callStatus').textContent='对方无法接听';}else if(r<0.8){document.getElementById('callStatus').textContent='对方不在';}else{document.getElementById('callStatus').textContent='通话中';}setTimeout(()=>{cf.style.display='none';addSystemTip('通话结束');},3000);},2000);}
