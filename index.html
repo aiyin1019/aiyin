@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>爱因</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,Roboto}
 body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
@@ -14,13 +13,11 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 .page.active{display:flex}
 .top-bar{height:48px;background:#f7f7f9;border-bottom:1px solid #eee;display:flex;align-items:center;padding:0 6px;position:relative;flex-shrink:0}
 .top-bar .back{width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;background:none;flex-shrink:0}
-.top-bar .back svg{width:18px;height:18px}
 .top-bar .status-tag{padding:6px 8px;background:#eef0f3;border-radius:6px;font-size:10px;color:#555;margin-left:2px;flex-shrink:0}
 .top-bar .title-wrap{flex:1;text-align:center;position:relative}
 .top-bar .title{font-size:16px;font-weight:500;cursor:pointer}
 .top-bar .typing{font-size:10px;color:#999;position:absolute;bottom:-10px;left:50%;transform:translateX(-50%)}
 .top-bar .icon{width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;background:none;flex-shrink:0}
-.top-bar .icon svg{width:18px;height:18px}
 .chat-area{flex:1;display:flex;flex-direction:column;min-height:0}
 .chat-box{flex:1;overflow-y:auto;padding:10px;background:var(--chat-bg);display:flex;flex-direction:column}
 .msg-row{display:flex;align-items:flex-start;margin:4px 0;width:100%}
@@ -28,8 +25,6 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 .msg-row.me{justify-content:flex-end}
 .msg-avatar-col{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
 .msg-avatar{width:36px;height:36px;border-radius:4px;background:#ccc;cursor:pointer;background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.msg-avatar svg{width:22px;height:22px;stroke:#999;fill:none;stroke-width:1.5}
-.msg-avatar img{width:100%;height:100%;object-fit:cover}
 .msg-time{font-size:9px;color:#999;margin-top:2px;white-space:nowrap}
 .msg-content{display:flex;flex-direction:column;max-width:60%;margin:0 6px}
 .msg-row.me .msg-content{align-items:flex-end}
@@ -46,7 +41,6 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 .bubble-call{background:#333!important;color:#fff!important}
 .input-bar{display:flex;gap:3px;padding:6px;background:#fff;border-top:1px solid #eee;flex-shrink:0;align-items:center}
 .input-bar .btn{width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;background:none;flex-shrink:0}
-.input-bar .btn svg{width:16px;height:16px}
 .input-bar input{flex:1;height:34px;border:1px solid #ddd;border-radius:8px;padding:0 10px;font-size:13px;outline:none;min-width:0}
 .input-bar .voice-btn{flex:1;height:34px;border:1px solid #ddd;border-radius:8px;background:#f5f5f5;display:none;align-items:center;justify-content:center;font-size:13px;color:#333;cursor:pointer}
 .emoji-panel{background:#fff;border-top:1px solid #eee;display:none;flex-direction:column;flex-shrink:0;height:300px}
@@ -55,48 +49,15 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 .emoji-tab.active{background:#07c160;color:#fff;border-color:#07c160}
 .emoji-content{flex:1;overflow-y:auto;padding:12px}
 .emoji-grid-emoji{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
-.emoji-grid-emoji span{text-align:center;cursor:pointer;padding:10px;font-size:22px;border-radius:12px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;aspect-ratio:1/1;box-shadow:0 1px 3px rgba(0,0,0,0.08)}
+.emoji-grid-emoji span{text-align:center;cursor:pointer;padding:10px;font-size:22px;border-radius:12px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;aspect-ratio:1/1}
 .emoji-grid-kaomoji{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.emoji-grid-kaomoji span{border-radius:12px;padding:12px 8px;font-size:13px;cursor:pointer;text-align:center;min-height:44px;display:flex;align-items:center;justify-content:center;background:#f5f5f5;box-shadow:0 1px 3px rgba(0,0,0,0.08);word-break:break-all}
+.emoji-grid-kaomoji span{border-radius:12px;padding:12px 8px;font-size:13px;cursor:pointer;text-align:center;min-height:44px;display:flex;align-items:center;justify-content:center;background:#f5f5f5;word-break:break-all}
 .emoji-grid-img{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.emoji-grid-img .sticker{border-radius:12px;overflow:hidden;cursor:pointer;background:#f5f5f5}
-.emoji-grid-img .sticker img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
-.add-bar{display:flex;gap:6px;padding:10px 12px;border-top:1px solid #eee}
-.add-bar input{flex:1;height:32px;border:1px solid #ddd;border-radius:16px;padding:0 12px;font-size:12px;outline:none}
-.add-bar button{height:32px;padding:0 16px;border:none;border-radius:16px;background:#07c160;color:#fff;font-size:12px;cursor:pointer}
+.emoji-grid-img .sticker{border-radius:12px;overflow:hidden;cursor:pointer}
+.emoji-grid-img .sticker img{width:100%;aspect-ratio:1/1;object-fit:cover}
 .tab-bar{height:50px;background:#fff;display:flex;border-top:1px solid #e5e5e5;flex-shrink:0}
-.tab-bar button{flex:1;border:none;background:none;cursor:pointer;font-size:13px;color:#666;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
-.tab-bar button svg{width:22px;height:22px}
+.tab-bar button{flex:1;border:none;background:none;cursor:pointer;font-size:13px;color:#666;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
 .tab-bar button.active{color:#07c160;font-weight:600}
-.tab-bar .red-dot{position:absolute;top:3px;right:50%;margin-right:-16px;width:7px;height:7px;background:#f53737;border-radius:50%;display:none}
-.list-page{background:#fff;overflow-y:auto;flex:1}
-.list-item{display:flex;align-items:center;padding:10px;border-bottom:1px solid #eee;cursor:pointer}
-.list-item .avatar{width:42px;height:42px;border-radius:4px;background:#ccc;margin-right:10px;display:flex;align-items:center;justify-content:center;background-size:cover;background-position:center;flex-shrink:0;overflow:hidden}
-.list-item .avatar svg{width:24px;height:24px;stroke:#999;fill:none;stroke-width:1.5}
-.list-item .avatar img{width:100%;height:100%;object-fit:cover}
-.list-item .name{font-size:14px;font-weight:500}
-.my-page{background:#fff;overflow-y:auto;flex:1;padding:16px}
-.my-main-box{border:1px solid #ddd;width:100%;height:140px;position:relative;margin-top:40px}
-.my-avatar-box{width:65px;height:65px;border:1px solid #ddd;position:absolute;top:-32px;left:10px;background:#fff;z-index:2;cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center}
-.my-avatar-box img{width:100%;height:100%;object-fit:cover;display:none}
-.my-avatar-box svg{width:30px;height:30px;stroke:#999;fill:none;stroke-width:1.5}
-.my-name{position:absolute;top:-26px;left:85px;font-size:16px;cursor:pointer}
-.my-status{position:absolute;top:5px;left:85px;font-size:14px;color:#999;cursor:pointer}
-.my-media-wrap{width:100%;height:100%;position:absolute;top:0;left:0;cursor:pointer;overflow:hidden}
-.my-media-wrap img{width:100%;height:100%;object-fit:cover;display:none}
-.my-media-wrap video{width:100%;height:100%;object-fit:cover;display:none}
-.my-menu-item{width:100%;height:46px;font-size:16px;display:flex;align-items:center;padding-left:12px;position:relative;cursor:pointer}
-.my-menu-item::after{content:"";position:absolute;left:12px;right:0;bottom:0;height:1px;background:#eee}
-.moment-page{background:#f5f5f5;overflow-y:auto;flex:1}
-.moment-list{padding:8px}
-.moment-item{background:#fff;border-radius:8px;padding:10px;margin-bottom:6px}
-.moment-item .mname{font-size:13px;font-weight:500}
-.moment-item .mtext{margin-top:4px;font-size:12px}
-.moment-item .mactions{display:flex;justify-content:flex-end;gap:10px;margin-top:4px}
-.moment-item .mactions button{border:none;background:none;cursor:pointer;font-size:11px;color:#666}
-.moment-item .mactions button.liked{color:#e64340}
-.comment-box{margin-top:4px;padding:4px;background:#f5f5f5;border-radius:4px;font-size:11px;display:none}
-.comment-item{margin:2px 0;cursor:pointer;padding:2px 4px;border-radius:3px}
 .mask{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:99}
 .panel{display:none;position:fixed;bottom:0;left:0;width:100%;background:#fff;border-radius:14px 14px 0 0;z-index:100;padding:14px;max-height:80%;overflow-y:auto}
 .panel .pheader{display:flex;justify-content:space-between;margin-bottom:10px;font-size:15px;font-weight:500}
@@ -106,22 +67,51 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 .grid .gitem .icon{width:40px;height:40px;border-radius:10px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;font-size:20px}
 .pinput{width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:14px;margin-bottom:10px;outline:none}
 .pbtn{width:100%;height:40px;border:none;border-radius:8px;font-size:14px;cursor:pointer;color:#fff;background:#07c160}
-.setting-group{margin-bottom:12px}
-.setting-group h4{font-size:13px;margin-bottom:6px;color:#333}
-.setting-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:12px}
-.switch{width:36px;height:20px;background:#ccc;border-radius:10px;position:relative;cursor:pointer}
-.switch.on{background:#07c160}
-.switch::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;background:#fff;border-radius:50%;transition:0.2s}
-.switch.on::after{left:18px}
-.tag{display:inline-block;padding:3px 8px;background:#f0f0f0;border-radius:10px;margin:2px;font-size:11px;cursor:pointer}
-.tag .del{color:#999;margin-left:3px}
-textarea.pinput{min-height:50px;resize:none}
 .full-page{position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;z-index:500;display:none;flex-direction:column}
 .full-page .fp-header{height:44px;background:#f7f7f9;border-bottom:1px solid #eee;display:flex;align-items:center;padding:0 8px}
 .full-page .fp-header button{border:none;background:none;cursor:pointer;font-size:16px}
 .full-page .fp-header span{flex:1;text-align:center;font-size:15px;font-weight:500}
 .full-page .fp-body{flex:1;overflow-y:auto;padding:12px}
 .file-hide{display:none}
+.list-page{background:#fff;overflow-y:auto;flex:1}
+.list-item{display:flex;align-items:center;padding:10px;border-bottom:1px solid #eee;cursor:pointer}
+.list-item .avatar{width:42px;height:42px;border-radius:4px;background:#ccc;margin-right:10px;display:flex;align-items:center;justify-content:center;background-size:cover;background-position:center;flex-shrink:0;overflow:hidden}
+.list-item .name{font-size:14px;font-weight:500}
+.my-page{background:#fff;overflow-y:auto;flex:1;padding:16px}
+.my-main-box{border:1px solid #ddd;width:100%;height:140px;position:relative;margin-top:40px}
+.my-avatar-box{width:65px;height:65px;border:1px solid #ddd;position:absolute;top:-32px;left:10px;background:#fff;z-index:2;cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.my-name{position:absolute;top:-26px;left:85px;font-size:16px;cursor:pointer}
+.my-status{position:absolute;top:5px;left:85px;font-size:14px;color:#999;cursor:pointer}
+.my-media-wrap{width:100%;height:100%;position:absolute;top:0;left:0;cursor:pointer;overflow:hidden}
+.my-menu-item{width:100%;height:46px;font-size:16px;display:flex;align-items:center;padding-left:12px;position:relative;cursor:pointer}
+.my-menu-item::after{content:"";position:absolute;left:12px;right:0;bottom:0;height:1px;background:#eee}
+.moment-page{background:#f5f5f5;overflow-y:auto;flex:1}
+.moment-list{padding:8px}
+.moment-item{background:#fff;border-radius:8px;padding:10px;margin-bottom:6px}
+.setting-group{margin-bottom:12px}
+.setting-group h4{font-size:13px;margin-bottom:6px;color:#333}
+.setting-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:12px}
+.tag{display:inline-block;padding:3px 8px;background:#f0f0f0;border-radius:10px;margin:2px;font-size:11px;cursor:pointer}
+textarea.pinput{min-height:50px;resize:none}
+.redpacket-cover{width:260px;background:#e63923;border-radius:14px;text-align:center;overflow:hidden}
+.redpacket-cover .rp-top{padding:24px 16px;background:linear-gradient(180deg,#f5553c,#e63923)}
+.redpacket-cover .rp-remark{color:#fdd835;font-size:13px}
+.redpacket-cover .rp-open{width:70px;height:70px;border-radius:50%;background:#fdd835;margin:16px auto;display:flex;align-items:center;justify-content:center;font-size:24px;color:#e63923;font-weight:bold;cursor:pointer}
+.redpacket-cover .rp-from{color:#fff;font-size:11px}
+.redpacket-cover .rp-bottom{height:40px;position:relative}
+.redpacket-cover .rp-bottom .tri{position:absolute;top:0;left:50%;transform:translateX(-50%);width:0;height:0;border-left:18px solid transparent;border-right:18px solid transparent;border-top:18px solid #fdd835}
+.redpacket-cover .rp-bottom .dot{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:10px;height:10px;border-radius:50%;background:#fdd835}
+.redpacket-cover .rp-close{background:#fff;padding:12px;font-size:13px;color:#999;cursor:pointer}
+.transfer-card{width:220px;background:#ffb340;border-radius:8px;color:#fff;padding:14px 12px;cursor:pointer}
+.call-float{display:none;position:fixed;top:80px;right:16px;width:100px;border-radius:12px;z-index:9999;background:#333;cursor:move;overflow:hidden}
+.call-float .cf-content{padding:10px;display:flex;flex-direction:column;align-items:center;gap:6px;color:#fff}
+.call-float .cf-avatar{width:40px;height:40px;border-radius:50%;background:#666;background-size:cover;background-position:center}
+.call-float .cf-hangup{width:32px;height:32px;border-radius:50%;background:#f53f3f;border:none;cursor:pointer;font-size:14px}
+.call-float .cf-minimize{position:absolute;top:6px;right:6px;width:18px;height:18px;background:rgba(255,255,255,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:10px;color:#fff}
+.call-min-bar{display:none;position:fixed;top:80px;right:16px;width:180px;height:44px;border-radius:22px;z-index:9999;background:#333;cursor:move;align-items:center;padding:0 10px;gap:6px;color:#fff}
+.call-min-bar .cm-avatar{width:30px;height:30px;border-radius:50%;background:#666;flex-shrink:0}
+.call-min-bar .cm-time{flex:1;font-size:11px;text-align:center}
+.call-min-bar .cm-hangup{width:26px;height:26px;border-radius:50%;background:#f53f3f;border:none;cursor:pointer;font-size:12px;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -132,8 +122,8 @@ textarea.pinput{min-height:50px;resize:none}
 <button class="back" onclick="showPage('chatList')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
 <div class="status-tag" id="statusTag">在看海</div>
 <div class="title-wrap"><div class="title" id="chatTitle" onclick="editName()">爱因</div><div class="typing" id="typingIndicator"></div></div>
-<button class="icon" onclick="showFullPage('phoneFull')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/></svg></button>
-<button class="icon" onclick="showFullPage('settingsFull')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/></svg></button>
+<button class="icon" onclick="showFullPage('phoneFull')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
+<button class="icon" onclick="showFullPage('settingsFull')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/></svg></button>
 </div>
 <div class="chat-area">
 <div class="chat-box" id="chatBox"></div>
@@ -148,18 +138,18 @@ textarea.pinput{min-height:50px;resize:none}
 <div class="add-bar" id="stickerBar" style="display:none"><div style="width:30px;height:30px;border:1px dashed #ccc;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;" onclick="document.getElementById('fileSticker').click()">+</div><input type="file" id="fileSticker" class="file-hide" accept="image/*" multiple onchange="addStickers()"></div>
 </div>
 <div class="input-bar">
-<button class="btn" onclick="toggleVoice()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/></svg></button>
+<button class="btn" onclick="toggleVoice()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></button>
 <input type="text" id="chatInput" placeholder="输入消息" onkeydown="if(event.key==='Enter')sendMsg()">
 <div class="voice-btn" id="voiceBtn" onclick="sendVoiceMsg()">按住说话</div>
-<button class="btn" onclick="toggleEmoji()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/></svg></button>
-<button class="btn" onclick="showPlus()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/></svg></button>
-<button class="btn" onclick="sendMsg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 2L11 13"/></svg></button>
+<button class="btn" onclick="toggleEmoji()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></button>
+<button class="btn" onclick="showPlus()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+<button class="btn" onclick="sendMsg()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
 </div>
 </div>
 </div>
 
 <div id="pageChatList" class="page">
-<div class="top-bar" style="justify-content:center;"><div class="title">微信</div><button class="icon" style="position:absolute;right:8px;" onclick="showAddMenu()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/></svg></button></div>
+<div class="top-bar" style="justify-content:center;"><div class="title">微信</div><button class="icon" style="position:absolute;right:8px;" onclick="showAddMenu()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button></div>
 <div class="list-page" id="chatListContainer"></div>
 </div>
 
@@ -172,10 +162,10 @@ textarea.pinput{min-height:50px;resize:none}
 <div class="top-bar" style="justify-content:center;"><div class="title">我</div></div>
 <div class="my-page">
 <div class="my-main-box">
-<div class="my-avatar-box" onclick="document.getElementById('myAvatarFile').click()"><img id="myAvatarImg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+<div class="my-avatar-box" onclick="document.getElementById('myAvatarFile').click()"><img id="myAvatarImg" style="width:100%;height:100%;object-fit:cover;display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
 <div class="my-name" id="myName" onclick="editMyName()">我</div>
 <div class="my-status" onclick="showStatusPanel()">+状态</div>
-<div class="my-media-wrap" onclick="document.getElementById('myMediaFile').click()"><img id="myBgImg"><video id="myBgVideo" loop autoplay muted></video></div>
+<div class="my-media-wrap" onclick="document.getElementById('myMediaFile').click()"><img id="myBgImg" style="width:100%;height:100%;object-fit:cover;display:none;"><video id="myBgVideo" style="width:100%;height:100%;object-fit:cover;display:none;" loop autoplay muted></video></div>
 </div>
 <div class="my-menu-item" onclick="showPage('moment')">朋友圈</div>
 <div class="my-menu-item" onclick="showPage('collect')">收藏</div>
@@ -194,21 +184,22 @@ textarea.pinput{min-height:50px;resize:none}
 </div>
 
 <div class="tab-bar" id="tabBar">
-<button class="active" data-tab="chatList" onclick="switchTab(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>微信</button>
-<button data-tab="contact" onclick="switchTab(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>联系人</button>
-<button data-tab="my" onclick="switchTab(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>我</button>
+<button class="active" data-tab="chatList" onclick="switchTab(this)">微信</button>
+<button data-tab="contact" onclick="switchTab(this)">联系人</button>
+<button data-tab="my" onclick="switchTab(this)">我</button>
 </div>
 
 <div class="mask" id="mask" onclick="closeAll()"></div>
+
 <div class="panel" id="plusPanel">
 <div class="pheader"><span>功能</span><button onclick="closeAll()">×</button></div>
 <div class="grid">
 <div class="gitem" onclick="showPanel('redpacketPanel')"><div class="icon">🧧</div>红包</div>
 <div class="gitem" onclick="showPanel('transferPanel')"><div class="icon">💰</div>转账</div>
-<div class="gitem" onclick="closeAll();addMsg('送你一份礼物',true,'bubble-gift')"><div class="icon">🎁</div>礼物</div>
-<div class="gitem" onclick="closeAll();addMsg('一起听歌',true,'bubble-music')"><div class="icon">🎵</div>音乐</div>
-<div class="gitem" onclick="closeAll();addMsg('视频通话',true,'bubble-call')"><div class="icon">📹</div>视频</div>
-<div class="gitem" onclick="closeAll();addMsg('语音通话',true,'bubble-call')"><div class="icon">📞</div>语音</div>
+<div class="gitem" onclick="closeAll();addGift()"><div class="icon">🎁</div>礼物</div>
+<div class="gitem" onclick="closeAll();addMusic()"><div class="icon">🎵</div>音乐</div>
+<div class="gitem" onclick="closeAll();startCall('视频通话')"><div class="icon">📹</div>视频</div>
+<div class="gitem" onclick="closeAll();startCall('语音通话')"><div class="icon">📞</div>语音</div>
 </div>
 </div>
 
@@ -265,13 +256,28 @@ textarea.pinput{min-height:50px;resize:none}
 </div>
 </div>
 
+<div class="call-float" id="callFloat">
+<div class="cf-content">
+<div class="cf-avatar" id="cfAvatar"></div>
+<div id="cfStatus" style="font-size:11px;">呼叫中...</div>
+<button class="cf-hangup" onclick="endCall()">📞</button>
+</div>
+<div class="cf-minimize" onclick="minimizeCall()">−</div>
+</div>
+
+<div class="call-min-bar" id="callMinBar">
+<div class="cm-avatar" id="cmAvatar"></div>
+<div class="cm-time" id="cmTime">通话中</div>
+<button class="cm-hangup" onclick="endCall()">📞</button>
+</div>
+
 <input type="file" id="myAvatarFile" class="file-hide" accept="image/*" onchange="setMyAvatar()">
 <input type="file" id="myMediaFile" class="file-hide" accept="image/*,video/*" onchange="setMyMedia()">
 
 </div>
 
 <script>
-var DATA_KEY='wx_v11';
+var DATA_KEY='wx_final_v2';
 var friends=[{id:1,name:'爱因',avatar:'',pinned:true}];
 var chatHistory={};var momentItems=[];var collectItems=[];var currentChatId=1;
 var wordCards=['我喜欢你','今天天气真好','一起听歌吗','晚安','早安','想你了','哈哈哈','好呀','嗯嗯','在干嘛'];
@@ -284,7 +290,7 @@ function saveAll(){try{localStorage.setItem(DATA_KEY,JSON.stringify({friends:fri
 function loadAll(){try{var d=JSON.parse(localStorage.getItem(DATA_KEY));if(d){if(d.friends)friends=d.friends;if(d.chatHistory)chatHistory=d.chatHistory;if(d.momentItems)momentItems=d.momentItems;if(d.collectItems)collectItems=d.collectItems;if(d.wordCards)wordCards=d.wordCards;if(d.patpatList)patpatList=d.patpatList;if(d.statusList)statusList=d.statusList;if(d.kaomojiList)kaomojiList=d.kaomojiList;if(d.stickerList)stickerList=d.stickerList;if(d.myAvatarData)myAvatarData=d.myAvatarData;}}catch(e){}renderAll();}
 
 function renderAll(){renderChatList();renderContact();renderMoments();renderCollect();renderWordCards();renderPatpat();renderStatus();renderStatusOptions();renderEmoji();loadChat(currentChatId);updateMyAvatar();}
-function updateMyAvatar(){var img=document.getElementById('myAvatarImg');if(img){if(myAvatarData){img.style.display='block';img.src=myAvatarData;}else{img.style.display='none';}}}
+function updateMyAvatar(){var img=document.getElementById('myAvatarImg');var svg=img.nextElementSibling;if(myAvatarData){img.style.display='block';img.src=myAvatarData;if(svg)svg.style.display='none';}else{img.style.display='none';if(svg)svg.style.display='block';}}
 function setMyAvatar(){var f=document.getElementById('myAvatarFile').files[0];if(f){var r=new FileReader();r.onload=function(ev){myAvatarData=ev.target.result;updateMyAvatar();saveAll();};r.readAsDataURL(f);}}
 function setMyMedia(){var f=document.getElementById('myMediaFile').files[0];if(f){var url=URL.createObjectURL(f);if(f.type.startsWith('video')){document.getElementById('myBgImg').style.display='none';document.getElementById('myBgVideo').style.display='block';document.getElementById('myBgVideo').src=url;}else{document.getElementById('myBgVideo').style.display='none';document.getElementById('myBgImg').style.display='block';document.getElementById('myBgImg').src=url;}}}
 function setNewFriendAvatar(){var f=document.getElementById('newFriendAvatarFile').files[0];if(f){var r=new FileReader();r.onload=function(ev){newFriendAvatarData=ev.target.result;};r.readAsDataURL(f);}}
@@ -293,7 +299,7 @@ function showPage(id){var pages=document.querySelectorAll('.page');for(var i=0;i
 function switchTab(el){var tabs=document.querySelectorAll('.tab-bar button');for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');el.classList.add('active');showPage(el.dataset.tab);}
 
 function userSVG(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';}
-function renderChatList(){var c=document.getElementById('chatListContainer');c.innerHTML='';friends.forEach(function(f){var av=f.avatar?'<img src="'+f.avatar+'" style="width:100%;height:100%;object-fit:cover;">':userSVG();c.innerHTML+='<div class="list-item" onclick="openChat('+f.id+')"><div class="avatar">'+av+'</div><div class="name">'+f.name+'</div></div>';});}
+function renderChatList(){var c=document.getElementById('chatListContainer');c.innerHTML='';friends.forEach(function(f){var av=f.avatar?'<img src="'+f.avatar+'" style="width:100%;height:100%;object-fit:cover;">':userSVG();c.innerHTML+='<div class="list-item" onclick="openChat('+f.id+')"><div class="avatar">'+av+'</div><div class="name">'+f.name+(f.pinned?'<span style="background:#f0f0f0;font-size:9px;padding:1px 4px;border-radius:6px;margin-left:4px;">置顶</span>':'')+'</div></div>';});}
 function renderContact(){var c=document.getElementById('contactList');c.innerHTML='';friends.forEach(function(f){var av=f.avatar?'<img src="'+f.avatar+'" style="width:100%;height:100%;object-fit:cover;">':userSVG();c.innerHTML+='<div class="list-item"><div class="avatar">'+av+'</div><div class="name">'+f.name+'</div></div>';});}
 function renderMoments(){var c=document.getElementById('momentList');c.innerHTML='';momentItems.forEach(function(m){c.innerHTML+='<div class="moment-item"><div class="mname">'+m.name+'</div><div class="mtext">'+m.content+'</div><div class="mactions"><button onclick="likeMoment(this)">❤️点赞</button><button onclick="commentMoment(this)">💬评论</button></div><div class="comment-box"></div></div>';});}
 function renderCollect(){var c=document.getElementById('collectList');c.innerHTML='';collectItems.forEach(function(item){c.innerHTML+='<div class="moment-item"><div class="mname">'+item.date+'</div><div class="mtext">'+item.text+'</div></div>';});}
@@ -317,8 +323,11 @@ function openChat(id){currentChatId=id;var f=friends.find(function(x){return x.i
 function loadChat(id){var box=document.getElementById('chatBox');box.innerHTML='';var msgs=chatHistory[id]||[];var lastMin='';var f=friends.find(function(x){return x.id===id;});
 msgs.forEach(function(m){var min=m.time.split(':')[0]+':'+m.time.split(':')[1];if(min!==lastMin){box.innerHTML+='<div class="msg-divider">'+min+'</div>';lastMin=min;}
 var av=m.isMe?(myAvatarData?'<img src="'+myAvatarData+'" style="width:100%;height:100%;object-fit:cover;">':userSVG()):(f&&f.avatar?'<img src="'+f.avatar+'" style="width:100%;height:100%;object-fit:cover;">':userSVG());
-box.innerHTML+='<div class="msg-row '+(m.isMe?'me':'other')+'"><div class="msg-avatar-col"><div class="msg-avatar">'+av+'</div><div class="msg-time">'+m.time+'</div></div><div class="msg-content"><div class="msg-bubble '+(m.bubbleType||'')+'">'+m.text+(m.isMe?'<span class="read">已读</span>':'')+'</div></div></div>';});
+box.innerHTML+='<div class="msg-row '+(m.isMe?'me':'other')+'"><div class="msg-avatar-col"><div class="msg-avatar" onclick="changeAvatar('+m.isMe+')">'+av+'</div><div class="msg-time">'+m.time+'</div></div><div class="msg-content"><div class="msg-bubble '+(m.bubbleType||'')+'">'+m.text+(m.isMe?'<span class="read">已读</span>':'')+'</div></div></div>';});
 box.scrollTop=box.scrollHeight;}
+
+function changeAvatar(isMe){var input=document.createElement('input');input.type='file';input.accept='image/*';input.onchange=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){if(isMe){myAvatarData=ev.target.result;updateMyAvatar();}else{var friend=friends.find(function(x){return x.id===currentChatId;});if(friend)friend.avatar=ev.target.result;renderChatList();renderContact();}saveAll();loadChat(currentChatId);};r.readAsDataURL(f);};input.click();}
+
 function getTime(){var d=new Date();return d.getHours()+':'+String(d.getMinutes()).padStart(2,'0')+':'+String(d.getSeconds()).padStart(2,'0');}
 function addMsg(text,isMe,bubbleType){var time=getTime();if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({text:text,isMe:isMe,time:time,bubbleType:bubbleType||''});loadChat(currentChatId);saveAll();}
 function sendMsg(){var input=document.getElementById('chatInput');var text=input.value.trim();if(!text)return;addMsg(text,true);input.value='';document.getElementById('typingIndicator').textContent='输入中...';var smin=parseInt(document.getElementById('speedMin').value)||3;var smax=parseInt(document.getElementById('speedMax').value)||60;var speed=Math.floor(Math.random()*(smax-smin+1))+smin;setTimeout(function(){document.getElementById('typingIndicator').textContent='';addMsg(wordCards[Math.floor(Math.random()*wordCards.length)]||'嗯嗯',false);},speed*1000);}
@@ -334,8 +343,21 @@ function showAddMenu(){showPanel('addPanel');}
 function showStatusPanel(){showPanel('statusPanel');}
 function setMyStatus(s){document.getElementById('statusTag').textContent=s;closeAll();}
 function addFriend(){var name=document.getElementById('newFriendName').value.trim();if(!name)return;friends.push({id:friends.length+1,name:name,avatar:newFriendAvatarData||'',pinned:false});newFriendAvatarData='';closeAll();renderChatList();renderContact();saveAll();}
-function sendRedpacket(){var m=document.getElementById('rpMoney').value;var r=document.getElementById('rpRemark').value||'恭喜发财';if(!m)return;addMsg('红包 ¥'+m+' '+r,true,'bubble-redpack');closeAll();}
-function sendTransfer(){var m=document.getElementById('tfMoney').value;var r=document.getElementById('tfRemark').value||'';if(!m)return;addMsg('转账 ¥'+m+' '+r,true,'bubble-transfer');closeAll();}
+
+function sendRedpacket(){var m=document.getElementById('rpMoney').value;var r=document.getElementById('rpRemark').value||'恭喜发财';if(!m)return;closeAll();var row=document.createElement('div');row.className='msg-row me';row.innerHTML='<div class="msg-avatar-col"><div class="msg-avatar">'+(myAvatarData?'<img src="'+myAvatarData+'" style="width:100%;height:100%;object-fit:cover;">':userSVG())+'</div><div class="msg-time">'+getTime()+'</div></div><div class="msg-content"><div class="msg-bubble bubble-redpack" onclick="openRedpacket(this,\''+m+'\',\''+r+'\')">🧧 红包 ¥'+m+'</div></div></div>';document.getElementById('chatBox').appendChild(row);document.getElementById('chatBox').scrollTop=document.getElementById('chatBox').scrollHeight;if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({text:'🧧 红包 ¥'+m,isMe:true,time:getTime(),bubbleType:'bubble-redpack'});saveAll();}
+function openRedpacket(el,money,remark){if(el.dataset.opened)return;el.dataset.opened='1';var modal=document.createElement('div');modal.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;';modal.innerHTML='<div class="redpacket-cover"><div class="rp-top"><div class="rp-remark">'+remark+'</div><div class="rp-open" onclick="receiveRedpacket(this,\''+money+'\')">開</div><div class="rp-from">爱因的红包</div></div><div class="rp-bottom"><div class="tri"></div><div class="dot"></div></div><div class="rp-close" onclick="this.closest(\'div[style]\').remove()">关闭</div></div>';document.body.appendChild(modal);modal.onclick=function(e){if(e.target===modal)modal.remove();};}
+function receiveRedpacket(btn,money){btn.parentElement.innerHTML='<div style="color:#fdd835;font-size:13px;">已领取</div><div style="color:#fff;font-size:32px;font-weight:bold;margin:8px 0;">¥'+money+'</div><div style="color:#fdd835;font-size:11px;">已存入零钱</div>';}
+
+function sendTransfer(){var m=document.getElementById('tfMoney').value;var r=document.getElementById('tfRemark').value||'';if(!m)return;closeAll();var row=document.createElement('div');row.className='msg-row me';row.innerHTML='<div class="msg-avatar-col"><div class="msg-avatar">'+(myAvatarData?'<img src="'+myAvatarData+'" style="width:100%;height:100%;object-fit:cover;">':userSVG())+'</div><div class="msg-time">'+getTime()+'</div></div><div class="msg-content"><div class="msg-bubble transfer-card" onclick="confirmTransfer(this,\''+m+'\')"><div class="tf-amount">¥'+m+'</div><div class="tf-desc">'+(r||'转账')+'</div></div></div></div>';document.getElementById('chatBox').appendChild(row);document.getElementById('chatBox').scrollTop=document.getElementById('chatBox').scrollHeight;saveAll();}
+function confirmTransfer(el,money){if(el.dataset.received)return;el.dataset.received='1';el.querySelector('.tf-desc').innerText='已收款';el.style.opacity='0.5';var tip=document.createElement('div');tip.className='msg-divider';tip.innerText='爱因已收款 ¥'+money;document.getElementById('chatBox').appendChild(tip);document.getElementById('chatBox').scrollTop=document.getElementById('chatBox').scrollHeight;}
+
+function addGift(){addMsg('🎁 送你一份礼物',true,'bubble-gift');}
+function addMusic(){addMsg('🎵 一起听歌',true,'bubble-music');}
+
+function startCall(type){var cf=document.getElementById('callFloat');cf.style.display='block';document.getElementById('cfStatus').textContent=type+'呼叫中...';setTimeout(function(){var r=Math.random();if(r<0.3){document.getElementById('cfStatus').textContent='对方正在忙';}else if(r<0.6){document.getElementById('cfStatus').textContent='对方无法接听';}else if(r<0.8){document.getElementById('cfStatus').textContent='对方不在';}else{document.getElementById('cfStatus').textContent=type+'通话中';}setTimeout(function(){cf.style.display='none';addMsg('通话结束',false);},3000);},2000);}
+function endCall(){document.getElementById('callFloat').style.display='none';document.getElementById('callMinBar').style.display='none';addMsg('通话结束',false);}
+function minimizeCall(){document.getElementById('callFloat').style.display='none';document.getElementById('callMinBar').style.display='flex';}
+
 function showFullPage(id){document.getElementById(id).style.display='flex';}
 function closeFullPage(id){document.getElementById(id).style.display='none';}
 function addWordCards(){var v=document.getElementById('wordCardsInput').value.trim();if(v){wordCards=wordCards.concat(v.split('\n').filter(function(l){return l.trim();}));document.getElementById('wordCardsInput').value='';renderWordCards();saveAll();}}
@@ -353,4 +375,4 @@ showPage('chat');loadAll();
 if(momentItems.length===0){addMoment('我','今天天气真好');addMoment('爱因','想你了');}
 </script>
 </body>
-</html>
+  </html>
