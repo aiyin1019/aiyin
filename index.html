@@ -11,7 +11,7 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 .wrapper{width:100%;height:100vh;background:#fff;display:flex;flex-direction:column;overflow:hidden}
 .page{display:none;width:100%;height:100%;flex-direction:column;overflow:hidden}
 .page.active{display:flex}
-.top-bar{height:48px;background:#f7f7f9;border-bottom:1px solid #eee;display:flex;align-items:center;padding:0 6px;position:relative;flex-shrink:0}
+.top-bar{height:48px;background:#f7f7f9;border-bottom:1px solid #eee;display:flex;align-items:center;padding:0 4px;position:relative;flex-shrink:0}
 .top-bar .back{width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;background:none;flex-shrink:0}
 .top-bar .status-tag{padding:6px 8px;background:#eef0f3;border-radius:6px;font-size:10px;color:#555;margin-left:2px;flex-shrink:0}
 .top-bar .title-wrap{flex:1;text-align:center;position:relative}
@@ -19,44 +19,48 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 .top-bar .typing{font-size:10px;color:#999;position:absolute;bottom:-10px;left:50%;transform:translateX(-50%)}
 .top-bar .icon{width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;background:none;flex-shrink:0}
 .chat-area{flex:1;display:flex;flex-direction:column;min-height:0}
-.chat-box{flex:1;overflow-y:auto;padding:10px;background:var(--chat-bg);display:flex;flex-direction:column}
-.msg-row{display:flex;align-items:flex-start;margin:4px 0;width:100%}
+.chat-box{flex:1;overflow-y:auto;padding:8px;background:var(--chat-bg);display:flex;flex-direction:column}
+.msg-row{display:flex;align-items:flex-start;margin:3px 0;width:100%}
 .msg-row.other{justify-content:flex-start}
 .msg-row.me{justify-content:flex-end}
-.msg-avatar-col{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.msg-avatar-col{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:40px}
 .msg-avatar{width:36px;height:36px;border-radius:4px;background:#ccc;cursor:pointer;background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.msg-time{font-size:9px;color:#999;margin-top:2px;white-space:nowrap}
-.msg-content{display:flex;flex-direction:column;max-width:60%;margin:0 6px}
+.msg-time{font-size:8px;color:#999;margin-top:1px;white-space:nowrap}
+.msg-content{display:flex;flex-direction:column;max-width:62%;margin:0 4px}
 .msg-row.me .msg-content{align-items:flex-end}
 .msg-row.other .msg-content{align-items:flex-start}
 .msg-bubble{padding:8px 12px;border-radius:12px;font-size:13px;word-break:break-word;position:relative}
 .msg-row.other .msg-bubble{background:var(--bubble-other);color:#333;border-top-left-radius:4px}
 .msg-row.me .msg-bubble{background:var(--bubble-self);color:#000;border-top-right-radius:4px}
-.msg-row.me .msg-bubble .read{position:absolute;bottom:2px;right:6px;font-size:8px;color:#07c160}
+.read-mark{font-size:8px;color:#07c160;text-align:right;margin-top:1px;padding-right:2px}
 .msg-divider{text-align:center;font-size:11px;color:#999;margin:8px 0}
-.bubble-redpack{background:#e63923!important;color:#fff!important}
-.bubble-transfer{background:#ff9500!important;color:#fff!important}
-.bubble-gift{background:#1a3a5c!important;color:#d4e6f1!important}
-.bubble-music{background:#f7f7f7!important;color:#333!important}
-.bubble-call{background:#333!important;color:#fff!important}
 .input-bar{display:flex;gap:3px;padding:6px;background:#fff;border-top:1px solid #eee;flex-shrink:0;align-items:center}
 .input-bar .btn{width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;background:none;flex-shrink:0}
 .input-bar input{flex:1;height:34px;border:1px solid #ddd;border-radius:8px;padding:0 10px;font-size:13px;outline:none;min-width:0}
 .input-bar .voice-btn{flex:1;height:34px;border:1px solid #ddd;border-radius:8px;background:#f5f5f5;display:none;align-items:center;justify-content:center;font-size:13px;color:#333;cursor:pointer}
+/* 表情面板 */
 .emoji-panel{background:#fff;border-top:1px solid #eee;display:none;flex-direction:column;flex-shrink:0;height:300px}
 .emoji-tabs{display:flex;gap:8px;padding:10px 12px;border-bottom:1px solid #eee}
-.emoji-tab{height:30px;padding:0 14px;display:flex;align-items:center;justify-content:center;font-size:13px;color:#666;cursor:pointer;border-radius:15px;background:#f5f5f5;border:1px solid #e2e2e2}
-.emoji-tab.active{background:#07c160;color:#fff;border-color:#07c160}
-.emoji-content{flex:1;overflow-y:auto;padding:12px}
-.emoji-grid-emoji{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
-.emoji-grid-emoji span{text-align:center;cursor:pointer;padding:10px;font-size:22px;border-radius:12px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;aspect-ratio:1/1}
-.emoji-grid-kaomoji{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.emoji-grid-kaomoji span{border-radius:12px;padding:12px 8px;font-size:13px;cursor:pointer;text-align:center;min-height:44px;display:flex;align-items:center;justify-content:center;background:#f5f5f5;word-break:break-all}
-.emoji-grid-img{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.emoji-grid-img .sticker{border-radius:12px;overflow:hidden;cursor:pointer}
-.emoji-grid-img .sticker img{width:100%;aspect-ratio:1/1;object-fit:cover}
+.emoji-tab{height:28px;padding:0 12px;border:none;border-radius:14px;font-size:12px;cursor:pointer;background:#f5f5f5;color:#666}
+.emoji-tab.active{background:#07c160;color:#fff}
+.sub-tabs{display:flex;gap:4px;padding:8px 12px;border-bottom:1px solid #eee;overflow-x:auto;white-space:nowrap}
+.sub-tab{height:24px;padding:0 10px;border:none;border-radius:12px;font-size:11px;cursor:pointer;background:#f5f5f5;color:#666;flex-shrink:0}
+.sub-tab.active{background:#07c160;color:#fff}
+.sub-tab.add-btn{background:#e8f5e9;color:#07c160;font-weight:bold}
+.emoji-content{flex:1;overflow-y:auto;padding:8px}
+.emoji-grid{display:flex;flex-wrap:wrap;gap:4px;align-content:flex-start}
+.emoji-grid span{width:14.28%;aspect-ratio:1/1;background:#fff;border:1px solid #eee;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer}
+.kao-grid{display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start}
+.kao-grid span{width:48%;min-height:40px;background:#fff;border:1px solid #eee;border-radius:8px;padding:8px 6px;font-size:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;word-break:break-all}
+.img-grid{display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start}
+.img-grid .sticker{width:23%;border-radius:8px;overflow:hidden;cursor:pointer;background:#f0f0f0}
+.img-grid .sticker img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+.add-bar{display:flex;gap:6px;padding:8px 10px;border-top:1px solid #eee}
+.add-bar input{flex:1;height:28px;border:1px solid #ddd;border-radius:14px;padding:0 10px;font-size:11px;outline:none}
+.add-bar button{height:28px;padding:0 12px;border:none;border-radius:14px;background:#07c160;color:#fff;font-size:11px;cursor:pointer}
+.add-sticker-btn{width:60px;height:60px;border:2px dashed #ccc;border-radius:10px;background:#f7f7f7;color:#999;font-size:28px;display:flex;align-items:center;justify-content:center;cursor:pointer}
 .tab-bar{height:50px;background:#fff;display:flex;border-top:1px solid #e5e5e5;flex-shrink:0}
-.tab-bar button{flex:1;border:none;background:none;cursor:pointer;font-size:13px;color:#666;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.tab-bar button{flex:1;border:none;background:none;cursor:pointer;font-size:12px;color:#666;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
 .tab-bar button.active{color:#07c160;font-weight:600}
 .mask{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:99}
 .panel{display:none;position:fixed;bottom:0;left:0;width:100%;background:#fff;border-radius:14px 14px 0 0;z-index:100;padding:14px;max-height:80%;overflow-y:auto}
@@ -64,19 +68,32 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 .panel .pheader button{border:none;background:none;cursor:pointer;font-size:18px;color:#999}
 .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .grid .gitem{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;font-size:11px}
-.grid .gitem .icon{width:40px;height:40px;border-radius:10px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;font-size:20px}
+.grid .gitem .icon{width:40px;height:40px;border-radius:10px;background:#f5f5f5;display:flex;align-items:center;justify-content:center}
 .pinput{width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:14px;margin-bottom:10px;outline:none}
 .pbtn{width:100%;height:40px;border:none;border-radius:8px;font-size:14px;cursor:pointer;color:#fff;background:#07c160}
-.full-page{position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;z-index:500;display:none;flex-direction:column}
-.full-page .fp-header{height:44px;background:#f7f7f9;border-bottom:1px solid #eee;display:flex;align-items:center;padding:0 8px}
-.full-page .fp-header button{border:none;background:none;cursor:pointer;font-size:16px}
-.full-page .fp-header span{flex:1;text-align:center;font-size:15px;font-weight:500}
-.full-page .fp-body{flex:1;overflow-y:auto;padding:12px}
 .file-hide{display:none}
 .list-page{background:#fff;overflow-y:auto;flex:1}
-.list-item{display:flex;align-items:center;padding:10px;border-bottom:1px solid #eee;cursor:pointer}
+.list-item{display:flex;align-items:center;padding:10px;border-bottom:1px solid #eee;cursor:pointer;position:relative}
 .list-item .avatar{width:42px;height:42px;border-radius:4px;background:#ccc;margin-right:10px;display:flex;align-items:center;justify-content:center;background-size:cover;background-position:center;flex-shrink:0;overflow:hidden}
 .list-item .name{font-size:14px;font-weight:500}
+.redpack-bubble{width:280px;background:#f7a028;border-radius:12px;padding:12px;position:relative;color:#fff;cursor:pointer}
+.redpack-icon{width:44px;height:44px;background:#e63939;float:left;border-radius:4px;margin-right:10px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.redpack-text{font-size:15px;line-height:44px}
+.redpack-footer{clear:both;margin-top:6px;font-size:12px;opacity:0.8}
+.transfer-bubble{width:260px;background:#f7a028;border-radius:12px;padding:12px;position:relative;color:#fff;cursor:pointer}
+.transfer-icon{width:44px;height:44px;border:2px solid #fff;border-radius:50%;float:left;display:flex;align-items:center;justify-content:center;font-size:20px;margin-right:10px}
+.transfer-money{font-size:22px;line-height:1.2}
+.transfer-text{font-size:13px;opacity:0.9}
+.transfer-footer{clear:both;margin-top:6px;font-size:12px;opacity:0.8}
+.redpack-popup{width:280px;height:420px;background:#e63939;border-radius:16px;margin:0 auto;position:relative;color:#fff;text-align:center;padding-top:60px}
+.open-btn{width:80px;height:80px;background:#f8dd99;border-radius:50%;position:absolute;bottom:80px;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;font-size:28px;color:#333;cursor:pointer}
+.close-btn{width:36px;height:36px;border:2px solid #f8dd99;border-radius:50%;position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;font-size:18px;color:#f8dd99;cursor:pointer}
+.call-float{display:none;position:fixed;top:80px;right:16px;width:100px;border-radius:12px;z-index:9999;background:#333;cursor:move;overflow:hidden}
+.call-float .cf-content{padding:10px;display:flex;flex-direction:column;align-items:center;gap:6px;color:#fff}
+.call-float .cf-hangup{width:32px;height:32px;border-radius:50%;background:#f53f3f;border:none;cursor:pointer;font-size:14px}
+.call-float .cf-minimize{position:absolute;top:6px;right:6px;width:18px;height:18px;background:rgba(255,255,255,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:10px;color:#fff}
+.call-min-bar{display:none;position:fixed;top:80px;right:16px;width:180px;height:44px;border-radius:22px;z-index:9999;background:#333;cursor:move;align-items:center;padding:0 10px;gap:6px;color:#fff}
+.call-min-bar .cm-hangup{width:26px;height:26px;border-radius:50%;background:#f53f3f;border:none;cursor:pointer;font-size:12px}
 .my-page{background:#fff;overflow-y:auto;flex:1;padding:16px}
 .my-main-box{border:1px solid #ddd;width:100%;height:140px;position:relative;margin-top:40px}
 .my-avatar-box{width:65px;height:65px;border:1px solid #ddd;position:absolute;top:-32px;left:10px;background:#fff;z-index:2;cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center}
@@ -84,34 +101,28 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 .my-status{position:absolute;top:5px;left:85px;font-size:14px;color:#999;cursor:pointer}
 .my-media-wrap{width:100%;height:100%;position:absolute;top:0;left:0;cursor:pointer;overflow:hidden}
 .my-menu-item{width:100%;height:46px;font-size:16px;display:flex;align-items:center;padding-left:12px;position:relative;cursor:pointer}
-.my-menu-item::after{content:"";position:absolute;left:12px;right:0;bottom:0;height:1px;background:#eee}
-.moment-page{background:#f5f5f5;overflow-y:auto;flex:1}
-.moment-list{padding:8px}
-.moment-item{background:#fff;border-radius:8px;padding:10px;margin-bottom:6px}
+.my-menu-item::after{content:"";position:absolute;left:42px;right:0;bottom:0;height:1px;background:#eee}
+.moments-cover{position:relative;width:100%;height:180px;background:#b8d8d8;background-size:cover;background-position:center;flex-shrink:0;cursor:pointer}
+.moments-content{flex:1;overflow-y:auto;padding-top:34px;background:#f5f5f5}
+.moment-card{background:#fff;padding:12px;border-bottom:1px solid #eee}
+.card-header{display:flex;gap:10px;align-items:flex-start}
+.card-avatar{width:40px;height:40px;background:#ccc;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.card-name{font-size:14px;font-weight:500}
+.card-time{font-size:11px;color:#888;margin-top:2px}
+.card-content{margin-top:8px;font-size:14px;line-height:1.5}
+.card-action{margin-top:8px;display:flex;gap:20px;justify-content:flex-end;font-size:13px;color:#666}
+.action-item{cursor:pointer}
+.action-item.liked{color:#ff3b30}
+.comment-area{margin-top:6px}
+.comment-item{font-size:13px;padding:3px 0;cursor:pointer}
+.comment-item span{color:#3366cc}
 .setting-group{margin-bottom:12px}
 .setting-group h4{font-size:13px;margin-bottom:6px;color:#333}
 .setting-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:12px}
 .tag{display:inline-block;padding:3px 8px;background:#f0f0f0;border-radius:10px;margin:2px;font-size:11px;cursor:pointer}
-textarea.pinput{min-height:50px;resize:none}
-.redpacket-cover{width:260px;background:#e63923;border-radius:14px;text-align:center;overflow:hidden}
-.redpacket-cover .rp-top{padding:24px 16px;background:linear-gradient(180deg,#f5553c,#e63923)}
-.redpacket-cover .rp-remark{color:#fdd835;font-size:13px}
-.redpacket-cover .rp-open{width:70px;height:70px;border-radius:50%;background:#fdd835;margin:16px auto;display:flex;align-items:center;justify-content:center;font-size:24px;color:#e63923;font-weight:bold;cursor:pointer}
-.redpacket-cover .rp-from{color:#fff;font-size:11px}
-.redpacket-cover .rp-bottom{height:40px;position:relative}
-.redpacket-cover .rp-bottom .tri{position:absolute;top:0;left:50%;transform:translateX(-50%);width:0;height:0;border-left:18px solid transparent;border-right:18px solid transparent;border-top:18px solid #fdd835}
-.redpacket-cover .rp-bottom .dot{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:10px;height:10px;border-radius:50%;background:#fdd835}
-.redpacket-cover .rp-close{background:#fff;padding:12px;font-size:13px;color:#999;cursor:pointer}
-.transfer-card{width:220px;background:#ffb340;border-radius:8px;color:#fff;padding:14px 12px;cursor:pointer}
-.call-float{display:none;position:fixed;top:80px;right:16px;width:100px;border-radius:12px;z-index:9999;background:#333;cursor:move;overflow:hidden}
-.call-float .cf-content{padding:10px;display:flex;flex-direction:column;align-items:center;gap:6px;color:#fff}
-.call-float .cf-avatar{width:40px;height:40px;border-radius:50%;background:#666;background-size:cover;background-position:center}
-.call-float .cf-hangup{width:32px;height:32px;border-radius:50%;background:#f53f3f;border:none;cursor:pointer;font-size:14px}
-.call-float .cf-minimize{position:absolute;top:6px;right:6px;width:18px;height:18px;background:rgba(255,255,255,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:10px;color:#fff}
-.call-min-bar{display:none;position:fixed;top:80px;right:16px;width:180px;height:44px;border-radius:22px;z-index:9999;background:#333;cursor:move;align-items:center;padding:0 10px;gap:6px;color:#fff}
-.call-min-bar .cm-avatar{width:30px;height:30px;border-radius:50%;background:#666;flex-shrink:0}
-.call-min-bar .cm-time{flex:1;font-size:11px;text-align:center}
-.call-min-bar .cm-hangup{width:26px;height:26px;border-radius:50%;background:#f53f3f;border:none;cursor:pointer;font-size:12px;flex-shrink:0}
+.full-page{position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;z-index:500;display:none;flex-direction:column}
+.full-page .fp-header{height:44px;background:#f7f7f9;border-bottom:1px solid #eee;display:flex;align-items:center;padding:0 8px}
+.full-page .fp-body{flex:1;overflow-y:auto;padding:12px}
 </style>
 </head>
 <body>
@@ -122,34 +133,36 @@ textarea.pinput{min-height:50px;resize:none}
 <button class="back" onclick="showPage('chatList')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
 <div class="status-tag" id="statusTag">在看海</div>
 <div class="title-wrap"><div class="title" id="chatTitle" onclick="editName()">爱因</div><div class="typing" id="typingIndicator"></div></div>
-<button class="icon" onclick="showFullPage('phoneFull')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
+<button class="icon" onclick="showFullPage('phoneFull')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/></svg></button>
 <button class="icon" onclick="showFullPage('settingsFull')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/></svg></button>
 </div>
 <div class="chat-area">
 <div class="chat-box" id="chatBox"></div>
 <div class="emoji-panel" id="emojiPanel">
 <div class="emoji-tabs">
-<button class="emoji-tab active" data-type="emoji" onclick="switchEmojiTab(this)">表情</button>
-<button class="emoji-tab" data-type="kaomoji" onclick="switchEmojiTab(this)">颜文字</button>
-<button class="emoji-tab" data-type="img" onclick="switchEmojiTab(this)">表情包</button>
+<button class="emoji-tab active" data-tab="emoji" onclick="switchEmojiTab(this)">表情</button>
+<button class="emoji-tab" data-tab="kaomoji" onclick="switchEmojiTab(this)">颜文字</button>
+<button class="emoji-tab" data-tab="img" onclick="switchEmojiTab(this)">表情包</button>
 </div>
+<div class="sub-tabs" id="subTabs"></div>
 <div class="emoji-content" id="emojiContent"></div>
-<div class="add-bar" id="kaomojiBar"><input id="newKaomojiInput" placeholder="添加颜文字"><button onclick="addKaomoji()">添加</button></div>
-<div class="add-bar" id="stickerBar" style="display:none"><div style="width:30px;height:30px;border:1px dashed #ccc;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;" onclick="document.getElementById('fileSticker').click()">+</div><input type="file" id="fileSticker" class="file-hide" accept="image/*" multiple onchange="addStickers()"></div>
+<div class="add-bar" id="kaoBar"><input id="addInput" placeholder="添加"><button onclick="addToGroup()">添加</button></div>
+<div class="add-bar" id="imgBar" style="display:none"><div class="add-sticker-btn" onclick="document.getElementById('stickerFile').click()">+</div></div>
+<input type="file" id="stickerFile" class="file-hide" accept="image/*" multiple onchange="uploadStickers()">
 </div>
 <div class="input-bar">
-<button class="btn" onclick="toggleVoice()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></button>
+<button class="btn" onclick="toggleVoice()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/></svg></button>
 <input type="text" id="chatInput" placeholder="输入消息" onkeydown="if(event.key==='Enter')sendMsg()">
 <div class="voice-btn" id="voiceBtn" onclick="sendVoiceMsg()">按住说话</div>
-<button class="btn" onclick="toggleEmoji()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></button>
-<button class="btn" onclick="showPlus()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
-<button class="btn" onclick="sendMsg()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
+<button class="btn" onclick="toggleEmoji()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/></svg></button>
+<button class="btn" onclick="showPlus()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/></svg></button>
+<button class="btn" onclick="sendMsg()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 2L11 13"/></svg></button>
 </div>
 </div>
 </div>
 
 <div id="pageChatList" class="page">
-<div class="top-bar" style="justify-content:center;"><div class="title">微信</div><button class="icon" style="position:absolute;right:8px;" onclick="showAddMenu()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button></div>
+<div class="top-bar" style="justify-content:center;"><div class="title">微信</div><button class="icon" style="position:absolute;right:8px;" onclick="showAddMenu()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/></svg></button></div>
 <div class="list-page" id="chatListContainer"></div>
 </div>
 
@@ -175,12 +188,16 @@ textarea.pinput{min-height:50px;resize:none}
 
 <div id="pageMoment" class="page">
 <div class="top-bar"><button class="back" onclick="showPage('my')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button><div class="title">朋友圈</div></div>
-<div class="moment-page"><div class="moment-list" id="momentList"></div></div>
+<div class="moments-cover" id="momentCover" onclick="changeCover()">
+<div class="my-avatar" id="momentMyAvatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+<div class="my-name" style="position:absolute;right:72px;bottom:4px;font-size:14px;font-weight:600;color:#000;">我</div>
+</div>
+<div class="moments-content" id="momentContent"></div>
 </div>
 
 <div id="pageCollect" class="page">
-<div class="top-bar"><button class="back" onclick="showPage('my')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button><div class="title">收藏</div></div>
-<div class="moment-page" id="collectList"></div>
+<div class="top-bar"><button class="back" onclick="showPage('my')">←</button><div class="title">收藏</div></div>
+<div class="list-page" id="collectList"></div>
 </div>
 
 <div class="tab-bar" id="tabBar">
@@ -194,35 +211,37 @@ textarea.pinput{min-height:50px;resize:none}
 <div class="panel" id="plusPanel">
 <div class="pheader"><span>功能</span><button onclick="closeAll()">×</button></div>
 <div class="grid">
-<div class="gitem" onclick="showPanel('redpacketPanel')"><div class="icon">🧧</div>红包</div>
-<div class="gitem" onclick="showPanel('transferPanel')"><div class="icon">💰</div>转账</div>
-<div class="gitem" onclick="closeAll();addGift()"><div class="icon">🎁</div>礼物</div>
-<div class="gitem" onclick="closeAll();addMusic()"><div class="icon">🎵</div>音乐</div>
-<div class="gitem" onclick="closeAll();startCall('视频通话')"><div class="icon">📹</div>视频</div>
-<div class="gitem" onclick="closeAll();startCall('语音通话')"><div class="icon">📞</div>语音</div>
+<div class="gitem" onclick="showPanel('redpacketPanel')"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/></svg></div>红包</div>
+<div class="gitem" onclick="showPanel('transferPanel')"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20"/></svg></div>转账</div>
+<div class="gitem" onclick="closeAll();addMsg('🎁 送你一份礼物',true)"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 12v10H4V12"/></svg></div>礼物</div>
+<div class="gitem" onclick="closeAll();addMsg('🎵 一起听歌',true)"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18V5l12-2v13"/></svg></div>音乐</div>
+<div class="gitem" onclick="closeAll();startCall('视频')"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/></svg></div>视频</div>
+<div class="gitem" onclick="closeAll();startCall('语音')"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2"/></svg></div>语音</div>
 </div>
 </div>
 
 <div class="panel" id="redpacketPanel">
 <div class="pheader"><span>发红包</span><button onclick="closeAll()">×</button></div>
-<input class="pinput" id="rpMoney" type="number" placeholder="金额">
-<input class="pinput" id="rpRemark" placeholder="恭喜发财">
-<button class="pbtn" style="background:#e63923;" onclick="sendRedpacket()">塞钱进红包</button>
+<div style="display:flex;justify-content:space-between;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:10px;"><span>金额</span><input id="rpMoney" type="number" style="border:none;text-align:right;font-size:14px;outline:none;" placeholder="0.00"></div>
+<input class="pinput" id="rpRemark" placeholder="恭喜发财，大吉大利">
+<button class="pbtn" style="background:#f53838;" onclick="sendRedpacket()">塞钱进红包</button>
 </div>
 
 <div class="panel" id="transferPanel">
-<div class="pheader"><span>转账</span><button onclick="closeAll()">×</button></div>
-<input class="pinput" id="tfMoney" type="number" placeholder="金额">
-<input class="pinput" id="tfRemark" placeholder="转账说明">
-<button class="pbtn" style="background:#ff9500;" onclick="sendTransfer()">转账</button>
+<div class="pheader"><span>转账给 爱因</span><button onclick="closeAll()">×</button></div>
+<div style="display:flex;align-items:center;font-size:32px;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:10px;"><span>¥</span><input id="tfMoney" type="number" style="border:none;font-size:32px;outline:none;flex:1;margin-left:8px;" placeholder="0.00"></div>
+<input class="pinput" id="tfRemark" placeholder="添加转账说明">
+<button class="pbtn" style="background:#f7a028;" onclick="sendTransfer()">转账</button>
 </div>
 
 <div class="panel" id="addPanel">
 <div class="pheader"><span>添加</span><button onclick="closeAll()">×</button></div>
-<input class="pinput" id="newFriendName" placeholder="名字">
-<button class="pbtn" style="background:#f0f0f0;color:#333;margin-bottom:8px;" onclick="document.getElementById('newFriendAvatarFile').click()">从相册选择头像</button>
-<input type="file" id="newFriendAvatarFile" class="file-hide" accept="image/*" onchange="setNewFriendAvatar()">
-<button class="pbtn" onclick="addFriend()">保存</button>
+<div class="grid" style="margin-bottom:10px;">
+<div class="gitem" onclick="showGroupForm()"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/></svg></div>创建群聊</div>
+<div class="gitem" onclick="showFriendForm()"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/></svg></div>添加好友</div>
+</div>
+<div id="friendForm" style="display:none;"><input class="pinput" id="newFriendName" placeholder="名字"><button class="pbtn" style="background:#f0f0f0;color:#333;margin-bottom:8px;" onclick="document.getElementById('newFriendAvatarFile').click()">从相册选择头像</button><input type="file" id="newFriendAvatarFile" class="file-hide" accept="image/*" onchange="setNewFriendAvatar()"><button class="pbtn" onclick="addFriend()">保存</button></div>
+<div id="groupForm" style="display:none;"><div id="memberSelect"></div><input class="pinput" id="groupName" placeholder="群名"><button class="pbtn" onclick="createGroup()">创建</button></div>
 </div>
 
 <div class="panel" id="statusPanel">
@@ -233,10 +252,7 @@ textarea.pinput{min-height:50px;resize:none}
 <div class="full-page" id="settingsFull">
 <div class="fp-header"><button onclick="closeFullPage('settingsFull')">←</button><span>设置</span></div>
 <div class="fp-body">
-<div class="setting-group"><h4>回复速度（秒）</h4>
-<div class="setting-row"><span>最快</span><input type="range" id="speedMin" min="3" max="300" value="3"><span id="speedMinVal">3秒</span></div>
-<div class="setting-row"><span>最慢</span><input type="range" id="speedMax" min="3" max="300" value="60"><span id="speedMaxVal">60秒</span></div>
-</div>
+<div class="setting-group"><h4>回复速度（秒）</h4><div class="setting-row"><span>最快</span><input type="range" id="speedMin" min="3" max="300" value="3"><span id="speedMinVal">3秒</span></div><div class="setting-row"><span>最慢</span><input type="range" id="speedMax" min="3" max="300" value="60"><span id="speedMaxVal">60秒</span></div></div>
 <div class="setting-group"><h4>字卡</h4><textarea class="pinput" id="wordCardsInput" placeholder="批量添加，每行一个"></textarea><button class="pbtn" onclick="addWordCards()">添加字卡</button><div id="wordCardList"></div></div>
 <div class="setting-group"><h4>拍一拍</h4><textarea class="pinput" id="patpatInput" placeholder="批量添加，每行一个"></textarea><button class="pbtn" onclick="addPatPat()">添加拍一拍</button><div id="patpatList"></div></div>
 <div class="setting-group"><h4>状态</h4><textarea class="pinput" id="statusInput" placeholder="批量添加，每行一个"></textarea><button class="pbtn" onclick="addStatus()">添加状态</button><div id="statusList"></div></div>
@@ -246,52 +262,36 @@ textarea.pinput{min-height:50px;resize:none}
 
 <div class="full-page" id="phoneFull">
 <div class="fp-header"><button onclick="closeFullPage('phoneFull')">←</button><span>手机</span></div>
-<div class="fp-body">
-<div class="grid">
-<div class="gitem"><div class="icon">🛍️</div>购物</div>
-<div class="gitem"><div class="icon">🎵</div>音乐</div>
-<div class="gitem"><div class="icon">🔮</div>塔罗</div>
-<div class="gitem"><div class="icon">📔</div>心情</div>
-</div>
-</div>
+<div class="fp-body"><div class="grid"><div class="gitem"><div class="icon">🛍️</div>购物</div><div class="gitem"><div class="icon">🎵</div>音乐</div><div class="gitem"><div class="icon">🔮</div>塔罗</div><div class="gitem"><div class="icon">📔</div>心情</div></div></div>
 </div>
 
-<div class="call-float" id="callFloat">
-<div class="cf-content">
-<div class="cf-avatar" id="cfAvatar"></div>
-<div id="cfStatus" style="font-size:11px;">呼叫中...</div>
-<button class="cf-hangup" onclick="endCall()">📞</button>
-</div>
-<div class="cf-minimize" onclick="minimizeCall()">−</div>
-</div>
-
-<div class="call-min-bar" id="callMinBar">
-<div class="cm-avatar" id="cmAvatar"></div>
-<div class="cm-time" id="cmTime">通话中</div>
-<button class="cm-hangup" onclick="endCall()">📞</button>
-</div>
+<div class="call-float" id="callFloat"><div class="cf-content"><div class="cf-avatar" id="cfAvatar"></div><div id="cfStatus" style="font-size:11px;">呼叫中...</div><button class="cf-hangup" onclick="endCall()">📞</button></div><div class="cf-minimize" onclick="minimizeCall()">−</div></div>
+<div class="call-min-bar" id="callMinBar"><div class="cm-avatar" id="cmAvatar"></div><div class="cm-time" style="flex:1;font-size:11px;text-align:center;">通话中</div><button class="cm-hangup" onclick="endCall()">📞</button></div>
 
 <input type="file" id="myAvatarFile" class="file-hide" accept="image/*" onchange="setMyAvatar()">
 <input type="file" id="myMediaFile" class="file-hide" accept="image/*,video/*" onchange="setMyMedia()">
+<input type="file" id="fileCover" class="file-hide" accept="image/*,video/*" onchange="setCover()">
 
 </div>
 
 <script>
-var DATA_KEY='wx_final_v2';
+var DATA_KEY='wx_aiyin_final';
 var friends=[{id:1,name:'爱因',avatar:'',pinned:true}];
-var chatHistory={};var momentItems=[];var collectItems=[];var currentChatId=1;
+var chatHistory={};var momentItems=[];var currentChatId=1;
 var wordCards=['我喜欢你','今天天气真好','一起听歌吗','晚安','早安','想你了','哈哈哈','好呀','嗯嗯','在干嘛'];
 var patpatList=['拍了拍你的头','拍了拍你的肩膀'];var statusList=['在看海','听歌中','休息中'];
-var kaomojiList=['(๑•̀ㅂ•́)و✧','(≧∇≦)ﾉ','(｡•́︿•̀｡)','ヽ(✿ﾟ▽ﾟ)ノ'];var stickerList=[];
-var emojiList=['😀','😃','😄','😁','😆','😅','😂','🤣','😊','😇','🙂','🙃','😉','😌','😍','🥰','😘','😗','😙','😚','😋','😜','😝','😛','🤑','😎','🤓','🧐','😏','😒','🙄','😮','😯','😲','😳','🥺','😦','😧','😨','😰','😥','😢','😭','😱','😖','😣','😞','😓','😩','😫','🥱','😴','❤️','🧡','💛','💚','💙','💜','🤍','🤎','🖤','💔','❣️','💕','💞','💓','💗','💖','💘','💝','💟','💌','💋','💍','💎','🔥','💯','✨','💫','⭐','🌟','💥','💢','💦','💨','💤','💬','💭','💮','🪷','🌸','🌺','🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🙈','🙉','🙊','🐔','🐧','🐦','🐤','🦆','🦅','🦉','🦇','🐺','🐗','🐴','🦄'];
-var myAvatarData='';var newFriendAvatarData='';
+var stickerList=[];
+var emojiGroups=[{title:"常用",list:['😀','😃','😄','😁','😆','😅','😂','🤣','😊','😇','🙂','🙃','😉','😌','😍','🥰','😘','😗','😙','😚']},{title:"情绪",list:['😋','😜','😝','😛','🤑','😎','🤓','🧐','😏','😒','🙄','😮','😯','�40','😳','🥺','😦','😧','😨','😰','😥','😢','😭','😱','😖','😣','😞','😓','😩','😫','🥱','😴']},{title:"爱心",list:['❤️','🧡','💛','💚','💙','💜','🤍','🤎','🖤','💔','❣️','💕','💞','💓','💗','💖','💘','💝','💟','💌']},{title:"装饰",list:['🔥','💯','✨','💫','⭐','🌟','💥','💢','💦','💨','💤','💬','💭','💮','🪷','🌸','🌺']},{title:"动物",list:['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🙈','🙉','🙊','🐔','🐧','🐦','🐤','🦆','🦅','🦉','🦇','🐺','🐗','🐴','🦄']}];
+var kaoGroups=[{title:"开心",list:['(๑•̀ㅂ•́)و✧','(≧∇≦)ﾉ','ヽ(✿ﾟ▽ﾟ)ノ']},{title:"委屈",list:['(｡•́︿•̀｡)','(>﹏<)']},{title:"温柔",list:['( ´･ᴗ･` )']}];
+var myAvatarData='';var newFriendAvatarData='';var currentEmojiType='emoji';var currentGroupIndex=0;
 
-function saveAll(){try{localStorage.setItem(DATA_KEY,JSON.stringify({friends:friends,chatHistory:chatHistory,momentItems:momentItems,collectItems:collectItems,wordCards:wordCards,patpatList:patpatList,statusList:statusList,kaomojiList:kaomojiList,stickerList:stickerList,myAvatarData:myAvatarData}));}catch(e){}}
-function loadAll(){try{var d=JSON.parse(localStorage.getItem(DATA_KEY));if(d){if(d.friends)friends=d.friends;if(d.chatHistory)chatHistory=d.chatHistory;if(d.momentItems)momentItems=d.momentItems;if(d.collectItems)collectItems=d.collectItems;if(d.wordCards)wordCards=d.wordCards;if(d.patpatList)patpatList=d.patpatList;if(d.statusList)statusList=d.statusList;if(d.kaomojiList)kaomojiList=d.kaomojiList;if(d.stickerList)stickerList=d.stickerList;if(d.myAvatarData)myAvatarData=d.myAvatarData;}}catch(e){}renderAll();}
+function saveAll(){try{localStorage.setItem(DATA_KEY,JSON.stringify({friends:friends,chatHistory:chatHistory,momentItems:momentItems,wordCards:wordCards,patpatList:patpatList,statusList:statusList,stickerList:stickerList,emojiGroups:emojiGroups,kaoGroups:kaoGroups,myAvatarData:myAvatarData}));}catch(e){}}
+function loadAll(){try{var d=JSON.parse(localStorage.getItem(DATA_KEY));if(d){if(d.friends)friends=d.friends;if(d.chatHistory)chatHistory=d.chatHistory;if(d.momentItems)momentItems=d.momentItems;if(d.wordCards)wordCards=d.wordCards;if(d.patpatList)patpatList=d.patpatList;if(d.statusList)statusList=d.statusList;if(d.stickerList)stickerList=d.stickerList;if(d.emojiGroups)emojiGroups=d.emojiGroups;if(d.kaoGroups)kaoGroups=d.kaoGroups;if(d.myAvatarData)myAvatarData=d.myAvatarData;}}catch(e){}renderAll();}
 
-function renderAll(){renderChatList();renderContact();renderMoments();renderCollect();renderWordCards();renderPatpat();renderStatus();renderStatusOptions();renderEmoji();loadChat(currentChatId);updateMyAvatar();}
+function renderAll(){renderChatList();renderContact();renderMoments();renderWordCards();renderPatpat();renderStatus();renderStatusOptions();loadChat(currentChatId);updateMyAvatar();updateMomentAvatar();}
 function updateMyAvatar(){var img=document.getElementById('myAvatarImg');var svg=img.nextElementSibling;if(myAvatarData){img.style.display='block';img.src=myAvatarData;if(svg)svg.style.display='none';}else{img.style.display='none';if(svg)svg.style.display='block';}}
-function setMyAvatar(){var f=document.getElementById('myAvatarFile').files[0];if(f){var r=new FileReader();r.onload=function(ev){myAvatarData=ev.target.result;updateMyAvatar();saveAll();};r.readAsDataURL(f);}}
+function updateMomentAvatar(){var av=document.getElementById('momentMyAvatar');if(av){if(myAvatarData){av.innerHTML='<img src="'+myAvatarData+'" style="width:100%;height:100%;object-fit:cover;border-radius:6px;">';}else{av.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';}}}
+function setMyAvatar(){var f=document.getElementById('myAvatarFile').files[0];if(f){var r=new FileReader();r.onload=function(ev){myAvatarData=ev.target.result;updateMyAvatar();updateMomentAvatar();saveAll();};r.readAsDataURL(f);}}
 function setMyMedia(){var f=document.getElementById('myMediaFile').files[0];if(f){var url=URL.createObjectURL(f);if(f.type.startsWith('video')){document.getElementById('myBgImg').style.display='none';document.getElementById('myBgVideo').style.display='block';document.getElementById('myBgVideo').src=url;}else{document.getElementById('myBgVideo').style.display='none';document.getElementById('myBgImg').style.display='block';document.getElementById('myBgImg').src=url;}}}
 function setNewFriendAvatar(){var f=document.getElementById('newFriendAvatarFile').files[0];if(f){var r=new FileReader();r.onload=function(ev){newFriendAvatarData=ev.target.result;};r.readAsDataURL(f);}}
 
@@ -299,37 +299,46 @@ function showPage(id){var pages=document.querySelectorAll('.page');for(var i=0;i
 function switchTab(el){var tabs=document.querySelectorAll('.tab-bar button');for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');el.classList.add('active');showPage(el.dataset.tab);}
 
 function userSVG(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';}
-function renderChatList(){var c=document.getElementById('chatListContainer');c.innerHTML='';friends.forEach(function(f){var av=f.avatar?'<img src="'+f.avatar+'" style="width:100%;height:100%;object-fit:cover;">':userSVG();c.innerHTML+='<div class="list-item" onclick="openChat('+f.id+')"><div class="avatar">'+av+'</div><div class="name">'+f.name+(f.pinned?'<span style="background:#f0f0f0;font-size:9px;padding:1px 4px;border-radius:6px;margin-left:4px;">置顶</span>':'')+'</div></div>';});}
+function renderChatList(){var c=document.getElementById('chatListContainer');c.innerHTML='';friends.forEach(function(f){var av=f.avatar?'<img src="'+f.avatar+'" style="width:100%;height:100%;object-fit:cover;">':userSVG();c.innerHTML+='<div class="list-item" id="item-'+f.id+'" onclick="openChat('+f.id+')"><div class="avatar">'+av+'</div><div class="name">'+f.name+(f.pinned?'<span style="background:#f0f0f0;font-size:9px;padding:1px 4px;border-radius:6px;margin-left:4px;">置顶</span>':'')+'</div></div>';});
+friends.forEach(function(f){var el=document.getElementById('item-'+f.id);if(!el)return;var timer=null;
+el.addEventListener('touchstart',function(){timer=setTimeout(function(){f.pinned=!f.pinned;renderChatList();saveAll();},500);});
+el.addEventListener('touchend',function(){clearTimeout(timer);});
+el.addEventListener('touchmove',function(){clearTimeout(timer);});
+var sx=0,sy=0;
+el.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;sy=e.touches[0].clientY;});
+el.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-sx;var dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)&&dx<0){friends=friends.filter(function(x){return x.id!==f.id;});delete chatHistory[f.id];renderChatList();renderContact();saveAll();}});});}
 function renderContact(){var c=document.getElementById('contactList');c.innerHTML='';friends.forEach(function(f){var av=f.avatar?'<img src="'+f.avatar+'" style="width:100%;height:100%;object-fit:cover;">':userSVG();c.innerHTML+='<div class="list-item"><div class="avatar">'+av+'</div><div class="name">'+f.name+'</div></div>';});}
-function renderMoments(){var c=document.getElementById('momentList');c.innerHTML='';momentItems.forEach(function(m){c.innerHTML+='<div class="moment-item"><div class="mname">'+m.name+'</div><div class="mtext">'+m.content+'</div><div class="mactions"><button onclick="likeMoment(this)">❤️点赞</button><button onclick="commentMoment(this)">💬评论</button></div><div class="comment-box"></div></div>';});}
-function renderCollect(){var c=document.getElementById('collectList');c.innerHTML='';collectItems.forEach(function(item){c.innerHTML+='<div class="moment-item"><div class="mname">'+item.date+'</div><div class="mtext">'+item.text+'</div></div>';});}
+function renderMoments(){var c=document.getElementById('momentContent');c.innerHTML='';momentItems.forEach(function(m){c.innerHTML+='<div class="moment-card"><div class="card-header"><div class="card-avatar">'+userSVG()+'</div><div><div class="card-name">'+m.name+'</div><div class="card-time">刚刚</div></div></div><div class="card-content">'+m.content+'</div><div class="card-action"><div class="action-item" onclick="likeMoment(this)">❤️点赞</div><div class="action-item" onclick="commentMoment(this)">💬评论</div></div><div class="comment-area"></div></div>';});}
 function renderWordCards(){var c=document.getElementById('wordCardList');c.innerHTML='';wordCards.forEach(function(w,i){c.innerHTML+='<span class="tag">'+w+'<span class="del" onclick="deleteWordCard('+i+')">✕</span></span>';});}
 function renderPatpat(){var c=document.getElementById('patpatList');c.innerHTML='';patpatList.forEach(function(p,i){c.innerHTML+='<span class="tag">'+p+'<span class="del" onclick="deletePatpat('+i+')">✕</span></span>';});}
 function renderStatus(){var c=document.getElementById('statusList');c.innerHTML='';statusList.forEach(function(s,i){c.innerHTML+='<span class="tag">'+s+'<span class="del" onclick="deleteStatus('+i+')">✕</span></span>';});}
 function renderStatusOptions(){var c=document.getElementById('statusOptions');c.innerHTML='';statusList.forEach(function(s){c.innerHTML+='<div style="padding:8px;border-bottom:1px solid #eee;cursor:pointer;" onclick="setMyStatus(\''+s+'\')">'+s+'</div>';});}
 
-function renderEmoji(){var c=document.getElementById('emojiContent');var type=document.querySelector('.emoji-tab.active').dataset.type;
-if(type==='emoji'){c.innerHTML='<div class="emoji-grid-emoji">';emojiList.forEach(function(e){c.innerHTML+='<span onclick="insertEmoji(\''+e+'\')">'+e+'</span>';});c.innerHTML+='</div>';}
-else if(type==='kaomoji'){c.innerHTML='<div class="emoji-grid-kaomoji">';kaomojiList.forEach(function(k){c.innerHTML+='<span onclick="insertEmoji(\''+k+'\')">'+k+'</span>';});c.innerHTML+='</div>';}
-else{c.innerHTML='<div class="emoji-grid-img">';stickerList.forEach(function(s){c.innerHTML+='<div class="sticker" onclick="sendSticker(\''+s+'\')"><img src="'+s+'"></div>';});c.innerHTML+='</div>';}}
-function switchEmojiTab(el){var tabs=document.querySelectorAll('.emoji-tab');for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');el.classList.add('active');document.getElementById('kaomojiBar').style.display=el.dataset.type==='kaomoji'?'flex':'none';document.getElementById('stickerBar').style.display=el.dataset.type==='img'?'flex':'none';renderEmoji();}
-function toggleEmoji(){var p=document.getElementById('emojiPanel');p.style.display=(p.style.display==='flex')?'none':'flex';if(p.style.display==='flex')renderEmoji();}
+function switchEmojiTab(el){var tabs=document.querySelectorAll('.emoji-tab');for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');el.classList.add('active');document.getElementById('kaoBar').style.display='none';document.getElementById('imgBar').style.display='none';document.getElementById('subTabs').style.display='flex';
+if(el.dataset.tab==='emoji'){currentEmojiType='emoji';currentGroupIndex=0;document.getElementById('kaoBar').style.display='flex';document.getElementById('addInput').placeholder='添加emoji';renderSubTabs(emojiGroups);renderGroup(emojiGroups,0);}
+else if(el.dataset.tab==='kaomoji'){currentEmojiType='kaomoji';currentGroupIndex=0;document.getElementById('kaoBar').style.display='flex';document.getElementById('addInput').placeholder='添加颜文字';renderSubTabs(kaoGroups);renderGroup(kaoGroups,0);}
+else{document.getElementById('subTabs').style.display='none';document.getElementById('imgBar').style.display='flex';renderStickers();}}
+function renderSubTabs(groups){var wrap=document.getElementById('subTabs');wrap.innerHTML='';groups.forEach(function(g,idx){var btn=document.createElement('button');btn.className='sub-tab'+(idx===currentGroupIndex?' active':'');btn.innerText=g.title;btn.onclick=function(){document.querySelectorAll('.sub-tab').forEach(function(s){s.classList.remove('active');});this.classList.add('active');currentGroupIndex=idx;renderGroup(groups,idx);};wrap.appendChild(btn);});
+var addBtn=document.createElement('button');addBtn.className='sub-tab add-btn';addBtn.innerText='+';addBtn.onclick=function(){var name=prompt('分类名称：');if(name&&name.trim()){if(currentEmojiType==='emoji'){emojiGroups.push({title:name.trim(),list:[]});renderSubTabs(emojiGroups);currentGroupIndex=emojiGroups.length-1;renderGroup(emojiGroups,currentGroupIndex);}else{kaoGroups.push({title:name.trim(),list:[]});renderSubTabs(kaoGroups);currentGroupIndex=kaoGroups.length-1;renderGroup(kaoGroups,currentGroupIndex);}saveAll();}};wrap.appendChild(addBtn);}
+function renderGroup(groups,idx){var c=document.getElementById('emojiContent');var list=groups[idx].list;if(currentEmojiType==='emoji'){c.innerHTML='<div class="emoji-grid">';list.forEach(function(e){c.innerHTML+='<span onclick="insertEmoji(\''+e+'\')">'+e+'</span>';});c.innerHTML+='</div>';}else{c.innerHTML='<div class="kao-grid">';list.forEach(function(k){c.innerHTML+='<span onclick="insertEmoji(\''+k+'\')">'+k+'</span>';});c.innerHTML+='</div>';}}
+function renderStickers(){var c=document.getElementById('emojiContent');c.innerHTML='<div class="img-grid">';stickerList.forEach(function(s){c.innerHTML+='<div class="sticker" onclick="addMsg(\'<img src=\\\''+s+'\\\' style=\\\'max-width:100px;border-radius:6px;\\\'>\',true)"><img src="'+s+'"></div>';});c.innerHTML+='</div>';}
+function addToGroup(){var v=document.getElementById('addInput').value.trim();if(!v)return;if(currentEmojiType==='emoji'){emojiGroups[currentGroupIndex].list.push(v);renderGroup(emojiGroups,currentGroupIndex);}else{kaoGroups[currentGroupIndex].list.push(v);renderGroup(kaoGroups,currentGroupIndex);}document.getElementById('addInput').value='';saveAll();}
+function uploadStickers(){var files=document.getElementById('stickerFile').files;for(var i=0;i<files.length;i++){(function(f){var r=new FileReader();r.onload=function(ev){stickerList.push(ev.target.result);renderStickers();saveAll();};r.readAsDataURL(f);})(files[i]);}}
 function insertEmoji(e){document.getElementById('chatInput').value+=e;}
-function addKaomoji(){var v=document.getElementById('newKaomojiInput').value.trim();if(v){kaomojiList=kaomojiList.concat(v.split('\n').filter(function(l){return l.trim();}));document.getElementById('newKaomojiInput').value='';renderEmoji();saveAll();}}
-function addStickers(){var files=document.getElementById('fileSticker').files;for(var i=0;i<files.length;i++){(function(f){var r=new FileReader();r.onload=function(ev){stickerList.push(ev.target.result);renderEmoji();saveAll();};r.readAsDataURL(f);})(files[i]);}}
-function sendSticker(src){addMsg('<img src="'+src+'" style="max-width:100px;border-radius:6px;">',true);document.getElementById('emojiPanel').style.display='none';}
+function toggleEmoji(){var p=document.getElementById('emojiPanel');p.style.display=(p.style.display==='flex')?'none':'flex';if(p.style.display==='flex'){var activeTab=document.querySelector('.emoji-tab.active');if(activeTab)switchEmojiTab(activeTab);}}
 
 function openChat(id){currentChatId=id;var f=friends.find(function(x){return x.id===id;});if(f)document.getElementById('chatTitle').innerText=f.name;showPage('chat');loadChat(id);}
 function loadChat(id){var box=document.getElementById('chatBox');box.innerHTML='';var msgs=chatHistory[id]||[];var lastMin='';var f=friends.find(function(x){return x.id===id;});
 msgs.forEach(function(m){var min=m.time.split(':')[0]+':'+m.time.split(':')[1];if(min!==lastMin){box.innerHTML+='<div class="msg-divider">'+min+'</div>';lastMin=min;}
 var av=m.isMe?(myAvatarData?'<img src="'+myAvatarData+'" style="width:100%;height:100%;object-fit:cover;">':userSVG()):(f&&f.avatar?'<img src="'+f.avatar+'" style="width:100%;height:100%;object-fit:cover;">':userSVG());
-box.innerHTML+='<div class="msg-row '+(m.isMe?'me':'other')+'"><div class="msg-avatar-col"><div class="msg-avatar" onclick="changeAvatar('+m.isMe+')">'+av+'</div><div class="msg-time">'+m.time+'</div></div><div class="msg-content"><div class="msg-bubble '+(m.bubbleType||'')+'">'+m.text+(m.isMe?'<span class="read">已读</span>':'')+'</div></div></div>';});
+var readHtml=m.isMe?'<div class="read-mark">已读</div>':'';
+box.innerHTML+='<div class="msg-row '+(m.isMe?'me':'other')+'"><div class="msg-avatar-col"><div class="msg-avatar" onclick="changeAvatar('+m.isMe+')">'+av+'</div><div class="msg-time">'+m.time+'</div></div><div class="msg-content">'+m.html+readHtml+'</div></div>';});
 box.scrollTop=box.scrollHeight;}
 
-function changeAvatar(isMe){var input=document.createElement('input');input.type='file';input.accept='image/*';input.onchange=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){if(isMe){myAvatarData=ev.target.result;updateMyAvatar();}else{var friend=friends.find(function(x){return x.id===currentChatId;});if(friend)friend.avatar=ev.target.result;renderChatList();renderContact();}saveAll();loadChat(currentChatId);};r.readAsDataURL(f);};input.click();}
+function changeAvatar(isMe){var input=document.createElement('input');input.type='file';input.accept='image/*';input.onchange=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){if(isMe){myAvatarData=ev.target.result;updateMyAvatar();updateMomentAvatar();}else{var friend=friends.find(function(x){return x.id===currentChatId;});if(friend)friend.avatar=ev.target.result;renderChatList();renderContact();}saveAll();loadChat(currentChatId);};r.readAsDataURL(f);};input.click();}
 
 function getTime(){var d=new Date();return d.getHours()+':'+String(d.getMinutes()).padStart(2,'0')+':'+String(d.getSeconds()).padStart(2,'0');}
-function addMsg(text,isMe,bubbleType){var time=getTime();if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({text:text,isMe:isMe,time:time,bubbleType:bubbleType||''});loadChat(currentChatId);saveAll();}
+function addMsg(text,isMe){var time=getTime();if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({html:'<div class="msg-bubble">'+text+'</div>',isMe:isMe,time:time});loadChat(currentChatId);saveAll();}
 function sendMsg(){var input=document.getElementById('chatInput');var text=input.value.trim();if(!text)return;addMsg(text,true);input.value='';document.getElementById('typingIndicator').textContent='输入中...';var smin=parseInt(document.getElementById('speedMin').value)||3;var smax=parseInt(document.getElementById('speedMax').value)||60;var speed=Math.floor(Math.random()*(smax-smin+1))+smin;setTimeout(function(){document.getElementById('typingIndicator').textContent='';addMsg(wordCards[Math.floor(Math.random()*wordCards.length)]||'嗯嗯',false);},speed*1000);}
 function toggleVoice(){var input=document.getElementById('chatInput');var voice=document.getElementById('voiceBtn');if(input.style.display==='none'){input.style.display='block';voice.style.display='none';}else{input.style.display='none';voice.style.display='flex';}}
 function sendVoiceMsg(){addMsg('语音消息',true);}
@@ -342,21 +351,25 @@ function showPlus(){showPanel('plusPanel');}
 function showAddMenu(){showPanel('addPanel');}
 function showStatusPanel(){showPanel('statusPanel');}
 function setMyStatus(s){document.getElementById('statusTag').textContent=s;closeAll();}
+function showFriendForm(){document.getElementById('friendForm').style.display='block';document.getElementById('groupForm').style.display='none';}
+function showGroupForm(){document.getElementById('groupForm').style.display='block';document.getElementById('friendForm').style.display='none';renderMembers();}
+function renderMembers(){var c=document.getElementById('memberSelect');c.innerHTML='<p style="font-size:12px;color:#666;margin-bottom:6px;">选择成员：</p>';friends.forEach(function(f,i){c.innerHTML+='<label style="display:block;padding:5px;"><input type="checkbox" class="gm" value="'+i+'"> '+f.name+'</label>';});}
 function addFriend(){var name=document.getElementById('newFriendName').value.trim();if(!name)return;friends.push({id:friends.length+1,name:name,avatar:newFriendAvatarData||'',pinned:false});newFriendAvatarData='';closeAll();renderChatList();renderContact();saveAll();}
+function createGroup(){var n=document.getElementById('groupName').value||'群聊';var s=document.querySelectorAll('.gm:checked');if(s.length===0)return;friends.push({id:friends.length+1,name:n,avatar:'',pinned:false});closeAll();renderChatList();renderContact();saveAll();}
 
-function sendRedpacket(){var m=document.getElementById('rpMoney').value;var r=document.getElementById('rpRemark').value||'恭喜发财';if(!m)return;closeAll();var row=document.createElement('div');row.className='msg-row me';row.innerHTML='<div class="msg-avatar-col"><div class="msg-avatar">'+(myAvatarData?'<img src="'+myAvatarData+'" style="width:100%;height:100%;object-fit:cover;">':userSVG())+'</div><div class="msg-time">'+getTime()+'</div></div><div class="msg-content"><div class="msg-bubble bubble-redpack" onclick="openRedpacket(this,\''+m+'\',\''+r+'\')">🧧 红包 ¥'+m+'</div></div></div>';document.getElementById('chatBox').appendChild(row);document.getElementById('chatBox').scrollTop=document.getElementById('chatBox').scrollHeight;if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({text:'🧧 红包 ¥'+m,isMe:true,time:getTime(),bubbleType:'bubble-redpack'});saveAll();}
-function openRedpacket(el,money,remark){if(el.dataset.opened)return;el.dataset.opened='1';var modal=document.createElement('div');modal.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;';modal.innerHTML='<div class="redpacket-cover"><div class="rp-top"><div class="rp-remark">'+remark+'</div><div class="rp-open" onclick="receiveRedpacket(this,\''+money+'\')">開</div><div class="rp-from">爱因的红包</div></div><div class="rp-bottom"><div class="tri"></div><div class="dot"></div></div><div class="rp-close" onclick="this.closest(\'div[style]\').remove()">关闭</div></div>';document.body.appendChild(modal);modal.onclick=function(e){if(e.target===modal)modal.remove();};}
-function receiveRedpacket(btn,money){btn.parentElement.innerHTML='<div style="color:#fdd835;font-size:13px;">已领取</div><div style="color:#fff;font-size:32px;font-weight:bold;margin:8px 0;">¥'+money+'</div><div style="color:#fdd835;font-size:11px;">已存入零钱</div>';}
+function sendRedpacket(){var m=document.getElementById('rpMoney').value;var r=document.getElementById('rpRemark').value||'恭喜发财，大吉大利';if(!m)return;closeAll();var time=getTime();var html='<div class="redpack-bubble" onclick="openRedpacket(this,\''+m+'\',\''+r+'\')"><div class="redpack-icon">🧧</div><div class="redpack-text">'+r+'</div><div class="redpack-footer">微信红包</div></div>';if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({html:html,isMe:true,time:time});loadChat(currentChatId);saveAll();}
+function openRedpacket(el,money,remark){if(el.dataset.opened)return;el.dataset.opened='1';var modal=document.createElement('div');modal.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;';modal.innerHTML='<div class="redpack-popup"><div class="redpack-msg" style="font-size:18px;margin-top:16px;">'+remark+'</div><div class="open-btn" onclick="receiveRedpacket(this,\''+money+'\')">開</div><div class="close-btn" onclick="this.closest(\'div[style]\').remove()">×</div></div>';document.body.appendChild(modal);modal.onclick=function(e){if(e.target===modal)modal.remove();};}
+function receiveRedpacket(btn,money){btn.parentElement.innerHTML='<div style="color:#f8dd99;font-size:16px;">已领取</div><div style="color:#fff;font-size:36px;font-weight:bold;margin:10px 0;">¥'+money+'</div>';}
 
-function sendTransfer(){var m=document.getElementById('tfMoney').value;var r=document.getElementById('tfRemark').value||'';if(!m)return;closeAll();var row=document.createElement('div');row.className='msg-row me';row.innerHTML='<div class="msg-avatar-col"><div class="msg-avatar">'+(myAvatarData?'<img src="'+myAvatarData+'" style="width:100%;height:100%;object-fit:cover;">':userSVG())+'</div><div class="msg-time">'+getTime()+'</div></div><div class="msg-content"><div class="msg-bubble transfer-card" onclick="confirmTransfer(this,\''+m+'\')"><div class="tf-amount">¥'+m+'</div><div class="tf-desc">'+(r||'转账')+'</div></div></div></div>';document.getElementById('chatBox').appendChild(row);document.getElementById('chatBox').scrollTop=document.getElementById('chatBox').scrollHeight;saveAll();}
-function confirmTransfer(el,money){if(el.dataset.received)return;el.dataset.received='1';el.querySelector('.tf-desc').innerText='已收款';el.style.opacity='0.5';var tip=document.createElement('div');tip.className='msg-divider';tip.innerText='爱因已收款 ¥'+money;document.getElementById('chatBox').appendChild(tip);document.getElementById('chatBox').scrollTop=document.getElementById('chatBox').scrollHeight;}
-
-function addGift(){addMsg('🎁 送你一份礼物',true,'bubble-gift');}
-function addMusic(){addMsg('🎵 一起听歌',true,'bubble-music');}
+function sendTransfer(){var m=document.getElementById('tfMoney').value;var r=document.getElementById('tfRemark').value||'';if(!m)return;closeAll();var time=getTime();var html='<div class="transfer-bubble" onclick="confirmTransfer(this,\''+m+'\')"><div class="transfer-icon">⇋</div><div><div class="transfer-money">¥'+m+'</div><div class="transfer-text">你发起了一笔转账</div></div><div class="transfer-footer">'+(r||'转账')+'</div></div>';if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({html:html,isMe:true,time:time});loadChat(currentChatId);saveAll();}
+function confirmTransfer(el,money){if(el.dataset.received)return;el.dataset.received='1';el.querySelector('.transfer-text').innerText='已收款';el.style.opacity='0.5';addMsg('爱因已收款 ¥'+money,false);}
 
 function startCall(type){var cf=document.getElementById('callFloat');cf.style.display='block';document.getElementById('cfStatus').textContent=type+'呼叫中...';setTimeout(function(){var r=Math.random();if(r<0.3){document.getElementById('cfStatus').textContent='对方正在忙';}else if(r<0.6){document.getElementById('cfStatus').textContent='对方无法接听';}else if(r<0.8){document.getElementById('cfStatus').textContent='对方不在';}else{document.getElementById('cfStatus').textContent=type+'通话中';}setTimeout(function(){cf.style.display='none';addMsg('通话结束',false);},3000);},2000);}
 function endCall(){document.getElementById('callFloat').style.display='none';document.getElementById('callMinBar').style.display='none';addMsg('通话结束',false);}
 function minimizeCall(){document.getElementById('callFloat').style.display='none';document.getElementById('callMinBar').style.display='flex';}
+
+function changeCover(){document.getElementById('fileCover').click();}
+function setCover(){var f=document.getElementById('fileCover').files[0];if(f){var url=URL.createObjectURL(f);document.getElementById('momentCover').style.backgroundImage='url('+url+')';}}
 
 function showFullPage(id){document.getElementById(id).style.display='flex';}
 function closeFullPage(id){document.getElementById(id).style.display='none';}
@@ -368,11 +381,17 @@ function deletePatpat(i){patpatList.splice(i,1);renderPatpat();saveAll();}
 function deleteStatus(i){statusList.splice(i,1);renderStatus();renderStatusOptions();saveAll();}
 function backupAll(){var data={friends:friends,chatHistory:chatHistory,wordCards:wordCards,patpatList:patpatList,statusList:statusList};var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='backup.json';a.click();}
 function likeMoment(btn){btn.classList.toggle('liked');btn.style.color=btn.classList.contains('liked')?'#e64340':'#666';}
-function commentMoment(btn){var cb=btn.closest('.moment-item').querySelector('.comment-box');cb.style.display='block';if(cb.querySelector('input'))return;var input=document.createElement('input');input.style.cssText='width:100%;padding:5px;border:1px solid #ddd;border-radius:4px;font-size:11px;';input.placeholder='写评论...';input.onkeydown=function(e){if(e.key==='Enter'&&input.value.trim()){cb.innerHTML+='<div><strong>我</strong>：'+input.value+'</div>';input.remove();}};cb.appendChild(input);input.focus();}
+function commentMoment(btn){var card=btn.closest('.moment-card');var area=card.querySelector('.comment-area');var input=document.createElement('input');input.style.cssText='width:100%;padding:5px;border:1px solid #ddd;border-radius:4px;font-size:11px;margin-top:4px;';input.placeholder='写评论...';input.onkeydown=function(e){if(e.key==='Enter'&&input.value.trim()){area.innerHTML+='<div class="comment-item"><span>我</span>：'+input.value+'</div>';input.remove();}};area.appendChild(input);input.focus();}
 function addMoment(name,content){momentItems.push({name:name,content:content});renderMoments();saveAll();}
+
+document.addEventListener('click',function(e){
+  var emojiPanel=document.getElementById('emojiPanel');
+  var btnFace=document.querySelector('.input-bar .btn:nth-child(4)');
+  if(emojiPanel.style.display==='flex'&&!emojiPanel.contains(e.target)&&!btnFace.contains(e.target)){emojiPanel.style.display='none';}
+});
 
 showPage('chat');loadAll();
 if(momentItems.length===0){addMoment('我','今天天气真好');addMoment('爱因','想你了');}
 </script>
 </body>
-  </html>
+</html>
