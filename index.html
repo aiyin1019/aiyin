@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>爱因</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,Roboto}
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
 body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 :root{--chat-bg:#f5f5f5;--bubble-self:#95ec90;--bubble-other:#fff;--wx-green:#07c160}
 .wrapper{width:100%;height:100vh;background:#fff;display:flex;flex-direction:column;overflow:hidden}
@@ -29,7 +29,7 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 .msg-content{display:flex;flex-direction:column;max-width:62%;margin:0 4px}
 .msg-row.me .msg-content{align-items:flex-end}
 .msg-row.other .msg-content{align-items:flex-start}
-.msg-bubble{padding:8px 12px;border-radius:12px;font-size:13px;word-break:break-word;position:relative}
+.msg-bubble{padding:8px 12px;border-radius:12px;font-size:13px;word-break:break-word}
 .msg-row.other .msg-bubble{background:var(--bubble-other);color:#333;border-top-left-radius:4px}
 .msg-row.me .msg-bubble{background:var(--bubble-self);color:#000;border-top-right-radius:4px}
 .read-mark{font-size:8px;color:#07c160;text-align:right;margin-top:1px;padding-right:2px}
@@ -38,16 +38,16 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 .input-bar .btn{width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;background:none;flex-shrink:0}
 .input-bar input{flex:1;height:34px;border:1px solid #ddd;border-radius:8px;padding:0 10px;font-size:13px;outline:none;min-width:0}
 .input-bar .voice-btn{flex:1;height:34px;border:1px solid #ddd;border-radius:8px;background:#f5f5f5;display:none;align-items:center;justify-content:center;font-size:13px;color:#333;cursor:pointer}
-/* 表情面板 */
-.emoji-panel{background:#fff;border-top:1px solid #eee;display:none;flex-direction:column;flex-shrink:0;height:300px}
-.emoji-tabs{display:flex;gap:8px;padding:10px 12px;border-bottom:1px solid #eee}
-.emoji-tab{height:28px;padding:0 12px;border:none;border-radius:14px;font-size:12px;cursor:pointer;background:#f5f5f5;color:#666}
-.emoji-tab.active{background:#07c160;color:#fff}
+/* ===== 你的表情面板代码原样开始 ===== */
+.panel{width:100%;height:300px;background:#fff;border-top:1px solid #eee;display:flex;flex-direction:column;margin-top:auto}
+.tabs{display:flex;gap:8px;padding:10px 12px;border-bottom:1px solid #eee}
+.tab{height:28px;padding:0 12px;border:none;border-radius:14px;font-size:12px;cursor:pointer;background:#f5f5f5;color:#666}
+.tab.active{background:#07c160;color:#fff}
 .sub-tabs{display:flex;gap:4px;padding:8px 12px;border-bottom:1px solid #eee;overflow-x:auto;white-space:nowrap}
 .sub-tab{height:24px;padding:0 10px;border:none;border-radius:12px;font-size:11px;cursor:pointer;background:#f5f5f5;color:#666;flex-shrink:0}
 .sub-tab.active{background:#07c160;color:#fff}
 .sub-tab.add-btn{background:#e8f5e9;color:#07c160;font-weight:bold}
-.emoji-content{flex:1;overflow-y:auto;padding:8px}
+.content{flex:1;overflow-y:auto;padding:8px}
 .emoji-grid{display:flex;flex-wrap:wrap;gap:4px;align-content:flex-start}
 .emoji-grid span{width:14.28%;aspect-ratio:1/1;background:#fff;border:1px solid #eee;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer}
 .kao-grid{display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start}
@@ -59,13 +59,15 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 .add-bar input{flex:1;height:28px;border:1px solid #ddd;border-radius:14px;padding:0 10px;font-size:11px;outline:none}
 .add-bar button{height:28px;padding:0 12px;border:none;border-radius:14px;background:#07c160;color:#fff;font-size:11px;cursor:pointer}
 .add-sticker-btn{width:60px;height:60px;border:2px dashed #ccc;border-radius:10px;background:#f7f7f7;color:#999;font-size:28px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+#stickerFile{display:none}
+/* ===== 你的表情面板代码原样结束 ===== */
 .tab-bar{height:50px;background:#fff;display:flex;border-top:1px solid #e5e5e5;flex-shrink:0}
 .tab-bar button{flex:1;border:none;background:none;cursor:pointer;font-size:12px;color:#666;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
 .tab-bar button.active{color:#07c160;font-weight:600}
 .mask{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:99}
-.panel{display:none;position:fixed;bottom:0;left:0;width:100%;background:#fff;border-radius:14px 14px 0 0;z-index:100;padding:14px;max-height:80%;overflow-y:auto}
-.panel .pheader{display:flex;justify-content:space-between;margin-bottom:10px;font-size:15px;font-weight:500}
-.panel .pheader button{border:none;background:none;cursor:pointer;font-size:18px;color:#999}
+.panel-popup{display:none;position:fixed;bottom:0;left:0;width:100%;background:#fff;border-radius:14px 14px 0 0;z-index:100;padding:14px;max-height:80%;overflow-y:auto}
+.panel-popup .pheader{display:flex;justify-content:space-between;margin-bottom:10px;font-size:15px;font-weight:500}
+.panel-popup .pheader button{border:none;background:none;cursor:pointer;font-size:18px;color:#999}
 .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .grid .gitem{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;font-size:11px}
 .grid .gitem .icon{width:40px;height:40px;border-radius:10px;background:#f5f5f5;display:flex;align-items:center;justify-content:center}
@@ -138,18 +140,25 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 </div>
 <div class="chat-area">
 <div class="chat-box" id="chatBox"></div>
-<div class="emoji-panel" id="emojiPanel">
-<div class="emoji-tabs">
-<button class="emoji-tab active" data-tab="emoji" onclick="switchEmojiTab(this)">表情</button>
-<button class="emoji-tab" data-tab="kaomoji" onclick="switchEmojiTab(this)">颜文字</button>
-<button class="emoji-tab" data-tab="img" onclick="switchEmojiTab(this)">表情包</button>
+<!-- ===== 你的表情面板HTML原样开始 ===== -->
+<div class="panel" id="emojiPanel" style="display:none;">
+<div class="tabs">
+<button class="tab active" data-tab="emoji" onclick="switchTab(this)">表情</button>
+<button class="tab" data-tab="kaomoji" onclick="switchTab(this)">颜文字</button>
+<button class="tab" data-tab="img" onclick="switchTab(this)">表情包</button>
 </div>
 <div class="sub-tabs" id="subTabs"></div>
-<div class="emoji-content" id="emojiContent"></div>
-<div class="add-bar" id="kaoBar"><input id="addInput" placeholder="添加"><button onclick="addToGroup()">添加</button></div>
-<div class="add-bar" id="imgBar" style="display:none"><div class="add-sticker-btn" onclick="document.getElementById('stickerFile').click()">+</div></div>
-<input type="file" id="stickerFile" class="file-hide" accept="image/*" multiple onchange="uploadStickers()">
+<div class="content" id="content"></div>
+<div class="add-bar" id="kaoBar">
+<input id="addInput" placeholder="添加emoji">
+<button id="addBtn">添加</button>
 </div>
+<div class="add-bar" id="imgBar" style="display:none">
+<div class="add-sticker-btn" onclick="document.getElementById('stickerFile').click()">+</div>
+</div>
+<input type="file" id="stickerFile" accept="image/*" multiple>
+</div>
+<!-- ===== 你的表情面板HTML原样结束 ===== -->
 <div class="input-bar">
 <button class="btn" onclick="toggleVoice()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/></svg></button>
 <input type="text" id="chatInput" placeholder="输入消息" onkeydown="if(event.key==='Enter')sendMsg()">
@@ -187,10 +196,10 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 </div>
 
 <div id="pageMoment" class="page">
-<div class="top-bar"><button class="back" onclick="showPage('my')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button><div class="title">朋友圈</div></div>
+<div class="top-bar"><button class="back" onclick="showPage('my')">←</button><div class="title">朋友圈</div></div>
 <div class="moments-cover" id="momentCover" onclick="changeCover()">
 <div class="my-avatar" id="momentMyAvatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-<div class="my-name" style="position:absolute;right:72px;bottom:4px;font-size:14px;font-weight:600;color:#000;">我</div>
+<div class="my-name" style="position:absolute;right:72px;bottom:4px;font-size:14px;font-weight:600;">我</div>
 </div>
 <div class="moments-content" id="momentContent"></div>
 </div>
@@ -208,7 +217,7 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 
 <div class="mask" id="mask" onclick="closeAll()"></div>
 
-<div class="panel" id="plusPanel">
+<div class="panel-popup" id="plusPanel">
 <div class="pheader"><span>功能</span><button onclick="closeAll()">×</button></div>
 <div class="grid">
 <div class="gitem" onclick="showPanel('redpacketPanel')"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/></svg></div>红包</div>
@@ -220,21 +229,21 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 </div>
 </div>
 
-<div class="panel" id="redpacketPanel">
+<div class="panel-popup" id="redpacketPanel">
 <div class="pheader"><span>发红包</span><button onclick="closeAll()">×</button></div>
 <div style="display:flex;justify-content:space-between;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:10px;"><span>金额</span><input id="rpMoney" type="number" style="border:none;text-align:right;font-size:14px;outline:none;" placeholder="0.00"></div>
 <input class="pinput" id="rpRemark" placeholder="恭喜发财，大吉大利">
 <button class="pbtn" style="background:#f53838;" onclick="sendRedpacket()">塞钱进红包</button>
 </div>
 
-<div class="panel" id="transferPanel">
+<div class="panel-popup" id="transferPanel">
 <div class="pheader"><span>转账给 爱因</span><button onclick="closeAll()">×</button></div>
 <div style="display:flex;align-items:center;font-size:32px;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:10px;"><span>¥</span><input id="tfMoney" type="number" style="border:none;font-size:32px;outline:none;flex:1;margin-left:8px;" placeholder="0.00"></div>
 <input class="pinput" id="tfRemark" placeholder="添加转账说明">
 <button class="pbtn" style="background:#f7a028;" onclick="sendTransfer()">转账</button>
 </div>
 
-<div class="panel" id="addPanel">
+<div class="panel-popup" id="addPanel">
 <div class="pheader"><span>添加</span><button onclick="closeAll()">×</button></div>
 <div class="grid" style="margin-bottom:10px;">
 <div class="gitem" onclick="showGroupForm()"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/></svg></div>创建群聊</div>
@@ -244,7 +253,7 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 <div id="groupForm" style="display:none;"><div id="memberSelect"></div><input class="pinput" id="groupName" placeholder="群名"><button class="pbtn" onclick="createGroup()">创建</button></div>
 </div>
 
-<div class="panel" id="statusPanel">
+<div class="panel-popup" id="statusPanel">
 <div class="pheader"><span>设置状态</span><button onclick="closeAll()">×</button></div>
 <div id="statusOptions"></div>
 </div>
@@ -281,14 +290,14 @@ var chatHistory={};var momentItems=[];var currentChatId=1;
 var wordCards=['我喜欢你','今天天气真好','一起听歌吗','晚安','早安','想你了','哈哈哈','好呀','嗯嗯','在干嘛'];
 var patpatList=['拍了拍你的头','拍了拍你的肩膀'];var statusList=['在看海','听歌中','休息中'];
 var stickerList=[];
-var emojiGroups=[{title:"常用",list:['😀','😃','😄','😁','😆','😅','😂','🤣','😊','😇','🙂','🙃','😉','😌','😍','🥰','😘','😗','😙','😚']},{title:"情绪",list:['😋','😜','😝','😛','🤑','😎','🤓','🧐','😏','😒','🙄','😮','😯','�40','😳','🥺','😦','😧','😨','😰','😥','😢','😭','😱','😖','😣','😞','😓','😩','😫','🥱','😴']},{title:"爱心",list:['❤️','🧡','💛','💚','💙','💜','🤍','🤎','🖤','💔','❣️','💕','💞','💓','💗','💖','💘','💝','💟','💌']},{title:"装饰",list:['🔥','💯','✨','💫','⭐','🌟','💥','💢','💦','💨','💤','💬','💭','💮','🪷','🌸','🌺']},{title:"动物",list:['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🙈','🙉','🙊','🐔','🐧','🐦','🐤','🦆','🦅','🦉','🦇','🐺','🐗','🐴','🦄']}];
+var emojiGroups=[{title:"常用",list:['😀','😃','😄','😁','😆','😅','😂','🤣','😊','😇','🙂','🙃','😉','😌','😍','🥰','😘','😗','😙','😚']},{title:"情绪",list:['😋','😜','😝','😛','🤑','😎','🤓','🧐','😏','😒','🙄','😮','😯','😲','😳','🥺','😦','😧','😨','😰','😥','😢','😭','😱','😖','😣','😞','😓','😩','😫','🥱','😴']},{title:"爱心",list:['❤️','🧡','💛','💚','💙','💜','🤍','🤎','🖤','💔','❣️','💕','💞','💓','💗','💖','💘','💝','💟','💌']},{title:"装饰",list:['🔥','💯','✨','💫','⭐','🌟','💥','💢','💦','💨','💤','💬','💭','💮','🪷','🌸','🌺']},{title:"动物",list:['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🙈','🙉','🙊','🐔','🐧','🐦','🐤','🦆','🦅','🦉','🦇','🐺','🐗','🐴','🦄']}];
 var kaoGroups=[{title:"开心",list:['(๑•̀ㅂ•́)و✧','(≧∇≦)ﾉ','ヽ(✿ﾟ▽ﾟ)ノ']},{title:"委屈",list:['(｡•́︿•̀｡)','(>﹏<)']},{title:"温柔",list:['( ´･ᴗ･` )']}];
 var myAvatarData='';var newFriendAvatarData='';var currentEmojiType='emoji';var currentGroupIndex=0;
 
 function saveAll(){try{localStorage.setItem(DATA_KEY,JSON.stringify({friends:friends,chatHistory:chatHistory,momentItems:momentItems,wordCards:wordCards,patpatList:patpatList,statusList:statusList,stickerList:stickerList,emojiGroups:emojiGroups,kaoGroups:kaoGroups,myAvatarData:myAvatarData}));}catch(e){}}
 function loadAll(){try{var d=JSON.parse(localStorage.getItem(DATA_KEY));if(d){if(d.friends)friends=d.friends;if(d.chatHistory)chatHistory=d.chatHistory;if(d.momentItems)momentItems=d.momentItems;if(d.wordCards)wordCards=d.wordCards;if(d.patpatList)patpatList=d.patpatList;if(d.statusList)statusList=d.statusList;if(d.stickerList)stickerList=d.stickerList;if(d.emojiGroups)emojiGroups=d.emojiGroups;if(d.kaoGroups)kaoGroups=d.kaoGroups;if(d.myAvatarData)myAvatarData=d.myAvatarData;}}catch(e){}renderAll();}
-
 function renderAll(){renderChatList();renderContact();renderMoments();renderWordCards();renderPatpat();renderStatus();renderStatusOptions();loadChat(currentChatId);updateMyAvatar();updateMomentAvatar();}
+
 function updateMyAvatar(){var img=document.getElementById('myAvatarImg');var svg=img.nextElementSibling;if(myAvatarData){img.style.display='block';img.src=myAvatarData;if(svg)svg.style.display='none';}else{img.style.display='none';if(svg)svg.style.display='block';}}
 function updateMomentAvatar(){var av=document.getElementById('momentMyAvatar');if(av){if(myAvatarData){av.innerHTML='<img src="'+myAvatarData+'" style="width:100%;height:100%;object-fit:cover;border-radius:6px;">';}else{av.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';}}}
 function setMyAvatar(){var f=document.getElementById('myAvatarFile').files[0];if(f){var r=new FileReader();r.onload=function(ev){myAvatarData=ev.target.result;updateMyAvatar();updateMomentAvatar();saveAll();};r.readAsDataURL(f);}}
@@ -314,18 +323,124 @@ function renderPatpat(){var c=document.getElementById('patpatList');c.innerHTML=
 function renderStatus(){var c=document.getElementById('statusList');c.innerHTML='';statusList.forEach(function(s,i){c.innerHTML+='<span class="tag">'+s+'<span class="del" onclick="deleteStatus('+i+')">✕</span></span>';});}
 function renderStatusOptions(){var c=document.getElementById('statusOptions');c.innerHTML='';statusList.forEach(function(s){c.innerHTML+='<div style="padding:8px;border-bottom:1px solid #eee;cursor:pointer;" onclick="setMyStatus(\''+s+'\')">'+s+'</div>';});}
 
-function switchEmojiTab(el){var tabs=document.querySelectorAll('.emoji-tab');for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');el.classList.add('active');document.getElementById('kaoBar').style.display='none';document.getElementById('imgBar').style.display='none';document.getElementById('subTabs').style.display='flex';
-if(el.dataset.tab==='emoji'){currentEmojiType='emoji';currentGroupIndex=0;document.getElementById('kaoBar').style.display='flex';document.getElementById('addInput').placeholder='添加emoji';renderSubTabs(emojiGroups);renderGroup(emojiGroups,0);}
-else if(el.dataset.tab==='kaomoji'){currentEmojiType='kaomoji';currentGroupIndex=0;document.getElementById('kaoBar').style.display='flex';document.getElementById('addInput').placeholder='添加颜文字';renderSubTabs(kaoGroups);renderGroup(kaoGroups,0);}
-else{document.getElementById('subTabs').style.display='none';document.getElementById('imgBar').style.display='flex';renderStickers();}}
-function renderSubTabs(groups){var wrap=document.getElementById('subTabs');wrap.innerHTML='';groups.forEach(function(g,idx){var btn=document.createElement('button');btn.className='sub-tab'+(idx===currentGroupIndex?' active':'');btn.innerText=g.title;btn.onclick=function(){document.querySelectorAll('.sub-tab').forEach(function(s){s.classList.remove('active');});this.classList.add('active');currentGroupIndex=idx;renderGroup(groups,idx);};wrap.appendChild(btn);});
-var addBtn=document.createElement('button');addBtn.className='sub-tab add-btn';addBtn.innerText='+';addBtn.onclick=function(){var name=prompt('分类名称：');if(name&&name.trim()){if(currentEmojiType==='emoji'){emojiGroups.push({title:name.trim(),list:[]});renderSubTabs(emojiGroups);currentGroupIndex=emojiGroups.length-1;renderGroup(emojiGroups,currentGroupIndex);}else{kaoGroups.push({title:name.trim(),list:[]});renderSubTabs(kaoGroups);currentGroupIndex=kaoGroups.length-1;renderGroup(kaoGroups,currentGroupIndex);}saveAll();}};wrap.appendChild(addBtn);}
-function renderGroup(groups,idx){var c=document.getElementById('emojiContent');var list=groups[idx].list;if(currentEmojiType==='emoji'){c.innerHTML='<div class="emoji-grid">';list.forEach(function(e){c.innerHTML+='<span onclick="insertEmoji(\''+e+'\')">'+e+'</span>';});c.innerHTML+='</div>';}else{c.innerHTML='<div class="kao-grid">';list.forEach(function(k){c.innerHTML+='<span onclick="insertEmoji(\''+k+'\')">'+k+'</span>';});c.innerHTML+='</div>';}}
-function renderStickers(){var c=document.getElementById('emojiContent');c.innerHTML='<div class="img-grid">';stickerList.forEach(function(s){c.innerHTML+='<div class="sticker" onclick="addMsg(\'<img src=\\\''+s+'\\\' style=\\\'max-width:100px;border-radius:6px;\\\'>\',true)"><img src="'+s+'"></div>';});c.innerHTML+='</div>';}
-function addToGroup(){var v=document.getElementById('addInput').value.trim();if(!v)return;if(currentEmojiType==='emoji'){emojiGroups[currentGroupIndex].list.push(v);renderGroup(emojiGroups,currentGroupIndex);}else{kaoGroups[currentGroupIndex].list.push(v);renderGroup(kaoGroups,currentGroupIndex);}document.getElementById('addInput').value='';saveAll();}
-function uploadStickers(){var files=document.getElementById('stickerFile').files;for(var i=0;i<files.length;i++){(function(f){var r=new FileReader();r.onload=function(ev){stickerList.push(ev.target.result);renderStickers();saveAll();};r.readAsDataURL(f);})(files[i]);}}
-function insertEmoji(e){document.getElementById('chatInput').value+=e;}
-function toggleEmoji(){var p=document.getElementById('emojiPanel');p.style.display=(p.style.display==='flex')?'none':'flex';if(p.style.display==='flex'){var activeTab=document.querySelector('.emoji-tab.active');if(activeTab)switchEmojiTab(activeTab);}}
+// ===== 你的表情面板JS原样开始 =====
+function switchTab(el){
+  var tabs=document.querySelectorAll('.tab');
+  for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');
+  el.classList.add('active');
+  var c=document.getElementById('content');
+  document.getElementById('kaoBar').style.display='none';
+  document.getElementById('imgBar').style.display='none';
+  document.getElementById('subTabs').style.display='flex';
+  if(el.dataset.tab==='emoji'){
+    currentEmojiType='emoji';currentGroupIndex=0;
+    document.getElementById('kaoBar').style.display='flex';
+    document.getElementById('addInput').placeholder='添加emoji';
+    renderSubTabs(emojiGroups);
+    renderGroupContent(emojiGroups,0);
+  }else if(el.dataset.tab==='kaomoji'){
+    currentEmojiType='kaomoji';currentGroupIndex=0;
+    document.getElementById('kaoBar').style.display='flex';
+    document.getElementById('addInput').placeholder='添加颜文字';
+    renderSubTabs(kaoGroups);
+    renderGroupContent(kaoGroups,0);
+  }else{
+    document.getElementById('imgBar').style.display='flex';
+    document.getElementById('subTabs').style.display='none';
+    renderStickers();
+  }
+}
+function renderSubTabs(groups){
+  var subWrap=document.getElementById('subTabs');
+  subWrap.innerHTML='';
+  groups.forEach(function(g,idx){
+    var btn=document.createElement('button');
+    btn.className='sub-tab'+(idx===currentGroupIndex?' active':'');
+    btn.innerText=g.title;
+    btn.onclick=function(){
+      document.querySelectorAll('.sub-tab').forEach(function(s){s.classList.remove('active');});
+      this.classList.add('active');
+      currentGroupIndex=idx;
+      renderGroupContent(groups,idx);
+    }
+    subWrap.appendChild(btn);
+  });
+  var addBtn=document.createElement('button');
+  addBtn.className='sub-tab add-btn';
+  addBtn.innerText='+';
+  addBtn.onclick=function(){
+    var catName=prompt('请输入新分类名称：');
+    if(catName&&catName.trim()!==''){
+      if(currentEmojiType==='emoji'){
+        emojiGroups.push({title:catName.trim(),list:[]});
+        renderSubTabs(emojiGroups);
+        currentGroupIndex=emojiGroups.length-1;
+        renderGroupContent(emojiGroups,currentGroupIndex);
+      }else{
+        kaoGroups.push({title:catName.trim(),list:[]});
+        renderSubTabs(kaoGroups);
+        currentGroupIndex=kaoGroups.length-1;
+        renderGroupContent(kaoGroups,currentGroupIndex);
+      }
+      saveAll();
+    }
+  }
+  subWrap.appendChild(addBtn);
+}
+function renderGroupContent(groups,index){
+  var c=document.getElementById('content');
+  var group=groups[index];
+  var html='';
+  if(groups===emojiGroups){
+    html='<div class="emoji-grid">';
+    group.list.forEach(function(e){
+      html+='<span onclick="document.getElementById(\'chatInput\').value+=\''+e+'\'">'+e+'</span>';
+    });
+    html+='</div>';
+  }else{
+    html='<div class="kao-grid">';
+    group.list.forEach(function(k){
+      html+='<span onclick="document.getElementById(\'chatInput\').value+=\''+k+'\'">'+k+'</span>';
+    });
+    html+='</div>';
+  }
+  c.innerHTML=html;
+}
+function renderStickers(){
+  var c=document.getElementById('content');
+  var html='<div class="img-grid">';
+  stickerList.forEach(function(src){
+    html+='<div class="sticker" onclick="sendStickerMsg(\''+src+'\')"><img src="'+src+'"></div>';
+  });
+  html+='</div>';
+  c.innerHTML=html;
+}
+document.getElementById('addBtn').onclick=function(){
+  var inputVal=document.getElementById('addInput').value.trim();
+  if(!inputVal)return;
+  if(currentEmojiType==='emoji'){
+    emojiGroups[currentGroupIndex].list.push(inputVal);
+  }else{
+    kaoGroups[currentGroupIndex].list.push(inputVal);
+  }
+  renderGroupContent(currentEmojiType==='emoji'?emojiGroups:kaoGroups,currentGroupIndex);
+  document.getElementById('addInput').value='';
+  saveAll();
+}
+document.getElementById('stickerFile').addEventListener('change',function(e){
+  var files=e.target.files;
+  if(files.length>20){alert('最多20张！');e.target.value='';return;}
+  for(var i=0;i<files.length;i++){
+    var reader=new FileReader();
+    reader.onload=function(ev){stickerList.push(ev.target.result);renderStickers();saveAll();};
+    reader.readAsDataURL(files[i]);
+  }
+  e.target.value='';
+});
+// ===== 你的表情面板JS原样结束 =====
+
+function sendStickerMsg(src){addMsg('<img src="'+src+'" style="max-width:100px;border-radius:6px;">',true);document.getElementById('emojiPanel').style.display='none';}
+function toggleEmoji(){var p=document.getElementById('emojiPanel');p.style.display=(p.style.display==='flex')?'none':'flex';if(p.style.display==='flex'){var activeTab=document.querySelector('.tab.active');if(activeTab)switchTab(activeTab);}}
 
 function openChat(id){currentChatId=id;var f=friends.find(function(x){return x.id===id;});if(f)document.getElementById('chatTitle').innerText=f.name;showPage('chat');loadChat(id);}
 function loadChat(id){var box=document.getElementById('chatBox');box.innerHTML='';var msgs=chatHistory[id]||[];var lastMin='';var f=friends.find(function(x){return x.id===id;});
@@ -346,19 +461,19 @@ function editName(){var title=document.getElementById('chatTitle');var old=title
 function editMyName(){var n=document.getElementById('myName');var old=n.innerText;var input=document.createElement('input');input.style.cssText='font-size:15px;border:none;outline:none;width:80px;background:transparent';input.value=old;n.innerHTML='';n.appendChild(input);input.focus();input.onblur=function(){n.innerText=input.value||old;};}
 
 function showPanel(id){document.getElementById('mask').style.display='block';document.getElementById(id).style.display='block';}
-function closeAll(){document.getElementById('mask').style.display='none';document.querySelectorAll('.panel').forEach(function(p){p.style.display='none';});document.getElementById('emojiPanel').style.display='none';}
+function closeAll(){document.getElementById('mask').style.display='none';document.querySelectorAll('.panel-popup').forEach(function(p){p.style.display='none';});document.getElementById('emojiPanel').style.display='none';}
 function showPlus(){showPanel('plusPanel');}
 function showAddMenu(){showPanel('addPanel');}
 function showStatusPanel(){showPanel('statusPanel');}
 function setMyStatus(s){document.getElementById('statusTag').textContent=s;closeAll();}
 function showFriendForm(){document.getElementById('friendForm').style.display='block';document.getElementById('groupForm').style.display='none';}
 function showGroupForm(){document.getElementById('groupForm').style.display='block';document.getElementById('friendForm').style.display='none';renderMembers();}
-function renderMembers(){var c=document.getElementById('memberSelect');c.innerHTML='<p style="font-size:12px;color:#666;margin-bottom:6px;">选择成员：</p>';friends.forEach(function(f,i){c.innerHTML+='<label style="display:block;padding:5px;"><input type="checkbox" class="gm" value="'+i+'"> '+f.name+'</label>';});}
+function renderMembers(){var c=document.getElementById('memberSelect');c.innerHTML='';friends.forEach(function(f,i){c.innerHTML+='<label style="display:block;padding:5px;"><input type="checkbox" class="gm" value="'+i+'"> '+f.name+'</label>';});}
 function addFriend(){var name=document.getElementById('newFriendName').value.trim();if(!name)return;friends.push({id:friends.length+1,name:name,avatar:newFriendAvatarData||'',pinned:false});newFriendAvatarData='';closeAll();renderChatList();renderContact();saveAll();}
 function createGroup(){var n=document.getElementById('groupName').value||'群聊';var s=document.querySelectorAll('.gm:checked');if(s.length===0)return;friends.push({id:friends.length+1,name:n,avatar:'',pinned:false});closeAll();renderChatList();renderContact();saveAll();}
 
 function sendRedpacket(){var m=document.getElementById('rpMoney').value;var r=document.getElementById('rpRemark').value||'恭喜发财，大吉大利';if(!m)return;closeAll();var time=getTime();var html='<div class="redpack-bubble" onclick="openRedpacket(this,\''+m+'\',\''+r+'\')"><div class="redpack-icon">🧧</div><div class="redpack-text">'+r+'</div><div class="redpack-footer">微信红包</div></div>';if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({html:html,isMe:true,time:time});loadChat(currentChatId);saveAll();}
-function openRedpacket(el,money,remark){if(el.dataset.opened)return;el.dataset.opened='1';var modal=document.createElement('div');modal.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;';modal.innerHTML='<div class="redpack-popup"><div class="redpack-msg" style="font-size:18px;margin-top:16px;">'+remark+'</div><div class="open-btn" onclick="receiveRedpacket(this,\''+money+'\')">開</div><div class="close-btn" onclick="this.closest(\'div[style]\').remove()">×</div></div>';document.body.appendChild(modal);modal.onclick=function(e){if(e.target===modal)modal.remove();};}
+function openRedpacket(el,money,remark){if(el.dataset.opened)return;el.dataset.opened='1';var modal=document.createElement('div');modal.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;';modal.innerHTML='<div class="redpack-popup"><div style="font-size:18px;margin-top:16px;">'+remark+'</div><div class="open-btn" onclick="receiveRedpacket(this,\''+money+'\')">開</div><div class="close-btn" onclick="this.closest(\'div[style]\').remove()">×</div></div>';document.body.appendChild(modal);modal.onclick=function(e){if(e.target===modal)modal.remove();};}
 function receiveRedpacket(btn,money){btn.parentElement.innerHTML='<div style="color:#f8dd99;font-size:16px;">已领取</div><div style="color:#fff;font-size:36px;font-weight:bold;margin:10px 0;">¥'+money+'</div>';}
 
 function sendTransfer(){var m=document.getElementById('tfMoney').value;var r=document.getElementById('tfRemark').value||'';if(!m)return;closeAll();var time=getTime();var html='<div class="transfer-bubble" onclick="confirmTransfer(this,\''+m+'\')"><div class="transfer-icon">⇋</div><div><div class="transfer-money">¥'+m+'</div><div class="transfer-text">你发起了一笔转账</div></div><div class="transfer-footer">'+(r||'转账')+'</div></div>';if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({html:html,isMe:true,time:time});loadChat(currentChatId);saveAll();}
@@ -383,12 +498,6 @@ function backupAll(){var data={friends:friends,chatHistory:chatHistory,wordCards
 function likeMoment(btn){btn.classList.toggle('liked');btn.style.color=btn.classList.contains('liked')?'#e64340':'#666';}
 function commentMoment(btn){var card=btn.closest('.moment-card');var area=card.querySelector('.comment-area');var input=document.createElement('input');input.style.cssText='width:100%;padding:5px;border:1px solid #ddd;border-radius:4px;font-size:11px;margin-top:4px;';input.placeholder='写评论...';input.onkeydown=function(e){if(e.key==='Enter'&&input.value.trim()){area.innerHTML+='<div class="comment-item"><span>我</span>：'+input.value+'</div>';input.remove();}};area.appendChild(input);input.focus();}
 function addMoment(name,content){momentItems.push({name:name,content:content});renderMoments();saveAll();}
-
-document.addEventListener('click',function(e){
-  var emojiPanel=document.getElementById('emojiPanel');
-  var btnFace=document.querySelector('.input-bar .btn:nth-child(4)');
-  if(emojiPanel.style.display==='flex'&&!emojiPanel.contains(e.target)&&!btnFace.contains(e.target)){emojiPanel.style.display='none';}
-});
 
 showPage('chat');loadAll();
 if(momentItems.length===0){addMoment('我','今天天气真好');addMoment('爱因','想你了');}
