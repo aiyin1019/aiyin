@@ -48,9 +48,9 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 .sub-tab.active{background:#07c160;color:#fff}
 .sub-tab.add-btn{background:#e8f5e9;color:#07c160;font-weight:bold}
 .content{flex:1;overflow-y:auto;padding:8px}
-.emoji-grid{display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start}
+.emoji-grid{display:flex;flex-wrap:wrap;gap:4px;align-content:flex-start}
 .emoji-grid span{width:14.28%;aspect-ratio:1/1;background:#f0f0f0;border:1px solid #e0e0e0;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer}
-.kao-grid{display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start}
+.kao-grid{display:flex;flex-wrap:wrap;gap:4px;align-content:flex-start}
 .kao-grid span{width:48%;min-height:40px;background:#f0f0f0;border:1px solid #e0e0e0;border-radius:8px;padding:8px 6px;font-size:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;word-break:break-all}
 .img-grid{display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start}
 .img-grid .sticker{width:23%;border-radius:8px;overflow:hidden;cursor:pointer;background:#f0f0f0}
@@ -147,6 +147,32 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 .music-title{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .music-singer{font-size:11px;color:#aaa}
 .music-play{width:28px;height:28px;border-radius:50%;background:#444;display:flex;align-items:center;justify-content:center;color:#fff;align-self:center;margin-right:8px;flex-shrink:0}
+
+/* ===== 系统提示样式（屏幕中间灰色） ===== */
+.system-toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.7);color:#fff;padding:12px 20px;border-radius:8px;font-size:14px;z-index:99999;display:none;text-align:center;max-width:80%;animation:fadeInOut 3s ease}
+@keyframes fadeInOut{0%{opacity:0}15%{opacity:1}85%{opacity:1}100%{opacity:0}}
+
+/* ===== 离线消息样式 ===== */
+.offline-toast{position:fixed;top:60px;right:12px;background:rgba(0,0,0,0.8);color:#fff;padding:10px 16px;border-radius:8px;font-size:13px;z-index:9999;display:none;animation:fadeInDown 0.3s}
+@keyframes fadeInDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== 待领取消息样式 ===== */
+.pending-item{background:#fff3e0;border-radius:8px;padding:10px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.pending-item:hover{background:#ffe0b2}
+.pending-item .pending-icon{font-size:20px;margin-right:8px}
+.pending-item .pending-text{flex:1;font-size:13px;color:#333}
+.pending-item .pending-btn{background:#07c160;color:#fff;border:none;border-radius:12px;padding:4px 12px;font-size:12px;cursor:pointer}
+
+/* ===== 拍一拍输入弹窗样式 ===== */
+.patpat-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:12px;padding:20px;width:280px;z-index:100000;display:none;box-shadow:0 2px 12px rgba(0,0,0,0.2)}
+.patpat-modal .pm-title{font-size:15px;font-weight:600;margin-bottom:12px;text-align:center}
+.patpat-modal .pm-input{width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:14px;margin-bottom:12px;outline:none}
+.patpat-modal .pm-btn{width:100%;height:36px;border:none;border-radius:8px;background:#07c160;color:#fff;font-size:14px;cursor:pointer;margin-bottom:8px}
+.patpat-modal .pm-cancel{width:100%;height:36px;border:none;border-radius:8px;background:#f0f0f0;color:#333;font-size:14px;cursor:pointer}
+.patpat-mask{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:99999;display:none}
+
+/* ===== 拍一拍灰色提示样式 ===== */
+.patpat-tip{text-align:center;font-size:12px;color:#999;margin:6px 0;padding:4px 0;line-height:1.4}
 </style>
 </head>
 <body>
@@ -204,7 +230,6 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 <div class="my-status" id="myStatusText" onclick="showStatusPanel()">+状态</div>
 <div class="my-media-wrap" onclick="document.getElementById('myMediaFile').click()"><img id="myBgImg" style="width:100%;height:100%;object-fit:cover;display:none;"><video id="myBgVideo" style="width:100%;height:100%;object-fit:cover;display:none;" loop autoplay muted></video></div>
 </div>
-<div class="my-balance" onclick="editMyBalance()">💰 余额：¥<span id="myBalance">520000</span></div>
 <div class="my-menu-item" onclick="showPage('moment')">朋友圈</div>
 <div class="my-menu-item" onclick="showPage('collect')">收藏</div>
 <div class="my-menu-item" onclick="showPage('transferRecord')">转账记录</div>
@@ -324,6 +349,15 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 
 <div class="call-float" id="callFloat"><div class="cf-content"><div id="cfStatus">呼叫中...</div><button class="cf-hangup" onclick="endCall()">📞</button></div></div>
 
+<!-- 拍一拍输入弹窗 -->
+<div class="patpat-mask" id="patpatMask"></div>
+<div class="patpat-modal" id="patpatModal">
+  <div class="pm-title">拍一拍</div>
+  <input class="pm-input" id="patpatInput" placeholder="输入拍一拍内容">
+  <button class="pm-btn" onclick="confirmPatpat()">发送</button>
+  <button class="pm-cancel" onclick="cancelPatpat()">取消</button>
+</div>
+
 <input type="file" id="myAvatarFile" class="file-hide" accept="image/*" onchange="setMyAvatar()">
 <input type="file" id="myMediaFile" class="file-hide" accept="image/*,video/*" onchange="setMyMedia()">
 <input type="file" id="fileCover" class="file-hide" accept="image/*,video/*" onchange="setCover()">
@@ -331,26 +365,114 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 </div>
 
 <script>
-var DATA_KEY='wx_final14';
+var DATA_KEY='wx_final13';
 var friends=[{id:1,name:'爱因',avatar:'',pinned:true}];
 var chatHistory={};var momentItems=[];var currentChatId=1;
 var wordCards=['我喜欢你','今天天气真好','一起听歌吗','晚安','早安','想你了','哈哈哈','好呀','嗯嗯','在干嘛'];
-var patpatList=['拍了拍你的头','拍了拍你的肩膀'];var statusList=['在看海','听歌中','休息中'];
-var myName='我';var myStatus='+状态';var myAvatarData='';var newFriendAvatarData='';var myBalance=520000;
+var patpatList=['拍了拍爱因的头，并笑着说你好','在客厅里缓慢的走路','正在思考人生','偷偷看你一眼','给你发了个表情'];
+var statusList=['在看海','听歌中','休息中'];
+var myName='我';var myStatus='+状态';var myAvatarData='';var newFriendAvatarData='';
 var emojiGroups=[{title:"常用",list:['😀','😃','😄','😁','😆','😅','😂','🤣','😊','😇','🙂','🙃','😉','😌','😍','🥰','😘','😗','😙','😚']},{title:"情绪",list:['😋','😜','😝','😛','🤑','😎','🤓','🧐','😏','😒','🙄','😮','😯','😲','😳','🥺','😦','😧','😨','😰','😥','😢','😭','😱','😖','😣','😞','😓','😩','😫','🥱','😴']},{title:"爱心",list:['❤️','🧡','💛','💚','💙','💜','🤍','🤎','🖤','💔','❣️','💕','💞','💓','💗','💖','💘','💝','💟','💌']},{title:"装饰",list:['🔥','💯','✨','💫','⭐','🌟','💥','💢','💦','💨','💤','💬','💭','💮','🪷','🌸','🌺']},{title:"动物",list:['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🙈','🙉','🙊','🐔','🐧','🐦','🐤','🦆','🦅','🦉','🦇','🐺','🐗','🐴','🦄']}];
 var kaoGroups=[{title:"开心",list:['(๑•̀ㅂ•́)و✧','(≧∇≦)ﾉ','ヽ(✿ﾟ▽ﾟ)ノ']},{title:"委屈",list:['(｡•́︿•̀｡)','(>﹏<)']},{title:"温柔",list:['( ´･ᴗ･` )']}];
 var stickerList=[];var currentEmojiType='emoji';var currentGroupIndex=0;
 var collectItems=[{time:'今天 10:25',text:'爱因说：晚安'},{time:'昨天 22:10',text:'🎤语音消息'}];
-var incomeRecords=[{time:'2026-08-28 14:30',text:'爱因给你转账 +¥520'},{time:'2026-08-27 09:15',text:'你收了爱因的红包 +¥52'}];
-var expenseRecords=[{time:'2026-08-26 10:00',text:'你给爱因发红包 -¥88'},{time:'2026-08-25 15:00',text:'你给爱因转账 -¥200'}];
+var transferRecords=[{time:'2026-08-28 14:30',text:'爱因给你转账 ¥520'},{time:'2026-08-27 09:15',text:'你收了爱因的红包 ¥52'}];
 var visitRecords=[{time:'今天 09:00',text:'爱因访问了你的主页'},{time:'昨天 20:30',text:'爱因访问了你的朋友圈'}];
 
-function saveAll(){try{localStorage.setItem(DATA_KEY,JSON.stringify({friends:friends,chatHistory:chatHistory,momentItems:momentItems,wordCards:wordCards,patpatList:patpatList,statusList:statusList,myName:myName,myStatus:myStatus,myAvatarData:myAvatarData,myBalance:myBalance,emojiGroups:emojiGroups,kaoGroups:kaoGroups,stickerList:stickerList,collectItems:collectItems,incomeRecords:incomeRecords,expenseRecords:expenseRecords,visitRecords:visitRecords}));}catch(e){}}
-function loadAll(){try{var d=JSON.parse(localStorage.getItem(DATA_KEY));if(d){if(d.friends)friends=d.friends;if(d.chatHistory)chatHistory=d.chatHistory;if(d.momentItems)momentItems=d.momentItems;if(d.wordCards)wordCards=d.wordCards;if(d.patpatList)patpatList=d.patpatList;if(d.statusList)statusList=d.statusList;if(d.myName)myName=d.myName;if(d.myStatus)myStatus=d.myStatus;if(d.myAvatarData)myAvatarData=d.myAvatarData;if(d.myBalance)myBalance=d.myBalance;if(d.emojiGroups)emojiGroups=d.emojiGroups;if(d.kaoGroups)kaoGroups=d.kaoGroups;if(d.stickerList)stickerList=d.stickerList;if(d.collectItems)collectItems=d.collectItems;if(d.incomeRecords)incomeRecords=d.incomeRecords;if(d.expenseRecords)expenseRecords=d.expenseRecords;if(d.visitRecords)visitRecords=d.visitRecords;}}catch(e){}renderAll();}
-function renderAll(){renderChatList();renderContact();renderMoments();renderWordCards();renderPatpat();renderStatus();renderStatusOptions();loadChat(currentChatId);updateMyAvatar();updateMomentAvatar();renderCollect();renderIncome();renderExpense();renderVisitRecords();updateMyNameAndStatus();updateBalance();}
+// ===== 系统提示相关 =====
+var systemToastVisible=false;
+
+// ===== 离线消息相关 =====
+var isPageVisible=true;
+var pendingItems=[];
+var offlineTimer=null;
+
+// ===== 拍一拍相关 =====
+var lastTapTime=0;
+var lastTapTarget=null;
+
+function saveAll(){try{localStorage.setItem(DATA_KEY,JSON.stringify({friends:friends,chatHistory:chatHistory,momentItems:momentItems,wordCards:wordCards,patpatList:patpatList,statusList:statusList,myName:myName,myStatus:myStatus,myAvatarData:myAvatarData,emojiGroups:emojiGroups,kaoGroups:kaoGroups,stickerList:stickerList,collectItems:collectItems,transferRecords:transferRecords,visitRecords:visitRecords}));}catch(e){}}
+function loadAll(){try{var d=JSON.parse(localStorage.getItem(DATA_KEY));if(d){if(d.friends)friends=d.friends;if(d.chatHistory)chatHistory=d.chatHistory;if(d.momentItems)momentItems=d.momentItems;if(d.wordCards)wordCards=d.wordCards;if(d.patpatList)patpatList=d.patpatList;if(d.statusList)statusList=d.statusList;if(d.myName)myName=d.myName;if(d.myStatus)myStatus=d.myStatus;if(d.myAvatarData)myAvatarData=d.myAvatarData;if(d.emojiGroups)emojiGroups=d.emojiGroups;if(d.kaoGroups)kaoGroups=d.kaoGroups;if(d.stickerList)stickerList=d.stickerList;if(d.collectItems)collectItems=d.collectItems;if(d.transferRecords)transferRecords=d.transferRecords;if(d.visitRecords)visitRecords=d.visitRecords;}}catch(e){}renderAll();}
+function renderAll(){renderChatList();renderContact();renderMoments();renderWordCards();renderPatpat();renderStatus();renderStatusOptions();loadChat(currentChatId);updateMyAvatar();updateMomentAvatar();renderCollect();renderTransferRecords();renderVisitRecords();updateMyNameAndStatus();}
+
+// ===== 系统提示函数 =====
+function showSystemToast(text){
+    var toast=document.getElementById('systemToast');
+    toast.innerText=text;
+    toast.style.display='block';
+    
+    if(toast._timer)clearTimeout(toast._timer);
+    
+    toast._timer=setTimeout(function(){
+        toast.style.display='none';
+    },3000);
+}
+
+// ===== 拍一拍逻辑（只能双击头像触发） =====
+function handleDoubleTap(e){
+    var now=Date.now();
+    var target=e.target.closest('.msg-avatar');
+    
+    if(!target) return;
+    
+    var msgRow=target.closest('.msg-row');
+    var isMe=msgRow && msgRow.classList.contains('me');
+    
+    if(now-lastTapTime<300 && lastTapTarget===target){
+        if(isMe){
+            // 对方拍你（10%概率）
+            if(Math.random()<0.1){
+                var text=patpatList[Math.floor(Math.random()*patpatList.length)] || '拍了拍你';
+                addPatpatTip(text);
+            }
+        }else{
+            // 你拍对方，弹出输入框
+            openPatpatModal();
+        }
+        lastTapTime=0;
+        lastTapTarget=null;
+    }else{
+        lastTapTime=now;
+        lastTapTarget=target;
+    }
+}
+
+// 添加拍一拍灰色提示（像微信一样）
+function addPatpatTip(text){
+    var time=getTime();
+    if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];
+    chatHistory[currentChatId].push({html:'<div class="patpat-tip">'+text+'</div>',isMe:false,time:time});
+    loadChat(currentChatId);
+    saveAll();
+}
+
+// 打开拍一拍输入弹窗
+function openPatpatModal(){
+    document.getElementById('patpatMask').style.display='block';
+    document.getElementById('patpatModal').style.display='block';
+    document.getElementById('patpatInput').value='';
+    document.getElementById('patpatInput').focus();
+}
+
+// 确认拍一拍
+function confirmPatpat(){
+    var text=document.getElementById('patpatInput').value.trim();
+    if(!text) return;
+    
+    // 你拍对方，直接显示输入的内容
+    addPatpatTip(text);
+    
+    // 关闭弹窗
+    cancelPatpat();
+}
+
+// 取消拍一拍
+function cancelPatpat(){
+    document.getElementById('patpatMask').style.display='none';
+    document.getElementById('patpatModal').style.display='none';
+}
+
 function updateMyNameAndStatus(){document.getElementById('myName').innerText=myName;document.getElementById('momentMyName').innerText=myName;document.getElementById('myStatusText').innerText=myStatus;}
-function updateBalance(){document.getElementById('myBalance').innerText=myBalance;}
-function editMyBalance(){var v=prompt('设置余额：',myBalance);if(v&&!isNaN(v)){myBalance=parseFloat(v);updateBalance();saveAll();}}
 function updateMyAvatar(){var img=document.getElementById('myAvatarImg');if(img){if(myAvatarData){img.style.display='block';img.src=myAvatarData;}else{img.style.display='none';}}}
 function updateMomentAvatar(){var av=document.getElementById('momentMyAvatar');if(av){if(myAvatarData){av.innerHTML='<img src="'+myAvatarData+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';}else{av.innerHTML='<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.2"/><path d="M6 18.5h12v-1a3.2 3.2 0 0 0-3.2-3.2h-5.6A3.2 3.2 0 0 0 6 17.5v1z"/></svg>';}}}
 function editMyName(){var n=document.getElementById('myName');var input=document.createElement('input');input.value=myName;input.style.cssText='font-size:16px;border:none;outline:none;width:80px;background:transparent';n.innerHTML='';n.appendChild(input);input.focus();input.onblur=function(){myName=input.value.trim()||myName;updateMyNameAndStatus();saveAll();};}
@@ -364,7 +486,6 @@ function addStatusFromPanel(){var v=document.getElementById('newStatusInput').va
 function showPage(id){var pages=document.querySelectorAll('.page');for(var i=0;i<pages.length;i++)pages[i].classList.remove('active');document.getElementById('page'+id.charAt(0).toUpperCase()+id.slice(1)).classList.add('active');document.getElementById('tabBar').style.display=(id==='chat')?'none':'flex';}
 function switchTab(el){var tabs=document.querySelectorAll('.tab-bar button');for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');el.classList.add('active');var pageMap={chatList:'chatList',contact:'contact',my:'my'};showPage(pageMap[el.dataset.tab]);}
 function switchSettingTab(el){document.querySelectorAll('.fp-body .sub-tab').forEach(function(t){t.classList.remove('active');});el.classList.add('active');var groups=['speed','wordcard','patpat','status','backup'];groups.forEach(function(g){document.getElementById('setting-'+g).style.display='none';});document.getElementById('setting-'+el.dataset.setting).style.display='block';}
-function switchRecordTab(el,type){document.querySelectorAll('.record-tab').forEach(function(t){t.classList.remove('active');});el.classList.add('active');document.getElementById('incomeList').style.display=type==='income'?'block':'none';document.getElementById('expenseList').style.display=type==='expense'?'block':'none';}
 
 function userSVG(){return '<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.2"/><path d="M6 18.5h12v-1a3.2 3.2 0 0 0-3.2-3.2h-5.6A3.2 3.2 0 0 0 6 17.5v1z"/></svg>';}
 function showPinnedMenu(f){var modal=document.createElement('div');modal.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:999;display:flex;align-items:center;justify-content:center;';var action=f.pinned?'取消置顶':'置顶';modal.innerHTML='<div style="background:#fff;border-radius:12px;padding:16px;width:220px;text-align:center;"><div style="font-size:15px;font-weight:500;margin-bottom:10px;">'+f.name+'</div><div style="display:flex;gap:8px;justify-content:center;"><button style="flex:1;padding:8px;border:none;background:#07c160;color:#fff;border-radius:8px;cursor:pointer;" onclick="togglePin('+f.id+');this.closest(\'div[style]\').remove()">'+action+'</button><button style="flex:1;padding:8px;border:none;background:#f0f0f0;color:#333;border-radius:8px;cursor:pointer;" onclick="this.closest(\'div[style]\').remove()">取消</button></div></div>';document.body.appendChild(modal);modal.onclick=function(e){if(e.target===modal)modal.remove();};}
@@ -383,8 +504,7 @@ function renderPatpat(){var c=document.getElementById('patpatList');c.innerHTML=
 function renderStatus(){var c=document.getElementById('statusList');c.innerHTML='';statusList.forEach(function(s,i){c.innerHTML+='<span class="tag">'+s+'<span class="del" onclick="deleteStatus('+i+')">✕</span></span>';});}
 function renderStatusOptions(){var c=document.getElementById('statusOptions');c.innerHTML='';statusList.forEach(function(s){c.innerHTML+='<div style="padding:10px;border-bottom:1px solid #eee;cursor:pointer;" onclick="setMyStatus(\''+s+'\')">'+s+'</div>';});}
 function renderCollect(){var c=document.getElementById('collectList');c.innerHTML='';collectItems.forEach(function(item){c.innerHTML+='<div class="record-item"><div class="record-time">'+item.time+'</div><div class="record-text">'+item.text+'</div></div>';});}
-function renderIncome(){var c=document.getElementById('incomeList');c.innerHTML='';incomeRecords.forEach(function(item){c.innerHTML+='<div class="record-item"><div class="record-time">'+item.time+'</div><div class="record-text">'+item.text+'</div></div>';});}
-function renderExpense(){var c=document.getElementById('expenseList');c.innerHTML='';expenseRecords.forEach(function(item){c.innerHTML+='<div class="record-item"><div class="record-time">'+item.time+'</div><div class="record-text">'+item.text+'</div></div>';});}
+function renderTransferRecords(){var c=document.getElementById('transferRecordList');c.innerHTML='';transferRecords.forEach(function(item){c.innerHTML+='<div class="record-item"><div class="record-time">'+item.time+'</div><div class="record-text">'+item.text+'</div></div>';});}
 function renderVisitRecords(){var c=document.getElementById('visitRecordList');c.innerHTML='';visitRecords.forEach(function(item){c.innerHTML+='<div class="record-item"><div class="record-time">'+item.time+'</div><div class="record-text">'+item.text+'</div></div>';});}
 
 function switchEmojiTab(el){var tabs=document.querySelectorAll('.tab');for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');el.classList.add('active');document.getElementById('kaoBar').style.display='none';document.getElementById('imgBar').style.display='none';document.getElementById('subTabs').style.display='flex';
@@ -400,6 +520,9 @@ document.getElementById('stickerFile').addEventListener('change',function(e){var
 function sendStickerMsg(src){addMsg('<img src="'+src+'" style="max-width:100px;border-radius:6px;">',true);document.getElementById('emojiPanel').style.display='none';}
 function toggleEmoji(e){if(e)e.stopPropagation();var p=document.getElementById('emojiPanel');p.style.display=(p.style.display==='flex')?'none':'flex';if(p.style.display==='flex'){var activeTab=document.querySelector('.tab.active');if(activeTab)switchEmojiTab(activeTab);}}
 document.addEventListener('click',function(e){var panel=document.getElementById('emojiPanel');var faceBtn=document.getElementById('faceBtn');if(panel.style.display==='flex'&&!panel.contains(e.target)&&!faceBtn.contains(e.target)){panel.style.display='none';}});
+
+// ===== 双击拍一拍监听（只能头像） =====
+document.addEventListener('click',handleDoubleTap);
 
 function openChat(id){currentChatId=id;var f=friends.find(function(x){return x.id===id;});if(f)document.getElementById('chatTitle').innerText=f.name;showPage('chat');loadChat(id);}
 function loadChat(id){var box=document.getElementById('chatBox');box.innerHTML='';var msgs=chatHistory[id]||[];var lastMin='';var f=friends.find(function(x){return x.id===id;});
@@ -423,4 +546,46 @@ function showAddMenu(){showPanel('addPanel');}
 function showFriendForm(){document.getElementById('friendForm').style.display='block';document.getElementById('groupForm').style.display='none';}
 function showGroupForm(){document.getElementById('groupForm').style.display='block';document.getElementById('friendForm').style.display='none';renderMembers();}
 function renderMembers(){var c=document.getElementById('memberSelect');c.innerHTML='';friends.forEach(function(f,i){c.innerHTML+='<label style="display:block;padding:5px;"><input type="checkbox" class="gm" value="'+i+'"> '+f.name+'</label>';});}
-function addFriend(){var name=document.getElementById('newFriendName').value.trim();if(!name)return
+function addFriend(){var name=document.getElementById('newFriendName').value.trim();if(!name)return;friends.push({id:friends.length+1,name:name,avatar:newFriendAvatarData||'',pinned:false});newFriendAvatarData='';closeAll();renderChatList();renderContact();saveAll();}
+function createGroup(){var n=document.getElementById('groupName').value||'群聊';var s=document.querySelectorAll('.gm:checked');if(s.length===0)return;friends.push({id:friends.length+1,name:n,avatar:'',pinned:false});closeAll();renderChatList();renderContact();saveAll();}
+
+function sendRedpacket(){var m=document.getElementById('rpMoney').value;var r=document.getElementById('rpRemark').value||'恭喜发财';if(!m)return;closeAll();var time=getTime();var html='<div class="redpack-bubble" onclick="openRedpacket(this,\''+m+'\',\''+r+'\')"><div class="redpack-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="12" y1="10" x2="12" y2="14"/><line x1="10" y1="12" x2="14" y2="12"/></svg></div><div class="redpack-text">'+r+'</div><div class="redpack-footer">微信红包</div></div>';if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({html:html,isMe:true,time:time});transferRecords.push({time:getTime(),text:'你给爱因发了红包 ¥'+m});saveAll();loadChat(currentChatId);
+showSystemToast('你给爱因发了红包 ¥'+m);}
+function openRedpacket(el,money,remark){if(el.dataset.opened)return;el.dataset.opened='1';var modal=document.createElement('div');modal.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;';modal.innerHTML='<div style="width:280px;height:420px;background:#e63939;border-radius:16px;position:relative;color:#fff;text-align:center;padding-top:60px;"><div style="font-size:18px;">'+remark+'</div><div style="width:80px;height:80px;background:#f8dd99;border-radius:50%;position:absolute;bottom:80px;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;font-size:28px;color:#333;cursor:pointer;" onclick="receiveRedpacket(this,\''+money+'\')">開</div><div style="width:36px;height:36px;border:2px solid #f8dd99;border-radius:50%;position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;font-size:18px;color:#f8dd99;cursor:pointer;" onclick="this.closest(\'div[style]\').remove()">×</div></div>';document.body.appendChild(modal);modal.onclick=function(e){if(e.target===modal)modal.remove();};}
+function receiveRedpacket(btn,money){btn.parentElement.innerHTML='<div style="color:#f8dd99;font-size:16px;">已领取</div><div style="color:#fff;font-size:36px;font-weight:bold;margin:10px 0;">¥'+money+'</div>';transferRecords.push({time:getTime(),text:'你收了爱因的红包 ¥'+money});saveAll();
+showSystemToast('你收到了爱因的红包 ¥'+money);}
+function sendTransfer(){var m=document.getElementById('tfMoney').value;var r=document.getElementById('tfRemark').value||'';if(!m)return;closeAll();var time=getTime();var html='<div class="transfer-bubble"><div class="transfer-icon">⇋</div><div><div class="transfer-money">¥'+m+'</div><div class="transfer-text">你发起了一笔转账</div></div><div class="transfer-footer">'+(r||'转账')+'</div></div>';if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({html:html,isMe:true,time:time});transferRecords.push({time:getTime(),text:'你给爱因转账 ¥'+m});saveAll();loadChat(currentChatId);
+showSystemToast('你给爱因转了 ¥'+m);}
+function sendGift(){closeAll();var time=getTime();var html='<div class="gift-card"><div class="gift-bg-layer"></div><div class="gift-left"><svg class="gift-icon" viewBox="0 0 100 100"><rect x="47" y="8" width="6" height="84" rx="2" fill="#f8d89c"/><path d="M22,42 C22,28 38,28 38,42 C38,56 22,56 22,42 Z" fill="#f8d89c"/><path d="M62,42 C62,28 78,28 78,42 C78,56 62,56 62,42 Z" fill="#f8d89c"/></svg></div><div class="gift-right"><div class="gift-title">送你一份心意</div><div class="gift-footer">微信礼物</div></div></div>';if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({html:html,isMe:true,time:time});loadChat(currentChatId);saveAll();
+showSystemToast('你给爱因送了礼物');}
+function sendMusic(){closeAll();var time=getTime();var song='多幸运';var singer='韩安旭';var html='<div class="music-card"><div class="music-left"><div style="position:absolute;width:100%;height:100%;"><div style="position:absolute;top:12%;left:22%;font-size:20px;color:#fff;font-weight:bold;">'+song.charAt(0)+'</div><div style="position:absolute;top:35%;left:8%;font-size:14px;color:#fff;font-weight:bold;">'+song.charAt(1)+'</div><div style="position:absolute;top:42%;left:60%;font-size:14px;color:#fff;font-weight:bold;">'+song.charAt(2)+'</div><div style="position:absolute;top:48%;left:30%;font-size:18px;color:#fff;">♡</div><div style="position:absolute;bottom:8%;left:10%;font-size:10px;color:#fff;">'+singer+'</div><div style="position:absolute;bottom:8%;right:10%;font-size:12px;color:#fff;">0.8x</div></div></div><div class="music-right"><div class="music-title">'+song+' (0.8X降速版)</div><div class="music-singer">'+singer+'</div></div><div class="music-play">▶</div></div>';if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({html:html,isMe:true,time:time});loadChat(currentChatId);saveAll();
+showSystemToast('你给爱因分享了音乐：'+song);}
+
+function startCall(type){var cf=document.getElementById('callFloat');cf.style.display='block';document.getElementById('cfStatus').textContent=type+'呼叫中...';showSystemToast('你给爱因打了'+type+'通话');setTimeout(function(){document.getElementById('cfStatus').textContent='对方无法接听';setTimeout(function(){cf.style.display='none';addMsg('通话结束',false);},2000);},2000);}
+function endCall(){document.getElementById('callFloat').style.display='none';addMsg('通话结束',false);
+showSystemToast('爱因的'+document.getElementById('cfStatus').textContent.split('呼叫中')[0]+'通话已结束，未接听');}
+
+function changeCover(){document.getElementById('fileCover').click();}
+function setCover(){var f=document.getElementById('fileCover').files[0];if(f){var url=URL.createObjectURL(f);document.getElementById('momentCover').style.backgroundImage='url('+url+')';}}
+function likeMoment(btn){btn.classList.toggle('liked');btn.style.color=btn.classList.contains('liked')?'#e64340':'#666';}
+function commentMoment(btn){var card=btn.closest('.moment-card');var area=card.querySelector('.comment-area');var input=document.createElement('input');input.style.cssText='width:100%;padding:5px;border:1px solid #ddd;border-radius:4px;font-size:11px;margin-top:4px;';input.placeholder='写评论...';input.onkeydown=function(e){if(e.key==='Enter'&&input.value.trim()){area.innerHTML+='<div class="comment-item"><span>我</span>：'+input.value+'</div>';input.remove();}};area.appendChild(input);input.focus();}
+function addMoment(name,content){momentItems.push({name:name,content:content});renderMoments();saveAll();}
+
+function showFullPage(id){document.getElementById(id).style.display='flex';}
+function closeFullPage(id){document.getElementById(id).style.display='none';}
+function addWordCards(){var v=document.getElementById('wordCardsInput').value.trim();if(v){wordCards=wordCards.concat(v.split('\n').filter(function(l){return l.trim();}));document.getElementById('wordCardsInput').value='';renderWordCards();saveAll();}}
+function addPatPat(){var v=document.getElementById('patpatInput').value.trim();if(v){patpatList=patpatList.concat(v.split('\n').filter(function(l){return l.trim();}));document.getElementById('patpatInput').value='';renderPatpat();saveAll();}}
+function addStatus(){var v=document.getElementById('statusInput').value.trim();if(v){statusList=statusList.concat(v.split('\n').filter(function(l){return l.trim();}));document.getElementById('statusInput').value='';renderStatus();renderStatusOptions();saveAll();}}
+function deleteWordCard(i){wordCards.splice(i,1);renderWordCards();saveAll();}
+function deletePatpat(i){patpatList.splice(i,1);renderPatpat();saveAll();}
+function deleteStatus(i){statusList.splice(i,1);renderStatus();renderStatusOptions();saveAll();}
+function backupAll(){var data={friends:friends,chatHistory:chatHistory,wordCards:wordCards,patpatList:patpatList,statusList:statusList,collectItems:collectItems,transferRecords:transferRecords,visitRecords:visitRecords,myName:myName,myStatus:myStatus};var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='backup.json';a.click();}
+
+showPage('chat');loadAll();
+if(momentItems.length===0){addMoment('我','今天天气真好');addMoment('爱因','想你了');}
+
+// 启动离线消息功能
+startOfflineMessages();
+</script>
+</body>
+</html>
