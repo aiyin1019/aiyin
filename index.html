@@ -48,10 +48,10 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 .sub-tab.active{background:#07c160;color:#fff}
 .sub-tab.add-btn{background:#e8f5e9;color:#07c160;font-weight:bold}
 .content{flex:1;overflow-y:auto;padding:8px}
-.emoji-grid{display:flex;flex-wrap:wrap;gap:4px;align-content:flex-start}
-.emoji-grid span{width:14.28%;aspect-ratio:1/1;background:#fff;border:1px solid #eee;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer}
+.emoji-grid{display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start}
+.emoji-grid span{width:14.28%;aspect-ratio:1/1;background:#f0f0f0;border:1px solid #e0e0e0;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer}
 .kao-grid{display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start}
-.kao-grid span{width:48%;min-height:40px;background:#fff;border:1px solid #eee;border-radius:8px;padding:8px 6px;font-size:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;word-break:break-all}
+.kao-grid span{width:48%;min-height:40px;background:#f0f0f0;border:1px solid #e0e0e0;border-radius:8px;padding:8px 6px;font-size:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;word-break:break-all}
 .img-grid{display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start}
 .img-grid .sticker{width:23%;border-radius:8px;overflow:hidden;cursor:pointer;background:#f0f0f0}
 .img-grid .sticker img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
@@ -85,6 +85,8 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 .my-media-wrap{width:100%;height:100%;position:absolute;top:0;left:0;cursor:pointer;overflow:hidden}
 .my-menu-item{width:100%;height:46px;font-size:16px;display:flex;align-items:center;padding-left:12px;position:relative;cursor:pointer}
 .my-menu-item::after{content:"";position:absolute;left:42px;right:0;bottom:0;height:1px;background:#eee}
+.my-balance{display:flex;align-items:center;padding:10px 12px;font-size:14px;cursor:pointer}
+.my-balance::after{content:"";position:absolute;left:42px;right:0;bottom:0;height:1px;background:#eee;position:relative}
 .moments-page{flex:1;display:flex;flex-direction:column;background:#f5f5f5}
 .moments-cover{height:180px;background:#b8d8d8;background-size:cover;background-position:center;position:relative;flex-shrink:0}
 .moments-cover .camera{position:absolute;top:10px;right:12px;color:#fff;cursor:pointer}
@@ -104,6 +106,9 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 .comment-item{font-size:12px;padding:3px 0;cursor:pointer}
 .comment-item span{color:#3366cc}
 .record-page{flex:1;overflow-y:auto;background:#f5f5f5;padding:8px}
+.record-tabs{display:flex;background:#fff;border-bottom:1px solid #eee}
+.record-tab{flex:1;text-align:center;padding:10px;font-size:14px;cursor:pointer;color:#666;border-bottom:2px solid transparent}
+.record-tab.active{color:#07c160;border-bottom-color:#07c160;font-weight:600}
 .record-item{background:#f0f0f0;border-radius:8px;padding:10px 12px;margin-bottom:1px;border-bottom:1px solid #ddd}
 .record-item:last-child{border-bottom:none}
 .record-time{font-size:10px;color:#999;margin-bottom:4px}
@@ -199,6 +204,7 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 <div class="my-status" id="myStatusText" onclick="showStatusPanel()">+状态</div>
 <div class="my-media-wrap" onclick="document.getElementById('myMediaFile').click()"><img id="myBgImg" style="width:100%;height:100%;object-fit:cover;display:none;"><video id="myBgVideo" style="width:100%;height:100%;object-fit:cover;display:none;" loop autoplay muted></video></div>
 </div>
+<div class="my-balance" onclick="editMyBalance()">💰 余额：¥<span id="myBalance">520000</span></div>
 <div class="my-menu-item" onclick="showPage('moment')">朋友圈</div>
 <div class="my-menu-item" onclick="showPage('collect')">收藏</div>
 <div class="my-menu-item" onclick="showPage('transferRecord')">转账记录</div>
@@ -225,7 +231,14 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 
 <div id="pageTransferRecord" class="page">
 <div class="top-bar"><button class="back" onclick="showPage('my')"><svg class="icon" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button><div class="title">转账记录</div></div>
-<div class="record-page" id="transferRecordList"></div>
+<div class="record-page">
+<div class="record-tabs">
+<div class="record-tab active" onclick="switchRecordTab(this,'income')">收入</div>
+<div class="record-tab" onclick="switchRecordTab(this,'expense')">支出</div>
+</div>
+<div id="incomeList"></div>
+<div id="expenseList" style="display:none;"></div>
+</div>
 </div>
 
 <div id="pageVisitRecord" class="page">
@@ -318,26 +331,26 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 </div>
 
 <script>
-var DATA_KEY='wx_final12';
+var DATA_KEY='wx_final14';
 var friends=[{id:1,name:'爱因',avatar:'',pinned:true}];
 var chatHistory={};var momentItems=[];var currentChatId=1;
 var wordCards=['我喜欢你','今天天气真好','一起听歌吗','晚安','早安','想你了','哈哈哈','好呀','嗯嗯','在干嘛'];
-var patpatList=['拍了拍你的头','拍了拍你的肩膀'];
-var statusList=['在看海','听歌中','休息中'];
-var myName='我';
-var myStatus='+状态';
-var myAvatarData='';var newFriendAvatarData='';
+var patpatList=['拍了拍你的头','拍了拍你的肩膀'];var statusList=['在看海','听歌中','休息中'];
+var myName='我';var myStatus='+状态';var myAvatarData='';var newFriendAvatarData='';var myBalance=520000;
 var emojiGroups=[{title:"常用",list:['😀','😃','😄','😁','😆','😅','😂','🤣','😊','😇','🙂','🙃','😉','😌','😍','🥰','😘','😗','😙','😚']},{title:"情绪",list:['😋','😜','😝','😛','🤑','😎','🤓','🧐','😏','😒','🙄','😮','😯','😲','😳','🥺','😦','😧','😨','😰','😥','😢','😭','😱','😖','😣','😞','😓','😩','😫','🥱','😴']},{title:"爱心",list:['❤️','🧡','💛','💚','💙','💜','🤍','🤎','🖤','💔','❣️','💕','💞','💓','💗','💖','💘','💝','💟','💌']},{title:"装饰",list:['🔥','💯','✨','💫','⭐','🌟','💥','💢','💦','💨','💤','💬','💭','💮','🪷','🌸','🌺']},{title:"动物",list:['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🙈','🙉','🙊','🐔','🐧','🐦','🐤','🦆','🦅','🦉','🦇','🐺','🐗','🐴','🦄']}];
 var kaoGroups=[{title:"开心",list:['(๑•̀ㅂ•́)و✧','(≧∇≦)ﾉ','ヽ(✿ﾟ▽ﾟ)ノ']},{title:"委屈",list:['(｡•́︿•̀｡)','(>﹏<)']},{title:"温柔",list:['( ´･ᴗ･` )']}];
 var stickerList=[];var currentEmojiType='emoji';var currentGroupIndex=0;
 var collectItems=[{time:'今天 10:25',text:'爱因说：晚安'},{time:'昨天 22:10',text:'🎤语音消息'}];
-var transferRecords=[{time:'2026-08-28 14:30',text:'爱因给你转账 ¥520'},{time:'2026-08-27 09:15',text:'你收了爱因的红包 ¥52'}];
+var incomeRecords=[{time:'2026-08-28 14:30',text:'爱因给你转账 +¥520'},{time:'2026-08-27 09:15',text:'你收了爱因的红包 +¥52'}];
+var expenseRecords=[{time:'2026-08-26 10:00',text:'你给爱因发红包 -¥88'},{time:'2026-08-25 15:00',text:'你给爱因转账 -¥200'}];
 var visitRecords=[{time:'今天 09:00',text:'爱因访问了你的主页'},{time:'昨天 20:30',text:'爱因访问了你的朋友圈'}];
 
-function saveAll(){try{localStorage.setItem(DATA_KEY,JSON.stringify({friends:friends,chatHistory:chatHistory,momentItems:momentItems,wordCards:wordCards,patpatList:patpatList,statusList:statusList,myName:myName,myStatus:myStatus,myAvatarData:myAvatarData,emojiGroups:emojiGroups,kaoGroups:kaoGroups,stickerList:stickerList,collectItems:collectItems,transferRecords:transferRecords,visitRecords:visitRecords}));}catch(e){}}
-function loadAll(){try{var d=JSON.parse(localStorage.getItem(DATA_KEY));if(d){if(d.friends)friends=d.friends;if(d.chatHistory)chatHistory=d.chatHistory;if(d.momentItems)momentItems=d.momentItems;if(d.wordCards)wordCards=d.wordCards;if(d.patpatList)patpatList=d.patpatList;if(d.statusList)statusList=d.statusList;if(d.myName)myName=d.myName;if(d.myStatus)myStatus=d.myStatus;if(d.myAvatarData)myAvatarData=d.myAvatarData;if(d.emojiGroups)emojiGroups=d.emojiGroups;if(d.kaoGroups)kaoGroups=d.kaoGroups;if(d.stickerList)stickerList=d.stickerList;if(d.collectItems)collectItems=d.collectItems;if(d.transferRecords)transferRecords=d.transferRecords;if(d.visitRecords)visitRecords=d.visitRecords;}}catch(e){}renderAll();}
-function renderAll(){renderChatList();renderContact();renderMoments();renderWordCards();renderPatpat();renderStatus();renderStatusOptions();loadChat(currentChatId);updateMyAvatar();updateMomentAvatar();renderCollect();renderTransferRecords();renderVisitRecords();updateMyNameAndStatus();}
+function saveAll(){try{localStorage.setItem(DATA_KEY,JSON.stringify({friends:friends,chatHistory:chatHistory,momentItems:momentItems,wordCards:wordCards,patpatList:patpatList,statusList:statusList,myName:myName,myStatus:myStatus,myAvatarData:myAvatarData,myBalance:myBalance,emojiGroups:emojiGroups,kaoGroups:kaoGroups,stickerList:stickerList,collectItems:collectItems,incomeRecords:incomeRecords,expenseRecords:expenseRecords,visitRecords:visitRecords}));}catch(e){}}
+function loadAll(){try{var d=JSON.parse(localStorage.getItem(DATA_KEY));if(d){if(d.friends)friends=d.friends;if(d.chatHistory)chatHistory=d.chatHistory;if(d.momentItems)momentItems=d.momentItems;if(d.wordCards)wordCards=d.wordCards;if(d.patpatList)patpatList=d.patpatList;if(d.statusList)statusList=d.statusList;if(d.myName)myName=d.myName;if(d.myStatus)myStatus=d.myStatus;if(d.myAvatarData)myAvatarData=d.myAvatarData;if(d.myBalance)myBalance=d.myBalance;if(d.emojiGroups)emojiGroups=d.emojiGroups;if(d.kaoGroups)kaoGroups=d.kaoGroups;if(d.stickerList)stickerList=d.stickerList;if(d.collectItems)collectItems=d.collectItems;if(d.incomeRecords)incomeRecords=d.incomeRecords;if(d.expenseRecords)expenseRecords=d.expenseRecords;if(d.visitRecords)visitRecords=d.visitRecords;}}catch(e){}renderAll();}
+function renderAll(){renderChatList();renderContact();renderMoments();renderWordCards();renderPatpat();renderStatus();renderStatusOptions();loadChat(currentChatId);updateMyAvatar();updateMomentAvatar();renderCollect();renderIncome();renderExpense();renderVisitRecords();updateMyNameAndStatus();updateBalance();}
 function updateMyNameAndStatus(){document.getElementById('myName').innerText=myName;document.getElementById('momentMyName').innerText=myName;document.getElementById('myStatusText').innerText=myStatus;}
+function updateBalance(){document.getElementById('myBalance').innerText=myBalance;}
+function editMyBalance(){var v=prompt('设置余额：',myBalance);if(v&&!isNaN(v)){myBalance=parseFloat(v);updateBalance();saveAll();}}
 function updateMyAvatar(){var img=document.getElementById('myAvatarImg');if(img){if(myAvatarData){img.style.display='block';img.src=myAvatarData;}else{img.style.display='none';}}}
 function updateMomentAvatar(){var av=document.getElementById('momentMyAvatar');if(av){if(myAvatarData){av.innerHTML='<img src="'+myAvatarData+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';}else{av.innerHTML='<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.2"/><path d="M6 18.5h12v-1a3.2 3.2 0 0 0-3.2-3.2h-5.6A3.2 3.2 0 0 0 6 17.5v1z"/></svg>';}}}
 function editMyName(){var n=document.getElementById('myName');var input=document.createElement('input');input.value=myName;input.style.cssText='font-size:16px;border:none;outline:none;width:80px;background:transparent';n.innerHTML='';n.appendChild(input);input.focus();input.onblur=function(){myName=input.value.trim()||myName;updateMyNameAndStatus();saveAll();};}
@@ -351,6 +364,7 @@ function addStatusFromPanel(){var v=document.getElementById('newStatusInput').va
 function showPage(id){var pages=document.querySelectorAll('.page');for(var i=0;i<pages.length;i++)pages[i].classList.remove('active');document.getElementById('page'+id.charAt(0).toUpperCase()+id.slice(1)).classList.add('active');document.getElementById('tabBar').style.display=(id==='chat')?'none':'flex';}
 function switchTab(el){var tabs=document.querySelectorAll('.tab-bar button');for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');el.classList.add('active');var pageMap={chatList:'chatList',contact:'contact',my:'my'};showPage(pageMap[el.dataset.tab]);}
 function switchSettingTab(el){document.querySelectorAll('.fp-body .sub-tab').forEach(function(t){t.classList.remove('active');});el.classList.add('active');var groups=['speed','wordcard','patpat','status','backup'];groups.forEach(function(g){document.getElementById('setting-'+g).style.display='none';});document.getElementById('setting-'+el.dataset.setting).style.display='block';}
+function switchRecordTab(el,type){document.querySelectorAll('.record-tab').forEach(function(t){t.classList.remove('active');});el.classList.add('active');document.getElementById('incomeList').style.display=type==='income'?'block':'none';document.getElementById('expenseList').style.display=type==='expense'?'block':'none';}
 
 function userSVG(){return '<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.2"/><path d="M6 18.5h12v-1a3.2 3.2 0 0 0-3.2-3.2h-5.6A3.2 3.2 0 0 0 6 17.5v1z"/></svg>';}
 function showPinnedMenu(f){var modal=document.createElement('div');modal.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:999;display:flex;align-items:center;justify-content:center;';var action=f.pinned?'取消置顶':'置顶';modal.innerHTML='<div style="background:#fff;border-radius:12px;padding:16px;width:220px;text-align:center;"><div style="font-size:15px;font-weight:500;margin-bottom:10px;">'+f.name+'</div><div style="display:flex;gap:8px;justify-content:center;"><button style="flex:1;padding:8px;border:none;background:#07c160;color:#fff;border-radius:8px;cursor:pointer;" onclick="togglePin('+f.id+');this.closest(\'div[style]\').remove()">'+action+'</button><button style="flex:1;padding:8px;border:none;background:#f0f0f0;color:#333;border-radius:8px;cursor:pointer;" onclick="this.closest(\'div[style]\').remove()">取消</button></div></div>';document.body.appendChild(modal);modal.onclick=function(e){if(e.target===modal)modal.remove();};}
@@ -369,7 +383,8 @@ function renderPatpat(){var c=document.getElementById('patpatList');c.innerHTML=
 function renderStatus(){var c=document.getElementById('statusList');c.innerHTML='';statusList.forEach(function(s,i){c.innerHTML+='<span class="tag">'+s+'<span class="del" onclick="deleteStatus('+i+')">✕</span></span>';});}
 function renderStatusOptions(){var c=document.getElementById('statusOptions');c.innerHTML='';statusList.forEach(function(s){c.innerHTML+='<div style="padding:10px;border-bottom:1px solid #eee;cursor:pointer;" onclick="setMyStatus(\''+s+'\')">'+s+'</div>';});}
 function renderCollect(){var c=document.getElementById('collectList');c.innerHTML='';collectItems.forEach(function(item){c.innerHTML+='<div class="record-item"><div class="record-time">'+item.time+'</div><div class="record-text">'+item.text+'</div></div>';});}
-function renderTransferRecords(){var c=document.getElementById('transferRecordList');c.innerHTML='';transferRecords.forEach(function(item){c.innerHTML+='<div class="record-item"><div class="record-time">'+item.time+'</div><div class="record-text">'+item.text+'</div></div>';});}
+function renderIncome(){var c=document.getElementById('incomeList');c.innerHTML='';incomeRecords.forEach(function(item){c.innerHTML+='<div class="record-item"><div class="record-time">'+item.time+'</div><div class="record-text">'+item.text+'</div></div>';});}
+function renderExpense(){var c=document.getElementById('expenseList');c.innerHTML='';expenseRecords.forEach(function(item){c.innerHTML+='<div class="record-item"><div class="record-time">'+item.time+'</div><div class="record-text">'+item.text+'</div></div>';});}
 function renderVisitRecords(){var c=document.getElementById('visitRecordList');c.innerHTML='';visitRecords.forEach(function(item){c.innerHTML+='<div class="record-item"><div class="record-time">'+item.time+'</div><div class="record-text">'+item.text+'</div></div>';});}
 
 function switchEmojiTab(el){var tabs=document.querySelectorAll('.tab');for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');el.classList.add('active');document.getElementById('kaoBar').style.display='none';document.getElementById('imgBar').style.display='none';document.getElementById('subTabs').style.display='flex';
@@ -408,37 +423,4 @@ function showAddMenu(){showPanel('addPanel');}
 function showFriendForm(){document.getElementById('friendForm').style.display='block';document.getElementById('groupForm').style.display='none';}
 function showGroupForm(){document.getElementById('groupForm').style.display='block';document.getElementById('friendForm').style.display='none';renderMembers();}
 function renderMembers(){var c=document.getElementById('memberSelect');c.innerHTML='';friends.forEach(function(f,i){c.innerHTML+='<label style="display:block;padding:5px;"><input type="checkbox" class="gm" value="'+i+'"> '+f.name+'</label>';});}
-function addFriend(){var name=document.getElementById('newFriendName').value.trim();if(!name)return;friends.push({id:friends.length+1,name:name,avatar:newFriendAvatarData||'',pinned:false});newFriendAvatarData='';closeAll();renderChatList();renderContact();saveAll();}
-function createGroup(){var n=document.getElementById('groupName').value||'群聊';var s=document.querySelectorAll('.gm:checked');if(s.length===0)return;friends.push({id:friends.length+1,name:n,avatar:'',pinned:false});closeAll();renderChatList();renderContact();saveAll();}
-
-function sendRedpacket(){var m=document.getElementById('rpMoney').value;var r=document.getElementById('rpRemark').value||'恭喜发财';if(!m)return;closeAll();var time=getTime();var html='<div class="redpack-bubble" onclick="openRedpacket(this,\''+m+'\',\''+r+'\')"><div class="redpack-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="12" y1="10" x2="12" y2="14"/><line x1="10" y1="12" x2="14" y2="12"/></svg></div><div class="redpack-text">'+r+'</div><div class="redpack-footer">微信红包</div></div>';if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({html:html,isMe:true,time:time});transferRecords.push({time:getTime(),text:'你给爱因发了红包 ¥'+m});saveAll();loadChat(currentChatId);}
-function openRedpacket(el,money,remark){if(el.dataset.opened)return;el.dataset.opened='1';var modal=document.createElement('div');modal.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;';modal.innerHTML='<div style="width:280px;height:420px;background:#e63939;border-radius:16px;position:relative;color:#fff;text-align:center;padding-top:60px;"><div style="font-size:18px;">'+remark+'</div><div style="width:80px;height:80px;background:#f8dd99;border-radius:50%;position:absolute;bottom:80px;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;font-size:28px;color:#333;cursor:pointer;" onclick="receiveRedpacket(this,\''+money+'\')">開</div><div style="width:36px;height:36px;border:2px solid #f8dd99;border-radius:50%;position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;font-size:18px;color:#f8dd99;cursor:pointer;" onclick="this.closest(\'div[style]\').remove()">×</div></div>';document.body.appendChild(modal);modal.onclick=function(e){if(e.target===modal)modal.remove();};}
-function receiveRedpacket(btn,money){btn.parentElement.innerHTML='<div style="color:#f8dd99;font-size:16px;">已领取</div><div style="color:#fff;font-size:36px;font-weight:bold;margin:10px 0;">¥'+money+'</div>';transferRecords.push({time:getTime(),text:'你收了爱因的红包 ¥'+money});saveAll();}
-function sendTransfer(){var m=document.getElementById('tfMoney').value;var r=document.getElementById('tfRemark').value||'';if(!m)return;closeAll();var time=getTime();var html='<div class="transfer-bubble"><div class="transfer-icon">⇋</div><div><div class="transfer-money">¥'+m+'</div><div class="transfer-text">你发起了一笔转账</div></div><div class="transfer-footer">'+(r||'转账')+'</div></div>';if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({html:html,isMe:true,time:time});transferRecords.push({time:getTime(),text:'你给爱因转账 ¥'+m});saveAll();loadChat(currentChatId);}
-function sendGift(){closeAll();var time=getTime();var html='<div class="gift-card"><div class="gift-bg-layer"></div><div class="gift-left"><svg class="gift-icon" viewBox="0 0 100 100"><rect x="47" y="8" width="6" height="84" rx="2" fill="#f8d89c"/><path d="M22,42 C22,28 38,28 38,42 C38,56 22,56 22,42 Z" fill="#f8d89c"/><path d="M62,42 C62,28 78,28 78,42 C78,56 62,56 62,42 Z" fill="#f8d89c"/></svg></div><div class="gift-right"><div class="gift-title">送你一份心意</div><div class="gift-footer">微信礼物</div></div></div>';if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({html:html,isMe:true,time:time});loadChat(currentChatId);saveAll();}
-function sendMusic(){closeAll();var time=getTime();var song='多幸运';var singer='韩安旭';var html='<div class="music-card"><div class="music-left"><div style="position:absolute;width:100%;height:100%;"><div style="position:absolute;top:12%;left:22%;font-size:20px;color:#fff;font-weight:bold;">'+song.charAt(0)+'</div><div style="position:absolute;top:35%;left:8%;font-size:14px;color:#fff;font-weight:bold;">'+song.charAt(1)+'</div><div style="position:absolute;top:42%;left:60%;font-size:14px;color:#fff;font-weight:bold;">'+song.charAt(2)+'</div><div style="position:absolute;top:48%;left:30%;font-size:18px;color:#fff;">♡</div><div style="position:absolute;bottom:8%;left:10%;font-size:10px;color:#fff;">'+singer+'</div><div style="position:absolute;bottom:8%;right:10%;font-size:12px;color:#fff;">0.8x</div></div></div><div class="music-right"><div class="music-title">'+song+' (0.8X降速版)</div><div class="music-singer">'+singer+'</div></div><div class="music-play">▶</div></div>';if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({html:html,isMe:true,time:time});loadChat(currentChatId);saveAll();}
-
-function startCall(type){var cf=document.getElementById('callFloat');cf.style.display='block';document.getElementById('cfStatus').textContent=type+'呼叫中...';setTimeout(function(){document.getElementById('cfStatus').textContent='对方无法接听';setTimeout(function(){cf.style.display='none';addMsg('通话结束',false);},2000);},2000);}
-function endCall(){document.getElementById('callFloat').style.display='none';addMsg('通话结束',false);}
-
-function changeCover(){document.getElementById('fileCover').click();}
-function setCover(){var f=document.getElementById('fileCover').files[0];if(f){var url=URL.createObjectURL(f);document.getElementById('momentCover').style.backgroundImage='url('+url+')';}}
-function likeMoment(btn){btn.classList.toggle('liked');btn.style.color=btn.classList.contains('liked')?'#e64340':'#666';}
-function commentMoment(btn){var card=btn.closest('.moment-card');var area=card.querySelector('.comment-area');var input=document.createElement('input');input.style.cssText='width:100%;padding:5px;border:1px solid #ddd;border-radius:4px;font-size:11px;margin-top:4px;';input.placeholder='写评论...';input.onkeydown=function(e){if(e.key==='Enter'&&input.value.trim()){area.innerHTML+='<div class="comment-item"><span>我</span>：'+input.value+'</div>';input.remove();}};area.appendChild(input);input.focus();}
-function addMoment(name,content){momentItems.push({name:name,content:content});renderMoments();saveAll();}
-
-function showFullPage(id){document.getElementById(id).style.display='flex';}
-function closeFullPage(id){document.getElementById(id).style.display='none';}
-function addWordCards(){var v=document.getElementById('wordCardsInput').value.trim();if(v){wordCards=wordCards.concat(v.split('\n').filter(function(l){return l.trim();}));document.getElementById('wordCardsInput').value='';renderWordCards();saveAll();}}
-function addPatPat(){var v=document.getElementById('patpatInput').value.trim();if(v){patpatList=patpatList.concat(v.split('\n').filter(function(l){return l.trim();}));document.getElementById('patpatInput').value='';renderPatpat();saveAll();}}
-function addStatus(){var v=document.getElementById('statusInput').value.trim();if(v){statusList=statusList.concat(v.split('\n').filter(function(l){return l.trim();}));document.getElementById('statusInput').value='';renderStatus();renderStatusOptions();saveAll();}}
-function deleteWordCard(i){wordCards.splice(i,1);renderWordCards();saveAll();}
-function deletePatpat(i){patpatList.splice(i,1);renderPatpat();saveAll();}
-function deleteStatus(i){statusList.splice(i,1);renderStatus();renderStatusOptions();saveAll();}
-function backupAll(){var data={friends:friends,chatHistory:chatHistory,wordCards:wordCards,patpatList:patpatList,statusList:statusList,collectItems:collectItems,transferRecords:transferRecords,visitRecords:visitRecords,myName:myName,myStatus:myStatus};var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='backup.json';a.click();}
-
-showPage('chat');loadAll();
-if(momentItems.length===0){addMoment('我','今天天气真好');addMoment('爱因','想你了');}
-</script>
-</body>
-</html>
+function addFriend(){var name=document.getElementById('newFriendName').value.trim();if(!name)return
