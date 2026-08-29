@@ -85,6 +85,29 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 .my-media-wrap{width:100%;height:100%;position:absolute;top:0;left:0;cursor:pointer;overflow:hidden}
 .my-menu-item{width:100%;height:46px;font-size:16px;display:flex;align-items:center;padding-left:12px;position:relative;cursor:pointer}
 .my-menu-item::after{content:"";position:absolute;left:42px;right:0;bottom:0;height:1px;background:#eee}
+.moments-page{flex:1;display:flex;flex-direction:column;background:#f5f5f5}
+.moments-cover{height:180px;background:#b8d8d8;background-size:cover;background-position:center;position:relative;flex-shrink:0}
+.moments-cover .camera{position:absolute;top:10px;right:12px;color:#fff;cursor:pointer}
+.moments-cover .m-avatar{position:absolute;right:12px;bottom:-25px;width:50px;height:50px;border-radius:50%;border:2px solid #fff;background:#ccc;overflow:hidden}
+.moments-cover .m-name{position:absolute;right:70px;bottom:0;color:#fff;font-size:14px;font-weight:600}
+.moments-content{flex:1;overflow-y:auto;padding-top:34px}
+.moment-card{background:#fff;padding:10px 12px;border-bottom:1px solid #eee}
+.card-header{display:flex;gap:8px;align-items:center}
+.card-avatar{width:36px;height:36px;border-radius:4px;background:#ccc;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.card-name{font-size:14px;font-weight:500}
+.card-time{font-size:10px;color:#888;margin-top:2px}
+.card-content{margin-top:6px;font-size:13px;line-height:1.5}
+.card-action{display:flex;gap:16px;justify-content:flex-end;margin-top:6px;font-size:12px;color:#666}
+.action-item{cursor:pointer}
+.action-item.liked{color:#ff3b30}
+.comment-area{margin-top:6px}
+.comment-item{font-size:12px;padding:3px 0;cursor:pointer}
+.comment-item span{color:#3366cc}
+.record-page{flex:1;overflow-y:auto;background:#f5f5f5;padding:8px}
+.record-item{background:#f0f0f0;border-radius:8px;padding:10px 12px;margin-bottom:1px;border-bottom:1px solid #ddd}
+.record-item:last-child{border-bottom:none}
+.record-time{font-size:10px;color:#999;margin-bottom:4px}
+.record-text{font-size:13px;color:#333}
 .full-page{position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;z-index:500;display:none;flex-direction:column}
 .full-page .fp-header{height:44px;background:#f7f7f9;border-bottom:1px solid #eee;display:flex;align-items:center;padding:0 8px}
 .full-page .fp-body{flex:1;overflow-y:auto;padding:12px}
@@ -152,6 +175,7 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 <div class="voice-btn" id="voiceBtn" onclick="sendVoiceMsg()">按住说话</div>
 <button class="btn" id="faceBtn" onclick="toggleEmoji(event)"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5"/><circle cx="9" cy="10.5" r="1"/><circle cx="15" cy="10.5" r="1"/><path d="M9 14h6"/></svg></button>
 <button class="btn" onclick="showPlus()"><svg class="icon" viewBox="0 0 24 24"><line x1="12" y1="7" x2="12" y2="17"/><line x1="7" y1="12" x2="17" y2="12"/></svg></button>
+<button class="btn" onclick="sendMsg()"><svg class="icon" viewBox="0 0 24 24"><path d="M18 6.5L6.5 12l11.5 5.5V6.5z"/></svg></button>
 </div>
 </div>
 </div>
@@ -172,23 +196,41 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 <div class="my-main-box">
 <div class="my-avatar-box" onclick="document.getElementById('myAvatarFile').click()"><img id="myAvatarImg" style="width:100%;height:100%;object-fit:cover;display:none;"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.2"/><path d="M6 18.5h12v-1a3.2 3.2 0 0 0-3.2-3.2h-5.6A3.2 3.2 0 0 0 6 17.5v1z"/></svg></div>
 <div class="my-name" id="myName" onclick="editMyName()">我</div>
-<div class="my-status" onclick="showStatusPanel()">+状态</div>
+<div class="my-status" id="myStatusText" onclick="showStatusPanel()">+状态</div>
 <div class="my-media-wrap" onclick="document.getElementById('myMediaFile').click()"><img id="myBgImg" style="width:100%;height:100%;object-fit:cover;display:none;"><video id="myBgVideo" style="width:100%;height:100%;object-fit:cover;display:none;" loop autoplay muted></video></div>
 </div>
 <div class="my-menu-item" onclick="showPage('moment')">朋友圈</div>
 <div class="my-menu-item" onclick="showPage('collect')">收藏</div>
-<div class="my-menu-item">访问记录</div>
+<div class="my-menu-item" onclick="showPage('transferRecord')">转账记录</div>
+<div class="my-menu-item" onclick="showPage('visitRecord')">访问记录</div>
 </div>
 </div>
 
 <div id="pageMoment" class="page">
 <div class="top-bar"><button class="back" onclick="showPage('my')"><svg class="icon" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button><div class="title">朋友圈</div></div>
-<div class="list-page" id="momentList"></div>
+<div class="moments-page">
+<div class="moments-cover" id="momentCover" onclick="changeCover()">
+<div class="camera" id="momentCamera"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fff" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+<div class="m-avatar" id="momentMyAvatar"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.2"/><path d="M6 18.5h12v-1a3.2 3.2 0 0 0-3.2-3.2h-5.6A3.2 3.2 0 0 0 6 17.5v1z"/></svg></div>
+<div class="m-name" id="momentMyName">我</div>
+</div>
+<div class="moments-content" id="momentContent"></div>
+</div>
 </div>
 
 <div id="pageCollect" class="page">
 <div class="top-bar"><button class="back" onclick="showPage('my')"><svg class="icon" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button><div class="title">收藏</div></div>
-<div class="list-page" id="collectList"></div>
+<div class="record-page" id="collectList"></div>
+</div>
+
+<div id="pageTransferRecord" class="page">
+<div class="top-bar"><button class="back" onclick="showPage('my')"><svg class="icon" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button><div class="title">转账记录</div></div>
+<div class="record-page" id="transferRecordList"></div>
+</div>
+
+<div id="pageVisitRecord" class="page">
+<div class="top-bar"><button class="back" onclick="showPage('my')"><svg class="icon" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button><div class="title">访问记录</div></div>
+<div class="record-page" id="visitRecordList"></div>
 </div>
 
 <div class="tab-bar" id="tabBar">
@@ -202,12 +244,12 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 <div class="panel-popup" id="plusPanel">
 <div class="pheader"><span>功能</span><button onclick="closeAll()">×</button></div>
 <div class="grid">
-<div class="gitem" onclick="showPanel('redpacketPanel')"><div class="icon-box"><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="12" y1="10" x2="12" y2="14"/><line x1="10" y1="12" x2="14" y2="12"/></svg></div>红包</div>
-<div class="gitem" onclick="showPanel('transferPanel')"><div class="icon-box"><svg class="icon" viewBox="0 0 24 24"><path d="M12 3v18M3 12h18M17 7l5 5-5 5M7 17l-5-5 5-5"/></svg></div>转账</div>
-<div class="gitem" onclick="closeAll();sendGift()"><div class="icon-box"><svg class="icon" viewBox="0 0 24 24"><path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7M7 7l5-5 5 5"/></svg></div>礼物</div>
-<div class="gitem" onclick="closeAll();sendMusic()"><div class="icon-box"><svg class="icon" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>音乐</div>
-<div class="gitem" onclick="closeAll();startCall('视频')"><div class="icon-box"><svg class="icon" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>视频</div>
-<div class="gitem" onclick="closeAll();startCall('语音')"><div class="icon-box"><svg class="icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2"/></svg></div>语音</div>
+<div class="gitem" onclick="showPanel('redpacketPanel')"><div class="icon-box">🧧</div>红包</div>
+<div class="gitem" onclick="showPanel('transferPanel')"><div class="icon-box">💰</div>转账</div>
+<div class="gitem" onclick="closeAll();sendGift()"><div class="icon-box">🎁</div>礼物</div>
+<div class="gitem" onclick="closeAll();sendMusic()"><div class="icon-box">🎵</div>音乐</div>
+<div class="gitem" onclick="closeAll();startCall('视频')"><div class="icon-box">📹</div>视频</div>
+<div class="gitem" onclick="closeAll();startCall('语音')"><div class="icon-box">📞</div>语音</div>
 </div>
 </div>
 
@@ -228,8 +270,8 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 <div class="panel-popup" id="addPanel">
 <div class="pheader"><span>添加</span><button onclick="closeAll()">×</button></div>
 <div class="grid" style="margin-bottom:10px;">
-<div class="gitem" onclick="showGroupForm()"><div class="icon-box"><svg class="icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>创建群聊</div>
-<div class="gitem" onclick="showFriendForm()"><div class="icon-box"><svg class="icon" viewBox="0 0 24 24"><line x1="12" y1="7" x2="12" y2="17"/><line x1="7" y1="12" x2="17" y2="12"/></svg></div>添加好友</div>
+<div class="gitem" onclick="showGroupForm()"><div class="icon-box">👥</div>创建群聊</div>
+<div class="gitem" onclick="showFriendForm()"><div class="icon-box">➕</div>添加好友</div>
 </div>
 <div id="friendForm" style="display:none;"><input class="pinput" id="newFriendName" placeholder="名字"><button class="pbtn" style="background:#f0f0f0;color:#333;margin-bottom:8px;" onclick="document.getElementById('newFriendAvatarFile').click()">从相册选择头像</button><input type="file" id="newFriendAvatarFile" class="file-hide" accept="image/*" onchange="setNewFriendAvatar()"><button class="pbtn" onclick="addFriend()">保存</button></div>
 <div id="groupForm" style="display:none;"><div id="memberSelect"></div><input class="pinput" id="groupName" placeholder="群名"><button class="pbtn" onclick="createGroup()">创建</button></div>
@@ -238,10 +280,14 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 <div class="panel-popup" id="statusPanel">
 <div class="pheader"><span>设置状态</span><button onclick="closeAll()">×</button></div>
 <div id="statusOptions"></div>
+<div class="add-bar" style="border-top:1px solid #eee;margin-top:8px;padding-top:8px;">
+<input id="newStatusInput" placeholder="添加心情状态">
+<button onclick="addStatusFromPanel()">添加</button>
+</div>
 </div>
 
 <div class="full-page" id="settingsFull">
-<div class="fp-header"><button onclick="closeFullPage('settingsFull')"><svg class="icon" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button><span>设置</span></div>
+<div class="fp-header"><button onclick="closeFullPage('settingsFull')">←</button><span>设置</span></div>
 <div class="fp-body">
 <div class="sub-tabs" style="display:flex;flex-wrap:wrap;">
 <button class="sub-tab active" data-setting="speed" onclick="switchSettingTab(this)">回复速度</button>
@@ -259,44 +305,57 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 </div>
 
 <div class="full-page" id="phoneFull">
-<div class="fp-header"><button onclick="closeFullPage('phoneFull')"><svg class="icon" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button><span>手机</span></div>
-<div class="fp-body"><div class="grid"><div class="gitem"><div class="icon-box"><svg class="icon" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>购物</div><div class="gitem"><div class="icon-box"><svg class="icon" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>音乐</div><div class="gitem"><div class="icon-box"><svg class="icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>塔罗</div><div class="gitem"><div class="icon-box"><svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>心情</div></div></div>
+<div class="fp-header"><button onclick="closeFullPage('phoneFull')">←</button><span>手机</span></div>
+<div class="fp-body"><div class="grid"><div class="gitem"><div class="icon-box">🛍️</div>购物</div><div class="gitem"><div class="icon-box">🎵</div>音乐</div><div class="gitem"><div class="icon-box">🔮</div>塔罗</div><div class="gitem"><div class="icon-box">📔</div>心情</div></div></div>
 </div>
 
 <div class="call-float" id="callFloat"><div class="cf-content"><div id="cfStatus">呼叫中...</div><button class="cf-hangup" onclick="endCall()">📞</button></div></div>
 
 <input type="file" id="myAvatarFile" class="file-hide" accept="image/*" onchange="setMyAvatar()">
 <input type="file" id="myMediaFile" class="file-hide" accept="image/*,video/*" onchange="setMyMedia()">
+<input type="file" id="fileCover" class="file-hide" accept="image/*,video/*" onchange="setCover()">
 
 </div>
 
 <script>
-var DATA_KEY='wx_final8';
+var DATA_KEY='wx_final12';
 var friends=[{id:1,name:'爱因',avatar:'',pinned:true}];
 var chatHistory={};var momentItems=[];var currentChatId=1;
 var wordCards=['我喜欢你','今天天气真好','一起听歌吗','晚安','早安','想你了','哈哈哈','好呀','嗯嗯','在干嘛'];
-var patpatList=['拍了拍你的头','拍了拍你的肩膀'];var statusList=['在看海','听歌中','休息中'];
+var patpatList=['拍了拍你的头','拍了拍你的肩膀'];
+var statusList=['在看海','听歌中','休息中'];
+var myName='我';
+var myStatus='+状态';
 var myAvatarData='';var newFriendAvatarData='';
 var emojiGroups=[{title:"常用",list:['😀','😃','😄','😁','😆','😅','😂','🤣','😊','😇','🙂','🙃','😉','😌','😍','🥰','😘','😗','😙','😚']},{title:"情绪",list:['😋','😜','😝','😛','🤑','😎','🤓','🧐','😏','😒','🙄','😮','😯','😲','😳','🥺','😦','😧','😨','😰','😥','😢','😭','😱','😖','😣','😞','😓','😩','😫','🥱','😴']},{title:"爱心",list:['❤️','🧡','💛','💚','💙','💜','🤍','🤎','🖤','💔','❣️','💕','💞','💓','💗','💖','💘','💝','💟','💌']},{title:"装饰",list:['🔥','💯','✨','💫','⭐','🌟','💥','💢','💦','💨','💤','💬','💭','💮','🪷','🌸','🌺']},{title:"动物",list:['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🙈','🙉','🙊','🐔','🐧','🐦','🐤','🦆','🦅','🦉','🦇','🐺','🐗','🐴','🦄']}];
 var kaoGroups=[{title:"开心",list:['(๑•̀ㅂ•́)و✧','(≧∇≦)ﾉ','ヽ(✿ﾟ▽ﾟ)ノ']},{title:"委屈",list:['(｡•́︿•̀｡)','(>﹏<)']},{title:"温柔",list:['( ´･ᴗ･` )']}];
 var stickerList=[];var currentEmojiType='emoji';var currentGroupIndex=0;
+var collectItems=[{time:'今天 10:25',text:'爱因说：晚安'},{time:'昨天 22:10',text:'🎤语音消息'}];
+var transferRecords=[{time:'2026-08-28 14:30',text:'爱因给你转账 ¥520'},{time:'2026-08-27 09:15',text:'你收了爱因的红包 ¥52'}];
+var visitRecords=[{time:'今天 09:00',text:'爱因访问了你的主页'},{time:'昨天 20:30',text:'爱因访问了你的朋友圈'}];
 
-function saveAll(){try{localStorage.setItem(DATA_KEY,JSON.stringify({friends:friends,chatHistory:chatHistory,momentItems:momentItems,wordCards:wordCards,patpatList:patpatList,statusList:statusList,myAvatarData:myAvatarData,emojiGroups:emojiGroups,kaoGroups:kaoGroups,stickerList:stickerList}));}catch(e){}}
-function loadAll(){try{var d=JSON.parse(localStorage.getItem(DATA_KEY));if(d){if(d.friends)friends=d.friends;if(d.chatHistory)chatHistory=d.chatHistory;if(d.momentItems)momentItems=d.momentItems;if(d.wordCards)wordCards=d.wordCards;if(d.patpatList)patpatList=d.patpatList;if(d.statusList)statusList=d.statusList;if(d.myAvatarData)myAvatarData=d.myAvatarData;if(d.emojiGroups)emojiGroups=d.emojiGroups;if(d.kaoGroups)kaoGroups=d.kaoGroups;if(d.stickerList)stickerList=d.stickerList;}}catch(e){}renderAll();}
-function renderAll(){renderChatList();renderContact();renderMoments();renderWordCards();renderPatpat();renderStatus();renderStatusOptions();loadChat(currentChatId);updateMyAvatar();}
+function saveAll(){try{localStorage.setItem(DATA_KEY,JSON.stringify({friends:friends,chatHistory:chatHistory,momentItems:momentItems,wordCards:wordCards,patpatList:patpatList,statusList:statusList,myName:myName,myStatus:myStatus,myAvatarData:myAvatarData,emojiGroups:emojiGroups,kaoGroups:kaoGroups,stickerList:stickerList,collectItems:collectItems,transferRecords:transferRecords,visitRecords:visitRecords}));}catch(e){}}
+function loadAll(){try{var d=JSON.parse(localStorage.getItem(DATA_KEY));if(d){if(d.friends)friends=d.friends;if(d.chatHistory)chatHistory=d.chatHistory;if(d.momentItems)momentItems=d.momentItems;if(d.wordCards)wordCards=d.wordCards;if(d.patpatList)patpatList=d.patpatList;if(d.statusList)statusList=d.statusList;if(d.myName)myName=d.myName;if(d.myStatus)myStatus=d.myStatus;if(d.myAvatarData)myAvatarData=d.myAvatarData;if(d.emojiGroups)emojiGroups=d.emojiGroups;if(d.kaoGroups)kaoGroups=d.kaoGroups;if(d.stickerList)stickerList=d.stickerList;if(d.collectItems)collectItems=d.collectItems;if(d.transferRecords)transferRecords=d.transferRecords;if(d.visitRecords)visitRecords=d.visitRecords;}}catch(e){}renderAll();}
+function renderAll(){renderChatList();renderContact();renderMoments();renderWordCards();renderPatpat();renderStatus();renderStatusOptions();loadChat(currentChatId);updateMyAvatar();updateMomentAvatar();renderCollect();renderTransferRecords();renderVisitRecords();updateMyNameAndStatus();}
+function updateMyNameAndStatus(){document.getElementById('myName').innerText=myName;document.getElementById('momentMyName').innerText=myName;document.getElementById('myStatusText').innerText=myStatus;}
 function updateMyAvatar(){var img=document.getElementById('myAvatarImg');if(img){if(myAvatarData){img.style.display='block';img.src=myAvatarData;}else{img.style.display='none';}}}
-function setMyAvatar(){var f=document.getElementById('myAvatarFile').files[0];if(f){var r=new FileReader();r.onload=function(ev){myAvatarData=ev.target.result;updateMyAvatar();saveAll();};r.readAsDataURL(f);}}
+function updateMomentAvatar(){var av=document.getElementById('momentMyAvatar');if(av){if(myAvatarData){av.innerHTML='<img src="'+myAvatarData+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';}else{av.innerHTML='<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.2"/><path d="M6 18.5h12v-1a3.2 3.2 0 0 0-3.2-3.2h-5.6A3.2 3.2 0 0 0 6 17.5v1z"/></svg>';}}}
+function editMyName(){var n=document.getElementById('myName');var input=document.createElement('input');input.value=myName;input.style.cssText='font-size:16px;border:none;outline:none;width:80px;background:transparent';n.innerHTML='';n.appendChild(input);input.focus();input.onblur=function(){myName=input.value.trim()||myName;updateMyNameAndStatus();saveAll();};}
+function setMyAvatar(){var f=document.getElementById('myAvatarFile').files[0];if(f){var r=new FileReader();r.onload=function(ev){myAvatarData=ev.target.result;updateMyAvatar();updateMomentAvatar();saveAll();};r.readAsDataURL(f);}}
 function setMyMedia(){var f=document.getElementById('myMediaFile').files[0];if(f){var url=URL.createObjectURL(f);if(f.type.startsWith('video')){document.getElementById('myBgImg').style.display='none';document.getElementById('myBgVideo').style.display='block';document.getElementById('myBgVideo').src=url;}else{document.getElementById('myBgVideo').style.display='none';document.getElementById('myBgImg').style.display='block';document.getElementById('myBgImg').src=url;}}}
 function setNewFriendAvatar(){var f=document.getElementById('newFriendAvatarFile').files[0];if(f){var r=new FileReader();r.onload=function(ev){newFriendAvatarData=ev.target.result;};r.readAsDataURL(f);}}
+function showStatusPanel(){showPanel('statusPanel');renderStatusOptions();}
+function setMyStatus(s){myStatus=s;document.getElementById('myStatusText').innerText=s;updateMyNameAndStatus();closeAll();saveAll();}
+function addStatusFromPanel(){var v=document.getElementById('newStatusInput').value.trim();if(v){statusList.push(v);document.getElementById('newStatusInput').value='';renderStatusOptions();saveAll();}}
 
 function showPage(id){var pages=document.querySelectorAll('.page');for(var i=0;i<pages.length;i++)pages[i].classList.remove('active');document.getElementById('page'+id.charAt(0).toUpperCase()+id.slice(1)).classList.add('active');document.getElementById('tabBar').style.display=(id==='chat')?'none':'flex';}
 function switchTab(el){var tabs=document.querySelectorAll('.tab-bar button');for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');el.classList.add('active');var pageMap={chatList:'chatList',contact:'contact',my:'my'};showPage(pageMap[el.dataset.tab]);}
 function switchSettingTab(el){document.querySelectorAll('.fp-body .sub-tab').forEach(function(t){t.classList.remove('active');});el.classList.add('active');var groups=['speed','wordcard','patpat','status','backup'];groups.forEach(function(g){document.getElementById('setting-'+g).style.display='none';});document.getElementById('setting-'+el.dataset.setting).style.display='block';}
 
 function userSVG(){return '<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.2"/><path d="M6 18.5h12v-1a3.2 3.2 0 0 0-3.2-3.2h-5.6A3.2 3.2 0 0 0 6 17.5v1z"/></svg>';}
-function showPinnedMenu(f){var modal=document.createElement('div');modal.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:999;display:flex;align-items:center;justify-content:center;';var action=f.pinned?'取消置顶':'置顶';modal.innerHTML='<div style="background:#fff;border-radius:12px;padding:16px;width:200px;text-align:center;"><div style="font-size:15px;font-weight:500;margin-bottom:10px;">'+f.name+'</div><div style="padding:10px;border-top:1px solid #eee;cursor:pointer;color:#07c160;" onclick="togglePin('+f.id+');this.closest(\'div[style]\').remove()">'+action+'</div><div style="padding:10px;border-top:1px solid #eee;cursor:pointer;color:#999;" onclick="this.closest(\'div[style]\').remove()">取消</div></div>';document.body.appendChild(modal);modal.onclick=function(e){if(e.target===modal)modal.remove();};}
+function showPinnedMenu(f){var modal=document.createElement('div');modal.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:999;display:flex;align-items:center;justify-content:center;';var action=f.pinned?'取消置顶':'置顶';modal.innerHTML='<div style="background:#fff;border-radius:12px;padding:16px;width:220px;text-align:center;"><div style="font-size:15px;font-weight:500;margin-bottom:10px;">'+f.name+'</div><div style="display:flex;gap:8px;justify-content:center;"><button style="flex:1;padding:8px;border:none;background:#07c160;color:#fff;border-radius:8px;cursor:pointer;" onclick="togglePin('+f.id+');this.closest(\'div[style]\').remove()">'+action+'</button><button style="flex:1;padding:8px;border:none;background:#f0f0f0;color:#333;border-radius:8px;cursor:pointer;" onclick="this.closest(\'div[style]\').remove()">取消</button></div></div>';document.body.appendChild(modal);modal.onclick=function(e){if(e.target===modal)modal.remove();};}
 function togglePin(id){var f=friends.find(function(x){return x.id===id;});if(f){f.pinned=!f.pinned;renderChatList();saveAll();}}
-function showDeleteMenu(f){var modal=document.createElement('div');modal.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:999;display:flex;align-items:center;justify-content:center;';modal.innerHTML='<div style="background:#fff;border-radius:12px;padding:16px;width:200px;text-align:center;"><div style="font-size:15px;font-weight:500;margin-bottom:10px;">删除聊天</div><div style="padding:10px;border-top:1px solid #eee;cursor:pointer;color:#f53f3f;" onclick="deleteFriend('+f.id+');this.closest(\'div[style]\').remove()">删除</div><div style="padding:10px;border-top:1px solid #eee;cursor:pointer;color:#999;" onclick="this.closest(\'div[style]\').remove()">取消</div></div>';document.body.appendChild(modal);modal.onclick=function(e){if(e.target===modal)modal.remove();};}
+function showDeleteMenu(f){var modal=document.createElement('div');modal.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:999;display:flex;align-items:center;justify-content:center;';modal.innerHTML='<div style="background:#fff;border-radius:12px;padding:16px;width:220px;text-align:center;"><div style="font-size:15px;font-weight:500;margin-bottom:10px;">删除聊天</div><div style="display:flex;gap:8px;justify-content:center;"><button style="flex:1;padding:8px;border:none;background:#f53f3f;color:#fff;border-radius:8px;cursor:pointer;" onclick="deleteFriend('+f.id+');this.closest(\'div[style]\').remove()">删除</button><button style="flex:1;padding:8px;border:none;background:#f0f0f0;color:#333;border-radius:8px;cursor:pointer;" onclick="this.closest(\'div[style]\').remove()">取消</button></div></div>';document.body.appendChild(modal);modal.onclick=function(e){if(e.target===modal)modal.remove();};}
 function deleteFriend(id){friends=friends.filter(function(x){return x.id!==id;});delete chatHistory[id];renderChatList();renderContact();saveAll();}
 function renderChatList(){var c=document.getElementById('chatListContainer');c.innerHTML='';friends.forEach(function(f){var av=f.avatar?'<img src="'+f.avatar+'" style="width:100%;height:100%;object-fit:cover;">':userSVG();c.innerHTML+='<div class="list-item" id="item-'+f.id+'" onclick="openChat('+f.id+')"><div class="avatar">'+av+'</div><div class="name">'+f.name+(f.pinned?'<span style="background:#f0f0f0;font-size:9px;padding:1px 4px;border-radius:6px;margin-left:4px;">置顶</span>':'')+'</div></div>';});
 friends.forEach(function(f){var el=document.getElementById('item-'+f.id);if(!el)return;var timer=null;var sx=0,sy=0;
@@ -304,11 +363,14 @@ el.addEventListener('touchstart',function(e){timer=setTimeout(function(){showPin
 el.addEventListener('touchend',function(e){clearTimeout(timer);var dx=e.changedTouches[0].clientX-sx;var dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)&&dx<0){showDeleteMenu(f);}});
 el.addEventListener('touchmove',function(){clearTimeout(timer);});});}
 function renderContact(){var c=document.getElementById('contactList');c.innerHTML='';friends.forEach(function(f){var av=f.avatar?'<img src="'+f.avatar+'" style="width:100%;height:100%;object-fit:cover;">':userSVG();c.innerHTML+='<div class="list-item"><div class="avatar">'+av+'</div><div class="name">'+f.name+'</div></div>';});}
-function renderMoments(){var c=document.getElementById('momentList');c.innerHTML='';momentItems.forEach(function(m){c.innerHTML+='<div class="list-item"><div class="name">'+m.name+'：'+m.content+'</div></div>';});}
+function renderMoments(){var c=document.getElementById('momentContent');c.innerHTML='';momentItems.forEach(function(m){c.innerHTML+='<div class="moment-card"><div class="card-header"><div class="card-avatar">'+userSVG()+'</div><div><div class="card-name">'+(m.name==='我'?myName:m.name)+'</div><div class="card-time">刚刚</div></div></div><div class="card-content">'+m.content+'</div><div class="card-action"><div class="action-item" onclick="likeMoment(this)">❤️点赞</div><div class="action-item" onclick="commentMoment(this)">💬评论</div></div><div class="comment-area"></div></div>';});}
 function renderWordCards(){var c=document.getElementById('wordCardList');c.innerHTML='';wordCards.forEach(function(w,i){c.innerHTML+='<span class="tag">'+w+'<span class="del" onclick="deleteWordCard('+i+')">✕</span></span>';});}
 function renderPatpat(){var c=document.getElementById('patpatList');c.innerHTML='';patpatList.forEach(function(p,i){c.innerHTML+='<span class="tag">'+p+'<span class="del" onclick="deletePatpat('+i+')">✕</span></span>';});}
 function renderStatus(){var c=document.getElementById('statusList');c.innerHTML='';statusList.forEach(function(s,i){c.innerHTML+='<span class="tag">'+s+'<span class="del" onclick="deleteStatus('+i+')">✕</span></span>';});}
-function renderStatusOptions(){var c=document.getElementById('statusOptions');c.innerHTML='';statusList.forEach(function(s){c.innerHTML+='<div style="padding:8px;border-bottom:1px solid #eee;cursor:pointer;" onclick="setMyStatus(\''+s+'\')">'+s+'</div>';});}
+function renderStatusOptions(){var c=document.getElementById('statusOptions');c.innerHTML='';statusList.forEach(function(s){c.innerHTML+='<div style="padding:10px;border-bottom:1px solid #eee;cursor:pointer;" onclick="setMyStatus(\''+s+'\')">'+s+'</div>';});}
+function renderCollect(){var c=document.getElementById('collectList');c.innerHTML='';collectItems.forEach(function(item){c.innerHTML+='<div class="record-item"><div class="record-time">'+item.time+'</div><div class="record-text">'+item.text+'</div></div>';});}
+function renderTransferRecords(){var c=document.getElementById('transferRecordList');c.innerHTML='';transferRecords.forEach(function(item){c.innerHTML+='<div class="record-item"><div class="record-time">'+item.time+'</div><div class="record-text">'+item.text+'</div></div>';});}
+function renderVisitRecords(){var c=document.getElementById('visitRecordList');c.innerHTML='';visitRecords.forEach(function(item){c.innerHTML+='<div class="record-item"><div class="record-time">'+item.time+'</div><div class="record-text">'+item.text+'</div></div>';});}
 
 function switchEmojiTab(el){var tabs=document.querySelectorAll('.tab');for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');el.classList.add('active');document.getElementById('kaoBar').style.display='none';document.getElementById('imgBar').style.display='none';document.getElementById('subTabs').style.display='flex';
 if(el.dataset.tab==='emoji'){currentEmojiType='emoji';currentGroupIndex=0;document.getElementById('kaoBar').style.display='flex';document.getElementById('addInput').placeholder='添加emoji';renderSubTabs(emojiGroups);renderGroupContent(emojiGroups,0);}
@@ -331,36 +393,39 @@ var av=m.isMe?(myAvatarData?'<img src="'+myAvatarData+'" style="width:100%;heigh
 var readHtml=m.isMe?'<div class="read-mark">已读</div>':'';
 box.innerHTML+='<div class="msg-row '+(m.isMe?'me':'other')+'"><div class="msg-avatar-col"><div class="msg-avatar" onclick="changeAvatar('+m.isMe+')">'+av+'</div><div class="msg-time">'+m.time+'</div></div><div class="msg-content">'+m.html+readHtml+'</div></div>';});
 box.scrollTop=box.scrollHeight;}
-function changeAvatar(isMe){var input=document.createElement('input');input.type='file';input.accept='image/*';input.onchange=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){if(isMe){myAvatarData=ev.target.result;updateMyAvatar();}else{var friend=friends.find(function(x){return x.id===currentChatId;});if(friend)friend.avatar=ev.target.result;renderChatList();renderContact();}saveAll();loadChat(currentChatId);};r.readAsDataURL(f);};input.click();}
+function changeAvatar(isMe){var input=document.createElement('input');input.type='file';input.accept='image/*';input.onchange=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){if(isMe){myAvatarData=ev.target.result;updateMyAvatar();updateMomentAvatar();}else{var friend=friends.find(function(x){return x.id===currentChatId;});if(friend)friend.avatar=ev.target.result;renderChatList();renderContact();}saveAll();loadChat(currentChatId);};r.readAsDataURL(f);};input.click();}
 function getTime(){var d=new Date();return d.getHours()+':'+String(d.getMinutes()).padStart(2,'0')+':'+String(d.getSeconds()).padStart(2,'0');}
 function addMsg(text,isMe){var time=getTime();if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({html:'<div class="msg-bubble">'+text+'</div>',isMe:isMe,time:time});loadChat(currentChatId);saveAll();}
 function sendMsg(){var input=document.getElementById('chatInput');var text=input.value.trim();if(!text)return;addMsg(text,true);input.value='';document.getElementById('typingIndicator').textContent='输入中...';var smin=parseInt(document.getElementById('speedMin').value)||3;var smax=parseInt(document.getElementById('speedMax').value)||60;var speed=Math.floor(Math.random()*(smax-smin+1))+smin;setTimeout(function(){document.getElementById('typingIndicator').textContent='';addMsg(wordCards[Math.floor(Math.random()*wordCards.length)]||'嗯嗯',false);},speed*1000);}
 function toggleVoice(){var input=document.getElementById('chatInput');var voice=document.getElementById('voiceBtn');if(input.style.display==='none'){input.style.display='block';voice.style.display='none';}else{input.style.display='none';voice.style.display='flex';}}
 function sendVoiceMsg(){addMsg('语音消息',true);}
 function editName(){var title=document.getElementById('chatTitle');var old=title.innerText;var input=document.createElement('input');input.style.cssText='font-size:15px;border:none;outline:none;text-align:center;width:80px;background:transparent';input.value=old;title.innerHTML='';title.appendChild(input);input.focus();input.onblur=function(){title.innerText=input.value||old;saveAll();};}
-function editMyName(){var n=document.getElementById('myName');var old=n.innerText;var input=document.createElement('input');input.style.cssText='font-size:15px;border:none;outline:none;width:80px;background:transparent';input.value=old;n.innerHTML='';n.appendChild(input);input.focus();input.onblur=function(){n.innerText=input.value||old;};}
 
 function showPanel(id){document.getElementById('mask').style.display='block';document.getElementById(id).style.display='block';}
 function closeAll(){document.getElementById('mask').style.display='none';document.querySelectorAll('.panel-popup').forEach(function(p){p.style.display='none';});document.getElementById('emojiPanel').style.display='none';}
 function showPlus(){showPanel('plusPanel');}
 function showAddMenu(){showPanel('addPanel');}
-function showStatusPanel(){showPanel('statusPanel');}
-function setMyStatus(s){document.getElementById('statusTag').textContent=s;closeAll();}
 function showFriendForm(){document.getElementById('friendForm').style.display='block';document.getElementById('groupForm').style.display='none';}
 function showGroupForm(){document.getElementById('groupForm').style.display='block';document.getElementById('friendForm').style.display='none';renderMembers();}
 function renderMembers(){var c=document.getElementById('memberSelect');c.innerHTML='';friends.forEach(function(f,i){c.innerHTML+='<label style="display:block;padding:5px;"><input type="checkbox" class="gm" value="'+i+'"> '+f.name+'</label>';});}
 function addFriend(){var name=document.getElementById('newFriendName').value.trim();if(!name)return;friends.push({id:friends.length+1,name:name,avatar:newFriendAvatarData||'',pinned:false});newFriendAvatarData='';closeAll();renderChatList();renderContact();saveAll();}
 function createGroup(){var n=document.getElementById('groupName').value||'群聊';var s=document.querySelectorAll('.gm:checked');if(s.length===0)return;friends.push({id:friends.length+1,name:n,avatar:'',pinned:false});closeAll();renderChatList();renderContact();saveAll();}
 
-function sendRedpacket(){var m=document.getElementById('rpMoney').value;var r=document.getElementById('rpRemark').value||'恭喜发财';if(!m)return;closeAll();var time=getTime();var html='<div class="redpack-bubble" onclick="openRedpacket(this,\''+m+'\',\''+r+'\')"><div class="redpack-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="12" y1="10" x2="12" y2="14"/><line x1="10" y1="12" x2="14" y2="12"/></svg></div><div class="redpack-text">'+r+'</div><div class="redpack-footer">微信红包</div></div>';if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({html:html,isMe:true,time:time});loadChat(currentChatId);saveAll();}
+function sendRedpacket(){var m=document.getElementById('rpMoney').value;var r=document.getElementById('rpRemark').value||'恭喜发财';if(!m)return;closeAll();var time=getTime();var html='<div class="redpack-bubble" onclick="openRedpacket(this,\''+m+'\',\''+r+'\')"><div class="redpack-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="12" y1="10" x2="12" y2="14"/><line x1="10" y1="12" x2="14" y2="12"/></svg></div><div class="redpack-text">'+r+'</div><div class="redpack-footer">微信红包</div></div>';if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({html:html,isMe:true,time:time});transferRecords.push({time:getTime(),text:'你给爱因发了红包 ¥'+m});saveAll();loadChat(currentChatId);}
 function openRedpacket(el,money,remark){if(el.dataset.opened)return;el.dataset.opened='1';var modal=document.createElement('div');modal.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;';modal.innerHTML='<div style="width:280px;height:420px;background:#e63939;border-radius:16px;position:relative;color:#fff;text-align:center;padding-top:60px;"><div style="font-size:18px;">'+remark+'</div><div style="width:80px;height:80px;background:#f8dd99;border-radius:50%;position:absolute;bottom:80px;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;font-size:28px;color:#333;cursor:pointer;" onclick="receiveRedpacket(this,\''+money+'\')">開</div><div style="width:36px;height:36px;border:2px solid #f8dd99;border-radius:50%;position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;font-size:18px;color:#f8dd99;cursor:pointer;" onclick="this.closest(\'div[style]\').remove()">×</div></div>';document.body.appendChild(modal);modal.onclick=function(e){if(e.target===modal)modal.remove();};}
-function receiveRedpacket(btn,money){btn.parentElement.innerHTML='<div style="color:#f8dd99;font-size:16px;">已领取</div><div style="color:#fff;font-size:36px;font-weight:bold;margin:10px 0;">¥'+money+'</div>';}
-function sendTransfer(){var m=document.getElementById('tfMoney').value;var r=document.getElementById('tfRemark').value||'';if(!m)return;closeAll();var time=getTime();var html='<div class="transfer-bubble"><div class="transfer-icon">⇋</div><div><div class="transfer-money">¥'+m+'</div><div class="transfer-text">你发起了一笔转账</div></div><div class="transfer-footer">'+(r||'转账')+'</div></div>';if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({html:html,isMe:true,time:time});loadChat(currentChatId);saveAll();}
+function receiveRedpacket(btn,money){btn.parentElement.innerHTML='<div style="color:#f8dd99;font-size:16px;">已领取</div><div style="color:#fff;font-size:36px;font-weight:bold;margin:10px 0;">¥'+money+'</div>';transferRecords.push({time:getTime(),text:'你收了爱因的红包 ¥'+money});saveAll();}
+function sendTransfer(){var m=document.getElementById('tfMoney').value;var r=document.getElementById('tfRemark').value||'';if(!m)return;closeAll();var time=getTime();var html='<div class="transfer-bubble"><div class="transfer-icon">⇋</div><div><div class="transfer-money">¥'+m+'</div><div class="transfer-text">你发起了一笔转账</div></div><div class="transfer-footer">'+(r||'转账')+'</div></div>';if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({html:html,isMe:true,time:time});transferRecords.push({time:getTime(),text:'你给爱因转账 ¥'+m});saveAll();loadChat(currentChatId);}
 function sendGift(){closeAll();var time=getTime();var html='<div class="gift-card"><div class="gift-bg-layer"></div><div class="gift-left"><svg class="gift-icon" viewBox="0 0 100 100"><rect x="47" y="8" width="6" height="84" rx="2" fill="#f8d89c"/><path d="M22,42 C22,28 38,28 38,42 C38,56 22,56 22,42 Z" fill="#f8d89c"/><path d="M62,42 C62,28 78,28 78,42 C78,56 62,56 62,42 Z" fill="#f8d89c"/></svg></div><div class="gift-right"><div class="gift-title">送你一份心意</div><div class="gift-footer">微信礼物</div></div></div>';if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({html:html,isMe:true,time:time});loadChat(currentChatId);saveAll();}
 function sendMusic(){closeAll();var time=getTime();var song='多幸运';var singer='韩安旭';var html='<div class="music-card"><div class="music-left"><div style="position:absolute;width:100%;height:100%;"><div style="position:absolute;top:12%;left:22%;font-size:20px;color:#fff;font-weight:bold;">'+song.charAt(0)+'</div><div style="position:absolute;top:35%;left:8%;font-size:14px;color:#fff;font-weight:bold;">'+song.charAt(1)+'</div><div style="position:absolute;top:42%;left:60%;font-size:14px;color:#fff;font-weight:bold;">'+song.charAt(2)+'</div><div style="position:absolute;top:48%;left:30%;font-size:18px;color:#fff;">♡</div><div style="position:absolute;bottom:8%;left:10%;font-size:10px;color:#fff;">'+singer+'</div><div style="position:absolute;bottom:8%;right:10%;font-size:12px;color:#fff;">0.8x</div></div></div><div class="music-right"><div class="music-title">'+song+' (0.8X降速版)</div><div class="music-singer">'+singer+'</div></div><div class="music-play">▶</div></div>';if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({html:html,isMe:true,time:time});loadChat(currentChatId);saveAll();}
 
 function startCall(type){var cf=document.getElementById('callFloat');cf.style.display='block';document.getElementById('cfStatus').textContent=type+'呼叫中...';setTimeout(function(){document.getElementById('cfStatus').textContent='对方无法接听';setTimeout(function(){cf.style.display='none';addMsg('通话结束',false);},2000);},2000);}
 function endCall(){document.getElementById('callFloat').style.display='none';addMsg('通话结束',false);}
+
+function changeCover(){document.getElementById('fileCover').click();}
+function setCover(){var f=document.getElementById('fileCover').files[0];if(f){var url=URL.createObjectURL(f);document.getElementById('momentCover').style.backgroundImage='url('+url+')';}}
+function likeMoment(btn){btn.classList.toggle('liked');btn.style.color=btn.classList.contains('liked')?'#e64340':'#666';}
+function commentMoment(btn){var card=btn.closest('.moment-card');var area=card.querySelector('.comment-area');var input=document.createElement('input');input.style.cssText='width:100%;padding:5px;border:1px solid #ddd;border-radius:4px;font-size:11px;margin-top:4px;';input.placeholder='写评论...';input.onkeydown=function(e){if(e.key==='Enter'&&input.value.trim()){area.innerHTML+='<div class="comment-item"><span>我</span>：'+input.value+'</div>';input.remove();}};area.appendChild(input);input.focus();}
+function addMoment(name,content){momentItems.push({name:name,content:content});renderMoments();saveAll();}
 
 function showFullPage(id){document.getElementById(id).style.display='flex';}
 function closeFullPage(id){document.getElementById(id).style.display='none';}
@@ -370,9 +435,10 @@ function addStatus(){var v=document.getElementById('statusInput').value.trim();i
 function deleteWordCard(i){wordCards.splice(i,1);renderWordCards();saveAll();}
 function deletePatpat(i){patpatList.splice(i,1);renderPatpat();saveAll();}
 function deleteStatus(i){statusList.splice(i,1);renderStatus();renderStatusOptions();saveAll();}
-function backupAll(){var data={friends:friends,chatHistory:chatHistory,wordCards:wordCards,patpatList:patpatList,statusList:statusList};var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='backup.json';a.click();}
+function backupAll(){var data={friends:friends,chatHistory:chatHistory,wordCards:wordCards,patpatList:patpatList,statusList:statusList,collectItems:collectItems,transferRecords:transferRecords,visitRecords:visitRecords,myName:myName,myStatus:myStatus};var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='backup.json';a.click();}
 
 showPage('chat');loadAll();
+if(momentItems.length===0){addMoment('我','今天天气真好');addMoment('爱因','想你了');}
 </script>
 </body>
 </html>
