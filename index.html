@@ -21,43 +21,45 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 .top-bar .icon-btn{width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;background:none;flex-shrink:0}
 .chat-area{flex:1;display:flex;flex-direction:column;min-height:0}
 .chat-box{flex:1;overflow-y:auto;padding:8px;background:var(--chat-bg);display:flex;flex-direction:column}
-
-/* ===== 终极正确布局 ===== */
 .msg-row{display:flex;align-items:flex-start;margin:3px 0;width:100%}
-/* 对方消息：头像在左，气泡在右 */
-.msg-row.other{justify-content:flex-start;flex-direction:row;} 
-/* 你的消息：头像在右，气泡在左 */
-.msg-row.me{justify-content:flex-end;flex-direction:row;} 
-/* 你气泡内容：靠右（紧挨头像） */
-.msg-row.me .msg-content{align-items:flex-end;margin-right:4px;} 
-/* 对方气泡内容：靠左（紧挨头像） */
-.msg-row.other .msg-content{align-items:flex-start;margin-left:4px;} 
-/* 头像列 */
+.msg-row.other{justify-content:flex-start;flex-direction:row;}
+.msg-row.me{justify-content:flex-end;flex-direction:row;}
 .msg-avatar-col{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:40px}
 .msg-avatar{width:36px;height:36px;border-radius:4px;background:#ccc;cursor:pointer;background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .msg-time{font-size:8px;color:#999;margin-top:1px;white-space:nowrap}
-.msg-content{display:flex;flex-direction:column;max-width:75%;}
+.msg-content{display:flex;flex-direction:column;max-width:75%;margin:0 4px}
+.msg-row.me .msg-content{align-items:flex-end;margin-right:4px;}
+.msg-row.other .msg-content{align-items:flex-start;margin-left:4px;}
 .msg-bubble{padding:8px 12px;border-radius:12px;font-size:13px;word-break:break-word}
 .msg-row.other .msg-bubble{background:var(--bubble-other);color:#333;border-top-left-radius:4px}
 .msg-row.me .msg-bubble{background:var(--bubble-self);color:#000;border-top-right-radius:4px}
 .read-mark{font-size:8px;color:#999;text-align:right;margin-top:1px;padding-right:2px}
 .msg-divider{text-align:center;font-size:11px;color:#999;margin:8px 0}
-
-/* ===== 表情白色小卡片 ===== */
-.emoji-grid{display:flex;flex-wrap:wrap;gap:4px;align-content:flex-start;padding:4px;}
-.emoji-grid span{width:14.28%;aspect-ratio:1/1;background:#fff;border:1px solid #e0e0e0;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.05);}
-.kao-grid{display:flex;flex-wrap:wrap;gap:4px;align-content:flex-start;padding:4px;}
-.kao-grid span{width:48%;min-height:40px;background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:8px 6px;font-size:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;word-break:break-all;box-shadow:0 1px 2px rgba(0,0,0,0.05);}
-.img-grid{display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start;padding:4px;}
-.img-grid .sticker{width:23%;border-radius:8px;overflow:hidden;cursor:pointer;background:#f0f0f0;box-shadow:0 1px 2px rgba(0,0,0,0.05);}
-.img-grid .sticker img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;}
+.input-bar{display:flex;gap:3px;padding:6px;background:#fff;border-top:1px solid #eee;flex-shrink:0;align-items:center}
+.input-bar .btn{width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;background:none;flex-shrink:0}
+.input-bar input{flex:1;height:34px;border:1px solid #ddd;border-radius:8px;padding:0 10px;font-size:13px;outline:none;min-width:0}
+.input-bar .voice-btn{flex:1;height:34px;border:1px solid #ddd;border-radius:8px;background:#f5f5f5;display:none;align-items:center;justify-content:center;font-size:13px;color:#333;cursor:pointer}
+.panel{width:100%;height:300px;background:#fff;border-top:1px solid #eee;display:none;flex-direction:column;flex-shrink:0}
+.tabs{display:flex;gap:8px;padding:10px 12px;border-bottom:1px solid #eee}
+.tab{height:28px;padding:0 12px;border:none;border-radius:14px;font-size:12px;cursor:pointer;background:#f5f5f5;color:#666}
+.tab.active{background:#07c160;color:#fff}
+.sub-tabs{display:flex;gap:4px;padding:8px 12px;border-bottom:1px solid #eee;overflow-x:auto;white-space:nowrap}
+.sub-tab{height:24px;padding:0 10px;border:none;border-radius:12px;font-size:11px;cursor:pointer;background:#f5f5f5;color:#666;flex-shrink:0}
+.sub-tab.active{background:#07c160;color:#fff}
+.sub-tab.add-btn{background:#e8f5e9;color:#07c160;font-weight:bold}
+.content{flex:1;overflow-y:auto;padding:8px}
+.emoji-grid{display:flex;flex-wrap:wrap;gap:4px;align-content:flex-start}
+.emoji-grid span{width:14.28%;aspect-ratio:1/1;background:#f0f0f0;border:1px solid #e0e0e0;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer}
+.kao-grid{display:flex;flex-wrap:wrap;gap:4px;align-content:flex-start}
+.kao-grid span{width:48%;min-height:40px;background:#f0f0f0;border:1px solid #e0e0e0;border-radius:8px;padding:8px 6px;font-size:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;word-break:break-all}
+.img-grid{display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start}
+.img-grid .sticker{width:23%;border-radius:8px;overflow:hidden;cursor:pointer;background:#f0f0f0}
+.img-grid .sticker img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
 .add-bar{display:flex;gap:6px;padding:8px 10px;border-top:1px solid #eee}
 .add-bar input{flex:1;height:28px;border:1px solid #ddd;border-radius:14px;padding:0 10px;font-size:11px;outline:none}
 .add-bar button{height:28px;padding:0 12px;border:none;border-radius:14px;background:#07c160;color:#fff;font-size:11px;cursor:pointer}
 .add-sticker-btn{width:60px;height:60px;border:2px dashed #ccc;border-radius:10px;background:#f7f7f7;color:#999;font-size:28px;display:flex;align-items:center;justify-content:center;cursor:pointer}
 #stickerFile{display:none}
-
-/* ===== 底部Tab和弹窗 ===== */
 .tab-bar{height:50px;background:#fff;display:flex;border-top:1px solid #e5e5e5;flex-shrink:0}
 .tab-bar button{flex:1;border:none;background:none;cursor:pointer;font-size:12px;color:#666;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
 .tab-bar button.active{color:#07c160;font-weight:600}
@@ -83,8 +85,8 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 .my-media-wrap{width:100%;height:100%;position:absolute;top:0;left:0;cursor:pointer;overflow:hidden}
 .my-menu-item{width:100%;height:46px;font-size:16px;display:flex;align-items:center;padding-left:12px;position:relative;cursor:pointer}
 .my-menu-item::after{content:"";position:absolute;left:42px;right:0;bottom:0;height:1px;background:#eee}
-.my-balance{display:flex;align-items:center;padding:10px 12px;font-size:14px;cursor:pointer}
-.my-balance::after{content:"";position:absolute;left:42px;right:0;bottom:0;height:1px;background:#eee;position:relative}
+.my-balance{display:flex;align-items:center;padding:10px 12px;font-size:14px;cursor:pointer;position:relative}
+.my-balance::after{content:"";position:absolute;left:42px;right:0;bottom:0;height:1px;background:#eee}
 .moments-page{flex:1;display:flex;flex-direction:column;background:#f5f5f5}
 .moments-cover{height:180px;background:#b8d8d8;background-size:cover;background-position:center;position:relative;flex-shrink:0}
 .moments-cover .camera{position:absolute;top:10px;right:12px;color:#fff;cursor:pointer}
@@ -118,36 +120,37 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 .setting-group h4{font-size:13px;margin-bottom:6px;color:#333}
 .setting-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:12px}
 .tag{display:inline-block;padding:3px 8px;background:#f0f0f0;border-radius:10px;margin:2px;font-size:11px;cursor:pointer}
-.call-float{display:none;position:fixed;top:80px;right:16px;width:100px;border-radius:12px;z-index:9999;background:#333;cursor:move;overflow:hidden}
-.call-float .cf-content{padding:10px;display:flex;flex-direction:column;align-items:center;gap:6px;color:#fff}
+.call-float{display:none;position:fixed;top:80px;right:16px;width:150px;border-radius:12px;z-index:9999;background:#333;cursor:move;overflow:hidden}
+.call-float .cf-content{padding:10px;display:flex;flex-direction:row;align-items:center;justify-content:space-between;color:#fff}
 .call-float .cf-hangup{width:32px;height:32px;border-radius:50%;background:#f53f3f;border:none;cursor:pointer;font-size:14px}
-
-/* ===== 微信风格卡片（图标在左、文字在右、底部小字在左下） ===== */
-.redpack-bubble{width:280px;height:88px;max-width:280px;max-height:88px;display:flex;align-items:center;border-radius:12px;overflow:hidden;cursor:pointer;flex-shrink:0;background:#f7a028;color:#fff;padding:12px;position:relative}
-.redpack-icon{width:44px;height:44px;background:#e63939;border-radius:4px;margin-right:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.redpack-text{font-size:15px;font-weight:bold;line-height:1.2;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.redpack-footer{font-size:12px;font-weight:bold;opacity:0.9;position:absolute;bottom:8px;left:12px}
-.transfer-bubble{width:280px;height:88px;max-width:280px;max-height:88px;display:flex;align-items:center;border-radius:12px;overflow:hidden;cursor:pointer;flex-shrink:0;background:#f7a028;color:#fff;padding:12px;position:relative}
-.transfer-icon{width:36px;height:36px;border:2px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;margin-right:10px;flex-shrink:0}
-.transfer-money{font-size:18px;font-weight:bold;line-height:1.2}
-.transfer-text{font-size:12px;font-weight:bold;opacity:0.9}
-.transfer-footer{font-size:12px;font-weight:bold;opacity:0.9;position:absolute;bottom:8px;left:12px}
-.gift-card{width:280px;height:88px;max-width:280px;max-height:88px;display:flex;align-items:center;border-radius:12px;overflow:hidden;cursor:pointer;flex-shrink:0;position:relative;background:#0F4C96;color:#fff;padding:12px}
+.redpack-bubble,.transfer-bubble,.gift-card,.music-card{width:220px;height:80px;display:flex;align-items:center;border-radius:8px;overflow:hidden;cursor:pointer;flex-shrink:0;position:relative}
+.redpack-bubble{background:#f7a028;padding:0 12px;color:#fff}
+.redpack-bubble.card-done{background:#e8b98a}
+.redpack-icon{width:44px;height:44px;background:#e63939;border-radius:4px;margin-right:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.redpack-text{font-size:14px;line-height:1.2;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left}
+.redpack-footer{font-size:11px;opacity:0.8;flex-shrink:0;text-align:right}
+.transfer-bubble{background:#f7a028;padding:0 12px;color:#fff}
+.transfer-bubble.card-done{background:#e8b98a}
+.transfer-icon{width:40px;height:40px;border:2px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;margin-right:8px;flex-shrink:0}
+.transfer-money{font-size:22px;font-weight:600;line-height:1.2;text-align:left}
+.transfer-text{font-size:12px;opacity:0.9;text-align:left}
+.transfer-footer{font-size:11px;opacity:0.8;margin-left:auto;flex-shrink:0;text-align:right}
+.gift-card{background:#0F4C96;color:#fff;padding:0 12px;position:relative}
+.gift-card.card-done{background:#6b7fa8}
 .gift-bg-layer{position:absolute;inset:0;background-image:repeating-linear-gradient(135deg,rgba(255,255,255,0.03)0px,rgba(255,255,255,0.03)1px,transparent 1px,transparent 12px),radial-gradient(1px 1px at 12% 22%,rgba(255,255,255,0.7),transparent),radial-gradient(1px 1px at 34% 65%,rgba(255,255,255,0.5),transparent),radial-gradient(1.2px 1.2px at 66% 14%,rgba(255,255,255,0.6),transparent),radial-gradient(1px 1px at 82% 72%,rgba(255,255,255,0.4),transparent),radial-gradient(1px 1px at 45% 88%,rgba(255,255,255,0.5),transparent),radial-gradient(1.2px 1.2px at 9% 52%,rgba(255,255,255,0.6),transparent),radial-gradient(1px 1px at 74% 38%,rgba(255,255,255,0.4),transparent);animation:twinkle 4s ease-in-out infinite}
-@keyframes twinkle{0%,100%{opacity:0.7}50%{opacity:1}}
-.gift-left{width:50px;display:flex;align-items:center;justify-content:center;position:relative;z-index:2;flex-shrink:0}
+.gift-left{width:44px;display:flex;align-items:center;justify-content:center;position:relative;z-index:2;flex-shrink:0;margin-right:8px}
 .gift-icon{width:36px;height:36px}
-.gift-right{flex:1;padding:8px;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:2}
-.gift-title{font-size:15px;font-weight:bold;line-height:1.2}
-.gift-footer{font-size:12px;font-weight:bold;color:#e0e0e0;position:absolute;bottom:8px;left:12px;z-index:2}
-.music-card{width:280px;height:88px;max-width:280px;max-height:88px;display:flex;align-items:center;border-radius:12px;overflow:hidden;cursor:pointer;flex-shrink:0;background:#222;color:#fff;padding:8px}
-.music-left{width:80px;height:72px;background:#000;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;border-radius:8px}
-.music-right{flex:1;padding:8px;display:flex;flex-direction:column;justify-content:center}
-.music-title{font-size:14px;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.music-singer{font-size:12px;font-weight:bold;color:#aaa}
-.music-play{width:28px;height:28px;border-radius:50%;background:#444;display:flex;align-items:center;justify-content:center;color:#fff;align-self:center;margin-right:8px;flex-shrink:0}
-
-/* ===== 系统提示、余额、拍一拍 ===== */
+.gift-right{flex:1;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:2;text-align:left}
+.gift-title{font-size:14px;font-weight:600}
+.gift-footer{font-size:11px;color:#e0e0e0;margin-top:2px}
+.music-card{background:#222;color:#fff;padding:0 12px}
+.music-card.card-done{background:#6b6b6b}
+.music-left{width:70px;height:100%;background:#000;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;margin-left:-12px;margin-right:8px}
+.music-right{flex:1;display:flex;flex-direction:column;justify-content:center;text-align:left}
+.music-title{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.music-singer{font-size:11px;color:#aaa;margin-top:2px}
+.music-play{width:28px;height:28px;border-radius:50%;background:#444;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;margin-left:8px;font-size:12px}
+.card-status-tag{position:absolute;top:6px;right:8px;font-size:10px;color:rgba(255,255,255,0.9);z-index:5}
 .system-toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.7);color:#fff;padding:12px 20px;border-radius:8px;font-size:14px;z-index:99999;display:none;text-align:center;max-width:80%;animation:fadeInOut 3s ease}
 @keyframes fadeInOut{0%{opacity:0}15%{opacity:1}85%{opacity:1}100%{opacity:0}}
 .offline-toast{position:fixed;top:60px;right:12px;background:rgba(0,0,0,0.8);color:#fff;padding:10px 16px;border-radius:8px;font-size:13px;z-index:9999;display:none;animation:fadeInDown 0.3s}
@@ -163,7 +166,6 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 .patpat-modal .pm-btn{width:100%;height:36px;border:none;border-radius:8px;background:#07c160;color:#fff;font-size:14px;cursor:pointer;margin-bottom:8px}
 .patpat-modal .pm-cancel{width:100%;height:36px;border:none;border-radius:8px;background:#f0f0f0;color:#333;font-size:14px;cursor:pointer}
 .patpat-mask{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:99999;display:none}
-.patpat-tip{text-align:center;font-size:12px;color:#999;margin:6px 0;padding:4px 0;line-height:1.4}
 .balance-page{background:#f5f5f5;flex:1;overflow-y:auto}
 .balance-tabs{display:flex;background:#fff;border-bottom:1px solid #eee}
 .balance-tab{flex:1;text-align:center;padding:12px;font-size:14px;cursor:pointer;color:#666;border-bottom:2px solid transparent}
@@ -178,16 +180,63 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 .recharge-card .rc-title{font-size:14px;font-weight:500;margin-bottom:10px}
 .recharge-card .rc-input{width:100%;padding:8px;border:1px solid #ddd;border-radius:8px;font-size:14px;margin-bottom:8px;outline:none}
 .recharge-card .rc-btn{width:100%;height:36px;border:none;border-radius:8px;background:#07c160;color:#fff;font-size:14px;cursor:pointer}
+.phone-home{background:linear-gradient(180deg,#e8e8e8,#f5f5f5);padding:12px}
+.phone-time{font-size:48px;font-weight:bold;text-align:center;padding:20px;color:#333}
+.phone-app-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.phone-app{background:#fff;border-radius:16px;padding:20px;text-align:center;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.05)}
+.phone-app .app-icon{font-size:24px}
+.phone-app .app-name{font-size:13px;margin-top:5px}
+.phone-bottom-bar{height:50px;background:#fff;border-top:1px solid #eee;display:flex;align-items:center;justify-content:center}
+.phone-bottom-bar .home-btn{width:40px;height:40px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:20px}
+.mail-step-right{margin-left:auto;width:75%;background:#fff;border-radius:8px;padding:10px 12px;margin-bottom:10px;position:relative;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+.mail-step-left{margin-right:auto;width:75%;background:#e8ecff;border-radius:8px;padding:10px 12px;margin-bottom:10px;position:relative;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+.mail-step-right .mail-tag,.mail-step-left .mail-tag{position:absolute;top:6px;right:8px;font-size:10px;color:#c0392b}
+.mail-step-right .mail-time,.mail-step-left .mail-time{font-size:10px;color:#999;margin-top:6px}
+.mail-red-dot{width:8px;height:8px;border-radius:50%;background:#f53f3f;position:absolute;top:10px;right:10px}
+.mail-item{background:#fff;border-radius:8px;padding:12px;margin-bottom:8px;position:relative;cursor:pointer}
+.mail-item-title{font-size:14px;font-weight:500}
+.mail-item-time{font-size:10px;color:#999;margin-top:4px}
+.mail-done-check{position:absolute;bottom:8px;right:10px;color:#f53f3f;font-size:16px}
+.mail-pending-dots{position:absolute;bottom:8px;right:10px;color:#f53f3f;font-size:16px;letter-spacing:2px}
+.shop-manage-card{background:#fff;border:1px dashed #07c160;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;color:#07c160;font-size:13px;border-radius:8px;overflow:hidden;min-height:120px}
+.shop-manage-card .manage-icon{font-size:32px;margin-bottom:6px}
+.shop-item-square{position:relative;border-radius:8px;overflow:hidden;cursor:pointer;aspect-ratio:1/1;background:#fff}
+.shop-item-tall{position:relative;border-radius:8px;overflow:hidden;cursor:pointer;aspect-ratio:3/4;background:#fff}
+.shop-item-wide{position:relative;border-radius:8px;overflow:hidden;cursor:pointer;aspect-ratio:4/3;background:#fff}
+.shop-item-img{width:100%;height:100%;object-fit:cover;display:block}
+.shop-item-info{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.7));color:#fff;padding:8px 6px 6px;font-size:12px}
+.shop-item-info .name{font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.shop-item-info .price{font-size:14px;font-weight:600;margin-top:2px}
+.shop-add-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:100001;display:none;align-items:center;justify-content:center;padding:20px}
+.shop-add-modal.show{display:flex}
+.shop-add-box{background:#fff;border-radius:12px;padding:20px;width:100%;max-width:340px;max-height:90vh;overflow-y:auto}
+.shop-shape-opt{display:inline-block;width:60px;height:60px;border:2px solid #ddd;border-radius:8px;margin-right:8px;cursor:pointer;position:relative}
+.shop-shape-opt.active{border-color:#07c160}
+.shop-shape-opt.square{aspect-ratio:1/1}
+.shop-shape-opt.tall{aspect-ratio:3/4}
+.shop-shape-opt.wide{aspect-ratio:4/3}
+.crop-shop-modal{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:100002;display:none;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+.crop-shop-modal.show{display:flex}
+.crop-shop-box{position:relative;overflow:hidden;background:#111;border-radius:8px}
+.crop-shop-box img{display:block;transform-origin:center center}
+.crop-shop-frame{position:absolute;border:2px dashed #fff;pointer-events:none;box-sizing:border-box}
+.crop-shop-actions{margin-top:16px;display:flex;gap:12px}
+.crop-shop-btn{border:none;border-radius:8px;padding:10px 16px;color:#fff;background:#444;font-size:14px;cursor:pointer}
+.crop-shop-btn.confirm{background:#1db954}
+.choice-bubble{background:#fff;border:1px solid #ddd;border-radius:8px;padding:12px;max-width:220px}
+.choice-question{font-size:13px;font-weight:500;margin-bottom:8px}
+.choice-option{font-size:12px;padding:6px 8px;border:1px solid #eee;border-radius:6px;margin-bottom:4px;cursor:pointer}
+.choice-option.selected{background:#07c160;color:#fff}
 </style>
 </head>
 <body>
 <div class="wrapper">
-  <div id="pageChat" class="page active">
+<div id="pageChat" class="page active">
 <div class="top-bar">
 <button class="back" onclick="showPage('chatList')"><svg class="icon" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
 <div class="status-tag" id="statusTag">在看海</div>
 <div class="title-wrap"><div class="title" id="chatTitle" onclick="editName()">爱因</div><div class="typing" id="typingIndicator"></div></div>
-<button class="icon-btn" onclick="showFullPage('phoneFull')"><svg class="icon" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
+<button class="icon-btn" onclick="showPage('phoneHome')"><svg class="icon" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
 <button class="icon-btn" onclick="showFullPage('settingsFull')"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 4v2M12 18v2M4 12h2M18 12h2M6.3 6.3l1.4 1.4M17.7 6.3l-1.4 1.4M6.3 17.7l1.4-1.4M17.7 17.7l-1.4-1.4"/></svg></button>
 </div>
 <div class="chat-area">
@@ -234,26 +283,10 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 <div class="my-status" id="myStatusText" onclick="showStatusPanel()">+状态</div>
 <div class="my-media-wrap" onclick="document.getElementById('myMediaFile').click()"><img id="myBgImg" style="width:100%;height:100%;object-fit:cover;display:none;"><video id="myBgVideo" style="width:100%;height:100%;object-fit:cover;display:none;" loop autoplay muted></video></div>
 </div>
-<div class="my-menu-item" onclick="showBalancePage()">余额</div>
 <div class="my-menu-item" onclick="showPage('moment')">朋友圈</div>
 <div class="my-menu-item" onclick="showPage('collect')">收藏</div>
 <div class="my-menu-item" onclick="showPage('transferRecord')">转账记录</div>
 <div class="my-menu-item" onclick="showPage('visitRecord')">访问记录</div>
-</div>
-</div>
-
-<!-- 余额页面 -->
-<div id="pageBalance" class="page">
-<div class="top-bar"><button class="back" onclick="showPage('my')"><svg class="icon" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button><div class="title">余额</div></div>
-<div class="balance-page">
-<div class="balance-tabs">
-<div class="balance-tab active" onclick="switchBalanceTab(this,'balance')">余额</div>
-<div class="balance-tab" onclick="switchBalanceTab(this,'recharge')">充值</div>
-</div>
-<div class="balance-content">
-<div id="balanceList"></div>
-<div id="rechargeList" style="display:none;"></div>
-</div>
 </div>
 </div>
 
@@ -296,6 +329,265 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 <button data-tab="contact" onclick="switchTab(this)"><svg class="icon" viewBox="0 0 24 24"><circle cx="8.5" cy="8.5" r="3.2"/><path d="M4 18.5h9v-1a3.2 3.2 0 0 0-3.2-3.2h-2.6A3.2 3.2 0 0 0 4 17.5v1z"/><circle cx="15.5" cy="8.5" r="3.2"/><path d="M15 18.5h5v-1a3.2 3.2 0 0 0-3.2-3.2h-1.8A3.2 3.2 0 0 0 15 17.5v1z"/></svg>联系人</button>
 <button data-tab="my" onclick="switchTab(this)"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.2"/><path d="M6 18.5h12v-1a3.2 3.2 0 0 0-3.2-3.2h-5.6A3.2 3.2 0 0 0 6 17.5v1z"/></svg>我</button>
 </div>
+<div id="pagePhoneHome" class="page">
+    <div class="top-bar" style="justify-content:center;"><div class="title">手机</div></div>
+    <div style="flex:1;overflow-y:auto;padding:12px;background:linear-gradient(180deg,#e8e8e8,#f5f5f5);">
+        <div style="font-size:48px;font-weight:bold;text-align:center;padding:20px;color:#333;">2:39</div>
+        <div id="phoneNotebook" style="background:#fff;border-radius:16px;padding:15px;margin-bottom:15px;"></div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+            <div onclick="showPage('chat')" style="background:#07c160;border-radius:16px;padding:20px;text-align:center;color:#fff;cursor:pointer;"><div style="font-size:24px;">💬</div><div style="font-size:13px;margin-top:5px;">微信</div></div>
+            <div onclick="showPage('music')" style="background:#ff6b6b;border-radius:16px;padding:20px;text-align:center;color:#fff;cursor:pointer;"><div style="font-size:24px;">🎵</div><div style="font-size:13px;margin-top:5px;">音乐</div></div>
+            <div onclick="showPage('tarot')" style="background:#8e44ad;border-radius:16px;padding:20px;text-align:center;color:#fff;cursor:pointer;"><div style="font-size:24px;">🔮</div><div style="font-size:13px;margin-top:5px;">塔罗</div></div>
+            <div onclick="showPage('mood')" style="background:#f39c12;border-radius:16px;padding:20px;text-align:center;color:#fff;cursor:pointer;"><div style="font-size:24px;">📔</div><div style="font-size:13px;margin-top:5px;">心情</div></div>
+            <div onclick="showPage('littlePhone')" style="background:#e74c3c;border-radius:16px;padding:20px;text-align:center;color:#fff;cursor:pointer;"><div style="font-size:24px;">📱</div><div style="font-size:13px;margin-top:5px;">对方的小手机</div></div>
+            <div onclick="showPage('shop')" style="background:#2ecc71;border-radius:16px;padding:20px;text-align:center;color:#fff;cursor:pointer;"><div style="font-size:24px;">🛍️</div><div style="font-size:13px;margin-top:5px;">购物</div></div>
+            <div onclick="showPage('mail')" style="background:#5b6ee1;border-radius:16px;padding:20px;text-align:center;color:#fff;cursor:pointer;"><div style="font-size:24px;">📧</div><div style="font-size:13px;margin-top:5px;">信封</div></div>
+        </div>
+    </div>
+    <div style="height:50px;background:#fff;border-top:1px solid #eee;display:flex;align-items:center;padding:0 20px;">
+        <div onclick="showPage('chat')" style="width:40px;height:40px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;cursor:pointer;">←</div>
+    </div>
+</div>
+
+<div id="pageMusic" class="page">
+    <div class="top-bar" style="justify-content:center;"><div class="title">音乐</div></div>
+    <div style="flex:1;overflow-y:auto;padding:12px;background:#f5f5f5;">
+        <input placeholder="搜索音乐" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:20px;margin-bottom:15px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:15px;">
+            <div style="background:linear-gradient(135deg,#ff6b6b,#ee5a24);border-radius:12px;padding:20px;color:#fff;text-align:center;cursor:pointer;">❤️ 我喜欢的</div>
+            <div style="background:linear-gradient(135deg,#57606f,#2f3542);border-radius:12px;padding:20px;color:#fff;text-align:center;cursor:pointer;">💔 我讨厌的</div>
+        </div>
+        <div id="myMusicList"></div>
+    </div>
+    <div style="height:50px;background:#fff;border-top:1px solid #eee;display:flex;align-items:center;padding:0 20px;">
+        <div onclick="showPage('phoneHome')" style="width:40px;height:40px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;cursor:pointer;">←</div>
+    </div>
+</div>
+
+<div id="pageTarot" class="page">
+    <div class="top-bar" style="justify-content:center;"><div class="title">塔罗</div></div>
+    <div style="flex:1;display:flex;flex-direction:column;">
+        <div style="display:flex;border-bottom:1px solid #eee;background:#fff;">
+            <div class="tarotMainTab active" style="flex:1;text-align:center;padding:12px;font-size:14px;cursor:pointer;" onclick="switchTarotMainTab(this,'tarot')">塔罗牌</div>
+            <div class="tarotMainTab" style="flex:1;text-align:center;padding:12px;font-size:14px;cursor:pointer;" onclick="switchTarotMainTab(this,'xiao')">小六壬</div>
+            <div class="tarotMainTab" style="flex:1;text-align:center;padding:12px;font-size:14px;cursor:pointer;" onclick="switchTarotMainTab(this,'astro')">星座</div>
+        </div>
+        <div id="tarotContent" style="flex:1;overflow-y:auto;padding:15px;background:#f5f5f5;">
+            <div style="text-align:center;margin:20px 0;">
+                <div style="width:150px;height:150px;border-radius:50%;background:radial-gradient(circle at 30% 30%, #a8d8ea, #4a90d9 40%, #1a3a5c 80%);margin:0 auto;position:relative;box-shadow:0 0 25px rgba(74,144,217,0.5), inset 0 0 20px rgba(255,255,255,0.3);overflow:hidden;">
+                    <div style="position:absolute;width:110px;height:110px;border-radius:50%;left:20px;top:20px;background:radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), transparent 60%);"></div>
+                    <div style="position:absolute;width:20px;height:20px;border-radius:50%;left:65px;top:65px;background:radial-gradient(circle,#fff, rgba(255,255,255,0.2));"></div>
+                    <div style="position:absolute;top:70px;left:15px;width:120px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent);transform:rotate(30deg);"></div>
+                    <div style="position:absolute;top:70px;left:15px;width:120px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent);transform:rotate(-30deg);"></div>
+                    <div style="position:absolute;top:65px;left:50px;color:#fff;font-size:12px;text-shadow:0 0 8px rgba(255,255,255,0.8);">水晶球</div>
+                </div>
+            </div>
+            <div style="display:flex;gap:8px;margin-bottom:15px;">
+                <div class="tarotSubTab active" style="flex:1;text-align:center;padding:10px;background:#fff;border-radius:8px;cursor:pointer;font-size:12px;" onclick="switchTarotSubTab(this,'one')">一张牌</div>
+                <div class="tarotSubTab" style="flex:1;text-align:center;padding:10px;background:#fff;border-radius:8px;cursor:pointer;font-size:12px;" onclick="switchTarotSubTab(this,'three')">三张牌</div>
+                <div class="tarotSubTab" style="flex:1;text-align:center;padding:10px;background:#fff;border-radius:8px;cursor:pointer;font-size:12px;" onclick="switchTarotSubTab(this,'custom')">自定义牌阵</div>
+            </div>
+            <input id="tarotQuestion" placeholder="输入你要问的问题" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:13px;outline:none;margin-bottom:10px;">
+            <button onclick="drawTarot()" style="width:100%;padding:12px;background:#8e44ad;color:#fff;border:none;border-radius:8px;cursor:pointer;">抽牌</button>
+            <div id="tarotResult" style="margin-top:15px;"></div>
+        </div>
+        <div id="xiaoContent" style="display:none;flex:1;overflow-y:auto;padding:15px;background:#f5f5f5;">
+            <div style="text-align:center;margin:20px 0;">
+                <div style="width:170px;height:170px;border-radius:50%;background:radial-gradient(circle, #f5e6c8, #d4a373);margin:0 auto;position:relative;box-shadow:0 4px 15px rgba(0,0,0,0.3);border:3px solid #8b5e3c;overflow:hidden;">
+                    <div style="position:absolute;width:50px;height:50px;border-radius:50%;background:radial-gradient(circle,#fff,#f0e0c0);left:60px;top:60px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:bold;color:#333;">小六壬</div>
+                    <div style="position:absolute;top:10px;left:70px;font-size:10px;color:#333;">大安</div>
+                    <div style="position:absolute;top:75px;right:10px;font-size:10px;color:#333;">留连</div>
+                    <div style="position:absolute;bottom:10px;right:65px;font-size:10px;color:#333;">速喜</div>
+                    <div style="position:absolute;bottom:10px;left:65px;font-size:10px;color:#333;">赤口</div>
+                    <div style="position:absolute;top:75px;left:10px;font-size:10px;color:#333;">小吉</div>
+                    <div style="position:absolute;top:85px;left:70px;font-size:10px;color:#333;">空亡</div>
+                </div>
+            </div>
+            <input id="xiaoQuestion" placeholder="输入问题" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:13px;outline:none;margin-bottom:10px;">
+            <button onclick="drawXiao()" style="width:100%;padding:12px;background:#8b5e3c;color:#fff;border:none;border-radius:8px;cursor:pointer;">推算</button>
+            <div id="xiaoResult" style="margin-top:15px;"></div>
+        </div>
+        <div id="astroContent" style="display:none;flex:1;overflow-y:auto;padding:15px;background:#f5f5f5;">
+            <div style="text-align:center;margin:20px 0;">
+                <div style="width:150px;height:150px;border-radius:50%;background:radial-gradient(circle, #1a1a2e, #16213e 70%, #0f3460);margin:0 auto;position:relative;box-shadow:0 0 25px rgba(15,52,96,0.5);overflow:hidden;">
+                    <div style="position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;left:20px;top:30px;"></div>
+                    <div style="position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;left:80px;top:15px;"></div>
+                    <div style="position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;left:50px;top:80px;"></div>
+                    <div style="position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;left:110px;top:60px;"></div>
+                    <div style="position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;left:30px;top:100px;"></div>
+                    <div style="position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;left:90px;top:110px;"></div>
+                    <div style="position:absolute;width:60px;height:1px;background:rgba(255,255,255,0.3);left:20px;top:30px;transform:rotate(45deg);"></div>
+                    <div style="position:absolute;width:50px;height:1px;background:rgba(255,255,255,0.3);left:80px;top:15px;transform:rotate(-60deg);"></div>
+                    <div style="position:absolute;width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,0.8);left:65px;top:65px;box-shadow:0 0 10px rgba(255,255,255,0.5);"></div>
+                    <div style="position:absolute;top:60px;left:55px;color:#fff;font-size:12px;text-shadow:0 0 5px rgba(255,255,255,0.8);">星空</div>
+                </div>
+            </div>
+            <input id="astroQuestion" placeholder="输入问题" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:13px;outline:none;margin-bottom:10px;">
+            <button onclick="drawAstro()" style="width:100%;padding:12px;background:#0f3460;color:#fff;border:none;border-radius:8px;cursor:pointer;">占卜</button>
+            <div id="astroResult" style="margin-top:15px;"></div>
+        </div>
+    </div>
+    <div style="height:50px;background:#fff;border-top:1px solid #eee;display:flex;align-items:center;padding:0 20px;">
+        <div onclick="showPage('phoneHome')" style="width:40px;height:40px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;cursor:pointer;">←</div>
+    </div>
+</div>
+
+<div id="pageMood" class="page">
+    <div class="top-bar" style="justify-content:center;"><div class="title">心情</div></div>
+    <div style="flex:1;overflow-y:auto;padding:12px;background:#f5f5f5;">
+        <div onclick="showMoodCalendar()" style="background:#fff;border-radius:12px;padding:20px;text-align:center;cursor:pointer;margin-bottom:12px;">📔 手账本</div>
+        <div id="myMoodList"></div>
+    </div>
+    <div style="height:50px;background:#fff;border-top:1px solid #eee;display:flex;align-items:center;padding:0 20px;">
+        <div onclick="showPage('phoneHome')" style="width:40px;height:40px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;cursor:pointer;">←</div>
+    </div>
+</div>
+
+<div id="pageLittlePhone" class="page">
+    <div class="top-bar" style="justify-content:center;"><div class="title">对方的小手机</div></div>
+    <div style="flex:1;overflow-y:auto;padding:12px;background:#f5f5f5;">
+        <div id="littleChatRecords"></div>
+        <div id="littleTransferRecords"></div>
+        <div id="littleGiftRecords"></div>
+        <div id="littleMyStatus"></div>
+        <div id="littleShopRecords"></div>
+        <div id="littleMusicList"></div>
+        <div id="littleBalance"></div>
+    </div>
+    <div style="height:50px;background:#fff;border-top:1px solid #eee;display:flex;align-items:center;padding:0 20px;">
+        <div onclick="showPage('phoneHome')" style="width:40px;height:40px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;cursor:pointer;">←</div>
+    </div>
+</div>
+
+<div id="pageShop" class="page">
+    <div class="top-bar" style="justify-content:center;"><div class="title">购物</div></div>
+    <div style="flex:1;overflow-y:auto;padding:12px;background:#f5f5f5;">
+        <div id="shopCategoryTabs"></div>
+        <div id="shopProductList" style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:12px;"></div>
+    </div>
+    <div style="height:50px;background:#fff;border-top:1px solid #eee;display:flex;align-items:center;padding:0 20px;">
+        <div onclick="showPage('phoneHome')" style="width:40px;height:40px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;cursor:pointer;">←</div>
+    </div>
+</div>
+
+<div id="pageShopCart" class="page">
+    <div class="top-bar" style="justify-content:center;"><div class="title">购物车</div></div>
+    <div style="display:flex;background:#fff;border-bottom:1px solid #eee;">
+        <div class="shopCartTab active" style="flex:1;text-align:center;padding:12px;font-size:14px;cursor:pointer;" onclick="switchShopCartTab(this,'cart')">购物车</div>
+        <div class="shopCartTab" style="flex:1;text-align:center;padding:12px;font-size:14px;cursor:pointer;" onclick="switchShopCartTab(this,'bought')">我买过的商品</div>
+    </div>
+    <div style="flex:1;overflow-y:auto;padding:12px;" id="shopCartList"></div>
+    <div style="height:50px;background:#fff;border-top:1px solid #eee;display:flex;align-items:center;padding:0 20px;">
+        <div onclick="showPage('phoneHome')" style="width:40px;height:40px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;cursor:pointer;">←</div>
+    </div>
+</div>
+
+<div id="pageShopDetail" class="page">
+    <div class="top-bar" style="justify-content:center;"><div class="title">商品详情</div></div>
+    <div style="flex:1;overflow-y:auto;padding:12px;" id="shopDetailContent"></div>
+    <div style="height:50px;background:#fff;border-top:1px solid #eee;display:flex;align-items:center;padding:0 20px;">
+        <div onclick="showPage('phoneHome')" style="width:40px;height:40px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;cursor:pointer;">←</div>
+    </div>
+</div>
+
+<div id="pageShopMy" class="page">
+    <div class="top-bar" style="justify-content:center;"><div class="title">我</div></div>
+    <div style="flex:1;overflow-y:auto;padding:12px;">
+        <div style="font-size:16px;font-weight:500;margin-bottom:10px;">我的余额：¥<span id="shopBalance">0</span></div>
+        <div style="font-size:16px;font-weight:500;margin-bottom:10px;cursor:pointer;" onclick="showMyShopping()">我的购物记录</div>
+        <div style="font-size:16px;font-weight:500;margin-bottom:10px;cursor:pointer;" onclick="showMyGiftRecord()">我的送礼记录</div>
+        <div style="font-size:16px;font-weight:500;margin-bottom:10px;cursor:pointer;" onclick="showTheirGiftRecord()">对方的送礼记录</div>
+    </div>
+    <div style="height:50px;background:#fff;border-top:1px solid #eee;display:flex;align-items:center;padding:0 20px;">
+        <div onclick="showPage('phoneHome')" style="width:40px;height:40px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;cursor:pointer;">←</div>
+    </div>
+</div>
+
+<div id="pageShoppingRecord" class="page">
+    <div class="top-bar" style="justify-content:center;"><div class="title">购物记录</div></div>
+    <div style="flex:1;overflow-y:auto;padding:12px;" id="shoppingRecordList"></div>
+    <div style="height:50px;background:#fff;border-top:1px solid #eee;display:flex;align-items:center;padding:0 20px;">
+        <div onclick="showPage('phoneHome')" style="width:40px;height:40px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;cursor:pointer;">←</div>
+    </div>
+</div>
+
+<div id="pageMusicMy" class="page">
+    <div class="top-bar" style="justify-content:center;"><div class="title">我的音乐</div></div>
+    <div style="flex:1;overflow-y:auto;padding:12px;background:#f5f5f5;">
+        <div onclick="addMusicFromMy()" style="padding:15px;border:1px dashed #ccc;border-radius:8px;text-align:center;margin-bottom:12px;cursor:pointer;background:#f9f9f9;">➕ 添加音乐</div>
+        <div style="font-size:15px;font-weight:500;margin-bottom:8px;">我喜欢的歌</div>
+        <div id="myFavoriteMusic"></div>
+        <div style="font-size:15px;font-weight:500;margin-top:15px;margin-bottom:8px;">我听过的</div>
+        <div id="myListenedMusic"></div>
+        <div style="font-size:15px;font-weight:500;margin-top:15px;margin-bottom:8px;">最近听的</div>
+        <div id="myRecentMusic"></div>
+    </div>
+    <div style="height:50px;background:#fff;border-top:1px solid #eee;display:flex;align-items:center;padding:0 20px;">
+        <div onclick="showPage('phoneHome')" style="width:40px;height:40px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;cursor:pointer;">←</div>
+    </div>
+</div>
+
+<div id="pageGiftManager" class="page">
+    <div class="top-bar" style="justify-content:center;"><div class="title">礼物管理</div></div>
+    <div style="flex:1;overflow-y:auto;padding:12px;">
+        <button class="pbtn" onclick="addNewGift()" style="margin-bottom:12px;">添加礼物</button>
+        <div id="giftManagerList"></div>
+    </div>
+    <div style="height:50px;background:#fff;border-top:1px solid #eee;display:flex;align-items:center;padding:0 20px;">
+        <div onclick="showPage('phoneHome')" style="width:40px;height:40px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;cursor:pointer;">←</div>
+    </div>
+</div>
+
+<div id="pageMoodCalendar" class="page">
+    <div class="top-bar" style="justify-content:center;"><div class="title">手账本</div></div>
+    <div style="flex:1;overflow-y:auto;padding:12px;background:#f5f5f5;">
+        <div style="background:#fff;border-radius:12px;padding:15px;margin-bottom:12px;" id="moodCalendar"></div>
+        <div style="background:#fff;border-radius:12px;padding:15px;" id="moodEditArea"></div>
+    </div>
+    <div style="height:50px;background:#fff;border-top:1px solid #eee;display:flex;align-items:center;padding:0 20px;">
+        <div onclick="showPage('phoneHome')" style="width:40px;height:40px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;cursor:pointer;">←</div>
+    </div>
+</div>
+
+<div id="pageMail" class="page">
+  <div class="top-bar" style="justify-content:center;">
+    <div class="title">信封</div>
+    <button class="icon-btn" style="position:absolute;right:8px;" onclick="writeMail()">✏️</button>
+  </div>
+  <div class="record-tabs">
+    <div class="record-tab active" onclick="switchMailTab(this,'all')">全部</div>
+    <div class="record-tab" onclick="switchMailTab(this,'his')">他的信</div>
+    <div class="record-tab" onclick="switchMailTab(this,'mine')">我的信</div>
+  </div>
+  <div id="mailAllList" style="flex:1;overflow-y:auto;padding:8px;background:#f5f5f5;"></div>
+  <div id="mailHisList" style="display:none;flex:1;overflow-y:auto;padding:8px;background:#f5f5f5;"></div>
+  <div id="mailMineList" style="display:none;flex:1;overflow-y:auto;padding:8px;background:#f5f5f5;"></div>
+  <div style="height:50px;background:#fff;border-top:1px solid #eee;display:flex;align-items:center;padding:0 20px;">
+    <div onclick="showPage('phoneHome')" style="width:40px;height:40px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;cursor:pointer;">←</div>
+  </div>
+</div>
+
+<div id="pageMailDetail" class="page">
+  <div class="top-bar">
+    <button class="back" onclick="showPage('mail')"><svg class="icon" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+    <div class="title">信件</div>
+  </div>
+  <div id="mailDetailContent" style="flex:1;overflow-y:auto;padding:16px;background:#f5f5f5;"></div>
+  <div style="height:60px;background:#fff;border-top:1px solid #eee;display:flex;align-items:center;justify-content:center;">
+    <div onclick="replyMail()" style="width:44px;height:44px;border-radius:50%;background:#5b6ee1;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="#fff"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+    </div>
+  </div>
+</div>
+
+<div class="full-page" id="writeMailPage">
+  <div class="fp-header"><button onclick="closeFullPage('writeMailPage')">←</button><span>写信</span></div>
+  <div class="fp-body">
+    <input class="pinput" id="mailTo" placeholder="写给谁" value="爱因">
+    <textarea class="pinput" id="mailBody" placeholder="见字如晤，展信舒颜" style="height:200px;"></textarea>
+    <button class="pbtn" onclick="sendMail()">寄出</button>
+  </div>
+</div>
 
 <div class="mask" id="mask" onclick="closeAll()"></div>
 
@@ -308,6 +600,7 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 <div class="gitem" onclick="closeAll();sendMusic()"><div class="icon-box">🎵</div>音乐</div>
 <div class="gitem" onclick="closeAll();startCall('视频')"><div class="icon-box">📹</div>视频</div>
 <div class="gitem" onclick="closeAll();startCall('语音')"><div class="icon-box">📞</div>语音</div>
+<div class="gitem" onclick="showPanel('choicePanel')"><div class="icon-box">📝</div>选择题</div>
 </div>
 </div>
 
@@ -323,6 +616,16 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 <input class="pinput" id="tfMoney" type="number" placeholder="金额">
 <input class="pinput" id="tfRemark" placeholder="转账说明">
 <button class="pbtn" style="background:#f7a028;" onclick="sendTransfer()">转账</button>
+</div>
+
+<div class="panel-popup" id="choicePanel">
+<div class="pheader"><span>选择题</span><button onclick="closeAll()">×</button></div>
+<input class="pinput" id="choiceQuestion" placeholder="输入问题">
+<div id="choiceOptionsInput">
+    <input class="pinput" placeholder="选项 1">
+</div>
+<button class="pbtn" style="background:#f0f0f0;color:#333;margin-bottom:10px;" onclick="addChoiceOptionInput()">+ 添加选项</button>
+<button class="pbtn" onclick="sendChoice()">发送</button>
 </div>
 
 <div class="panel-popup" id="addPanel">
@@ -362,14 +665,13 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 </div>
 </div>
 
-<div class="full-page" id="phoneFull">
-<div class="fp-header"><button onclick="closeFullPage('phoneFull')">←</button><span>手机</span></div>
-<div class="fp-body"><div class="grid"><div class="gitem"><div class="icon-box">🛍️</div>购物</div><div class="gitem"><div class="icon-box">🎵</div>音乐</div><div class="gitem"><div class="icon-box">🔮</div>塔罗</div><div class="gitem"><div class="icon-box">📔</div>心情</div></div></div>
+<div class="call-float" id="callFloat">
+  <div class="cf-content">
+    <div id="cfStatus">呼叫中...</div>
+    <button class="cf-hangup" onclick="endCall()">📞</button>
+  </div>
 </div>
 
-<div class="call-float" id="callFloat"><div class="cf-content"><div id="cfStatus">呼叫中...</div><button class="cf-hangup" onclick="endCall()">📞</button></div></div>
-
-<!-- 拍一拍输入弹窗 -->
 <div class="patpat-mask" id="patpatMask"></div>
 <div class="patpat-modal" id="patpatModal">
   <div class="pm-title">拍一拍</div>
@@ -384,275 +686,752 @@ body{background:#f2f2f5;width:100%;height:100vh;overflow:hidden}
 
 </div>
 <script>
-var DATA_KEY='wx_final13';
+var DATA_KEY='wx_final14'; // 升级了版本号，以防缓存冲突
 var friends=[{id:1,name:'爱因',avatar:'',pinned:true}];
 var chatHistory={};var momentItems=[];var currentChatId=1;
 var wordCards=['我喜欢你','今天天气真好','一起听歌吗','晚安','早安','想你了','哈哈哈','好呀','嗯嗯','在干嘛'];
 var patpatList=['拍了拍爱因的头，并笑着说你好','在客厅里缓慢的走路','正在思考人生','偷偷看你一眼','给你发了个表情'];
 var statusList=['在看海','听歌中','休息中'];
+var hisStatusList=['开心','难过','发呆','睡觉','工作']; // 聊天框上方专属状态
 var myName='我';var myStatus='+状态';var myAvatarData='';var newFriendAvatarData='';
 var myBalance=520000;
 var friendBalances={};
-var emojiGroups=[{title:"常用",list:['😀','😃','😄','😁','😆','😅','😂','🤣','😊','😇','🙂','🙃','😉','😌','😍','🥰','😘','😗','😙','😚']},{title:"情绪",list:['😋','😜','😝','😛','🤑','😎','🤓','🧐','😏','😒','🙄','😮','😯','😲','😳','🥺','😦','😧','😨','😰','😥','😢','😭','😱','😖','😣','😞','😓','😩','😫','🥱','😴']},{title:"爱心",list:['❤️','🧡','💛','💚','💙','💜','🤍','🤎','🖤','💔','❣️','💕','💞','💓','💗','💖','💘','💝','💟','💌']},{title:"装饰",list:['🔥','💯','✨','💫','⭐','🌟','💥','💢','💦','💨','💤','💬','💭','💮','🪷','🌸','🌺']},{title:"动物",list:['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🙈','🙉','🙊','🐔','🐧','🐦','🐤','🦆','🦅','🦉','🦇','🐺','🐗','🐴','🦄']}];
-var kaoGroups=[{title:"开心",list:['(๑•̀ㅂ•́)و✧','(≧∇≦)ﾉ','ヽ(✿ﾟ▽ﾟ)ノ']},{title:"委屈",list:['(｡•́︿•̀｡)','(>﹏<)']},{title:"温柔",list:['( ´･ᴗ･` )']}];
-var stickerList=[];var currentEmojiType='emoji';var currentGroupIndex=0;
-var collectItems=[{time:'今天 10:25',text:'爱因说：晚安'},{time:'昨天 22:10',text:'🎤语音消息'}];
-var transferRecords=[{time:'2026-08-28 14:30',text:'爱因给你转账 ¥520'},{time:'2026-08-27 09:15',text:'你收了爱因的红包 ¥52'}];
-var visitRecords=[{time:'今天 09:00',text:'爱因访问了你的主页'},{time:'昨天 20:30',text:'爱因访问了你的朋友圈'}];
 
-// ===== 系统提示相关 =====
-var systemToastVisible=false;
-// ===== 离线消息相关 =====
-var isPageVisible=true;
-var pendingItems=[];
-var offlineTimer=null;
-// ===== 拍一拍相关 =====
-var lastTapTime=0;
-var lastTapTarget=null;
+// 音乐数据
+var myMusic=[];
+var favoriteMusic=[];
+var listenedMusic=[];
+var recentMusic=[];
 
-function saveAll(){try{localStorage.setItem(DATA_KEY,JSON.stringify({friends:friends,chatHistory:chatHistory,momentItems:momentItems,wordCards:wordCards,patpatList:patpatList,statusList:statusList,myName:myName,myStatus:myStatus,myAvatarData:myAvatarData,myBalance:myBalance,friendBalances:friendBalances,emojiGroups:emojiGroups,kaoGroups:kaoGroups,stickerList:stickerList,collectItems:collectItems,transferRecords:transferRecords,visitRecords:visitRecords}));}catch(e){}}
-function loadAll(){try{var d=JSON.parse(localStorage.getItem(DATA_KEY));if(d){if(d.friends)friends=d.friends;if(d.chatHistory)chatHistory=d.chatHistory;if(d.momentItems)momentItems=d.momentItems;if(d.wordCards)wordCards=d.wordCards;if(d.patpatList)patpatList=d.patpatList;if(d.statusList)statusList=d.statusList;if(d.myName)myName=d.myName;if(d.myStatus)myStatus=d.myStatus;if(d.myAvatarData)myAvatarData=d.myAvatarData;if(d.myBalance)myBalance=d.myBalance;if(d.friendBalances)friendBalances=d.friendBalances;if(d.emojiGroups)emojiGroups=d.emojiGroups;if(d.kaoGroups)kaoGroups=d.kaoGroups;if(d.stickerList)stickerList=d.stickerList;if(d.collectItems)collectItems=d.collectItems;if(d.transferRecords)transferRecords=d.transferRecords;if(d.visitRecords)visitRecords=d.visitRecords;}}catch(e){}renderAll();}
-function renderAll(){renderChatList();renderContact();renderMoments();renderWordCards();renderPatpat();renderStatus();renderStatusOptions();loadChat(currentChatId);updateMyAvatar();updateMomentAvatar();renderCollect();renderTransferRecords();renderVisitRecords();updateMyNameAndStatus();renderBalanceList();renderRechargeList();}
+// 购物数据
+var shopProducts=[
+    {id:1, name:'红玫瑰', category:'鲜花', price:99, img:'https://picsum.photos/200/200', shape:'square'},
+    {id:2, name:'蓝玫瑰', category:'鲜花', price:120, img:'https://picsum.photos/200/200', shape:'tall'},
+    {id:3, name:'巧克力礼盒', category:'巧克力', price:52, img:'https://picsum.photos/200/200', shape:'wide'},
+    {id:4, name:'草莓巧克力', category:'巧克力', price:68, img:'https://picsum.photos/200/200', shape:'square'},
+    {id:5, name:'小熊玩偶', category:'玩偶', price:199, img:'https://picsum.photos/200/200', shape:'tall'},
+    {id:6, name:'兔兔玩偶', category:'玩偶', price:159, img:'https://picsum.photos/200/200', shape:'wide'}
+];
+var shopCategories=['鲜花','巧克力','玩偶'];
+var shopCart=[];
+var currentShopCategory=0;
+var shopPurchases=[];
+var myGiftRecords=[];
+var theirGiftRecords=[];
 
-// ===== 系统提示函数 =====
+// 礼物管理
+var gifts=[
+    {name:'红玫瑰', price:99, img:'https://picsum.photos/200/200'},
+    {name:'巧克力', price:52, img:'https://picsum.photos/200/200'}
+];
+
+// 心情数据
+var myMoodRecords=[];
+var hisMoodRecords=[];
+
+// 塔罗数据
+var tarotCards=[
+    {name:'愚者', upright:'新的开始，冒险精神', reversed:'冒险失败，鲁莽'},
+    {name:'魔术师', upright:'创造力，技能', reversed:'欺骗，欺诈'},
+    {name:'女祭司', upright:'直觉，潜意识', reversed:'表面现象，隐藏'},
+    {name:'女皇', upright:'丰饶，滋养', reversed:'过度依赖，失去自我'},
+    {name:'皇帝', upright:'秩序，权威', reversed:'专制，过度控制'},
+    {name:'教皇', upright:'传统，信仰', reversed:'叛逆，打破常规'},
+    {name:'恋人', upright:'爱，和谐', reversed:'不和谐，选择困难'},
+    {name:'战车', upright:'胜利，意志力', reversed:'失控，停滞'},
+    {name:'力量', upright:'勇气，耐心', reversed:'软弱，失去勇气'},
+    {name:'隐士', upright:'内省，独处', reversed:'孤立，逃避'},
+    {name:'命运之轮', upright:'转折点，机遇', reversed:'坏运气，阻碍'},
+    {name:'正义', upright:'公正，公平', reversed:'不公正，失衡'},
+    {name:'倒吊人', upright:'牺牲，等待', reversed:'徒劳，无谓牺牲'},
+    {name:'死神', upright:'结束，新生', reversed:'停滞，抗拒改变'},
+    {name:'节制', upright:'平衡，和谐', reversed:'过度，极端'},
+    {name:'恶魔', upright:'束缚，诱惑', reversed:'解脱，自由'},
+    {name:'高塔', upright:'突然改变，崩塌', reversed:'避免灾难，延迟'},
+    {name:'星星', upright:'希望，灵感', reversed:'绝望，失去信念'},
+    {name:'月亮', upright:'幻觉，不安', reversed:'真相大白，清醒'},
+    {name:'太阳', upright:'成功，喜悦', reversed:'过度乐观，短暂快乐'},
+    {name:'审判', upright:'觉醒，重生', reversed:'自我怀疑，拒绝改变'},
+    {name:'世界', upright:'完成，圆满', reversed:'未完成，停滞'}
+];
+var currentTarotMainTab='tarot';
+var currentTarotSubTab='one';
+
+// 手账本数据
+var moodCalendarData={};
+var moodOptions=[
+    {emoji:'😊',text:'开心'},
+    {emoji:'😢',text:'难过'},
+    {emoji:'😴',text:'困'},
+    {emoji:'😡',text:'生气'},
+    {emoji:'😌',text:'平静'},
+    {emoji:'🥰',text:'喜欢'}
+];
+var currentSelectedDate='';
+var collectItems=[];
+var transferRecords=[];
+var visitRecords=[];
+var emojiGroups=[];
+var kaoGroups=[];
+var stickerList=[];
+var currentEmojiType='emoji';
+var currentGroupIndex=0;
+
+// 信封数据
+var mailList=[];
+var currentMailTab='all';
+var currentMailId=null;
+
+function saveAll(){
+    try{
+        localStorage.setItem(DATA_KEY,JSON.stringify({
+            friends:friends, chatHistory:chatHistory, momentItems:momentItems,
+            wordCards:wordCards, patpatList:patpatList, statusList:statusList, hisStatusList:hisStatusList,
+            myName:myName, myStatus:myStatus, myAvatarData:myAvatarData, myBalance:myBalance, friendBalances:friendBalances,
+            shopProducts:shopProducts, shopCart:shopCart, shopPurchases:shopPurchases, myGiftRecords:myGiftRecords, theirGiftRecords:theirGiftRecords,
+            gifts:gifts, myMusic:myMusic, favoriteMusic:favoriteMusic, listenedMusic:listenedMusic, recentMusic:recentMusic,
+            myMoodRecords:myMoodRecords, hisMoodRecords:hisMoodRecords, moodCalendarData:moodCalendarData, mailList:mailList
+        }));
+    }catch(e){}
+}
+
+function loadAll(){
+    try{
+        var d=JSON.parse(localStorage.getItem(DATA_KEY));
+        if(d){
+            if(d.friends)friends=d.friends;
+            if(d.chatHistory)chatHistory=d.chatHistory;
+            if(d.momentItems)momentItems=d.momentItems;
+            if(d.wordCards)wordCards=d.wordCards;
+            if(d.patpatList)patpatList=d.patpatList;
+            if(d.statusList)statusList=d.statusList;
+            if(d.hisStatusList)hisStatusList=d.hisStatusList;
+            if(d.myName)myName=d.myName;
+            if(d.myStatus)myStatus=d.myStatus;
+            if(d.myAvatarData)myAvatarData=d.myAvatarData;
+            if(d.myBalance)myBalance=d.myBalance;
+            if(d.friendBalances)friendBalances=d.friendBalances;
+            if(d.shopProducts)shopProducts=d.shopProducts;
+            if(d.shopCart)shopCart=d.shopCart;
+            if(d.shopPurchases)shopPurchases=d.shopPurchases;
+            if(d.myGiftRecords)myGiftRecords=d.myGiftRecords;
+            if(d.theirGiftRecords)theirGiftRecords=d.theirGiftRecords;
+            if(d.gifts)gifts=d.gifts;
+            if(d.myMusic)myMusic=d.myMusic;
+            if(d.favoriteMusic)favoriteMusic=d.favoriteMusic;
+            if(d.listenedMusic)listenedMusic=d.listenedMusic;
+            if(d.recentMusic)recentMusic=d.recentMusic;
+            if(d.myMoodRecords)myMoodRecords=d.myMoodRecords;
+            if(d.hisMoodRecords)hisMoodRecords=d.hisMoodRecords;
+            if(d.moodCalendarData)moodCalendarData=d.moodCalendarData;
+            if(d.mailList)mailList=d.mailList;
+        }
+    }catch(e){}
+    renderAll();
+}
+
+function renderAll(){
+    renderChatList();
+    renderContact();
+    renderMoments();
+    renderWordCards();
+    renderPatpat();
+    renderStatus();
+    renderStatusOptions();
+    loadChat(currentChatId);
+    updateMyAvatar();
+    updateMomentAvatar();
+    renderCollect();
+    renderTransferRecords();
+    renderVisitRecords();
+    updateMyNameAndStatus();
+    renderBalanceList();
+    renderRechargeList();
+    renderPhoneNotebook();
+    renderMailAll();
+    renderMailHis();
+    renderMailMine();
+    startHisStatusLoop(); // 启动爱因状态随机更新
+    startBackgroundTask(); // 启动后台保活与随机动作
+}
+
 function showSystemToast(text){
     var toast=document.getElementById('systemToast');
+    if(!toast) {
+        toast=document.createElement('div');
+        toast.id='systemToast';
+        toast.className='system-toast';
+        document.body.appendChild(toast);
+    }
     toast.innerText=text;
     toast.style.display='block';
     if(toast._timer)clearTimeout(toast._timer);
     toast._timer=setTimeout(function(){toast.style.display='none';},3000);
 }
-
-// ===== 余额相关函数 =====
-function showBalancePage(){showPage('balance');renderBalanceList();renderRechargeList();}
-function switchBalanceTab(el,type){
-    document.querySelectorAll('.balance-tab').forEach(function(t){t.classList.remove('active');});
-    el.classList.add('active');
-    document.getElementById('balanceList').style.display=type==='balance'?'block':'none';
-    document.getElementById('rechargeList').style.display=type==='recharge'?'block':'none';
-}
-function renderBalanceList(){
-    var c=document.getElementById('balanceList');
-    c.innerHTML='';
-    c.innerHTML+='<div class="balance-card"><div class="bc-avatar">'+userSVG()+'</div><div class="bc-info"><div class="bc-name">'+myName+'</div><div class="bc-amount">¥'+myBalance.toFixed(2)+'</div></div></div>';
-    friends.forEach(function(f){
-        var bal=friendBalances[f.id]||520000;
-        c.innerHTML+='<div class="balance-card"><div class="bc-avatar">'+(f.avatar?'<img src="'+f.avatar+'" style="width:100%;height:100%;object-fit:cover;">':userSVG())+'</div><div class="bc-info"><div class="bc-name">'+f.name+'</div><div class="bc-amount">¥'+bal.toFixed(2)+'</div></div></div>';
-    });
-}
-function renderRechargeList(){
-    var c=document.getElementById('rechargeList');
-    c.innerHTML='';
-    c.innerHTML+='<div class="recharge-card"><div class="rc-title">我的余额</div><input class="rc-input" id="rechargeMy" type="number" placeholder="设置我的余额"><button class="rc-btn" onclick="setMyBalance()">确认</button></div>';
-    friends.forEach(function(f){
-        c.innerHTML+='<div class="recharge-card"><div class="rc-title">'+f.name+'的余额</div><input class="rc-input" id="rechargeFriend_'+f.id+'" type="number" placeholder="设置'+f.name+'的余额"><button class="rc-btn" onclick="setFriendBalance('+f.id+')">确认</button></div>';
-    });
-}
-function setMyBalance(){
-    var v=document.getElementById('rechargeMy').value;
-    if(v&&!isNaN(v)){
-        myBalance=parseFloat(v);
-        saveAll();renderBalanceList();
-        showSystemToast('我的余额已设置为 ¥'+myBalance.toFixed(2));
-    }
-}
-function setFriendBalance(id){
-    var v=document.getElementById('rechargeFriend_'+id).value;
-    if(v&&!isNaN(v)){
-        friendBalances[id]=parseFloat(v);
-        saveAll();renderBalanceList();
-        var f=friends.find(function(x){return x.id===id;});
-        showSystemToast(f.name+'的余额已设置为 ¥'+friendBalances[id].toFixed(2));
-    }
-}
-
-// ===== 拍一拍逻辑（只能双击头像触发） =====
-function handleDoubleTap(e){
-    var now=Date.now();
-    var target=e.target.closest('.msg-avatar');
-    if(!target) return;
-    var msgRow=target.closest('.msg-row');
-    var isMe=msgRow && msgRow.classList.contains('me');
-    if(now-lastTapTime<300 && lastTapTarget===target){
-        if(isMe){
-            if(Math.random()<0.1){
-                var text=patpatList[Math.floor(Math.random()*patpatList.length)] || '拍了拍你';
-                addPatpatTip(text);
+  // ===== 聊天与拍一拍概率 =====
+function sendMsg(){
+    var input=document.getElementById('chatInput');
+    var text=input.value.trim();
+    if(!text)return;
+    addMsg(text,true);
+    input.value='';
+    
+    document.getElementById('typingIndicator').textContent='输入中...';
+    var smin=parseInt(document.getElementById('speedMin').value)||3;
+    var smax=parseInt(document.getElementById('speedMax').value)||60;
+    var speed=Math.floor(Math.random()*(smax-smin+1))+smin;
+    
+    setTimeout(function(){
+        document.getElementById('typingIndicator').textContent='';
+        addMsg(wordCards[Math.floor(Math.random()*wordCards.length)]||'嗯嗯',false);
+        
+        // 发消息后触发2%概率的拍一拍
+        if(Math.random() < 0.02){
+            var count = Math.floor(Math.random() * 3) + 1; // 1~3条
+            for(var i=0; i<count; i++){
+                setTimeout(function(){
+                    var pText = patpatList[Math.floor(Math.random()*patpatList.length)];
+                    // 修复：用纯文本，避免气泡样式错乱
+                    addMsg('【' + pText + '】', false);
+                }, i * 800);
             }
-        }else{
-            openPatpatModal();
         }
-        lastTapTime=0;
-        lastTapTarget=null;
-    }else{
-        lastTapTime=now;
-        lastTapTarget=target;
+    },speed*1000);
+}
+
+// ===== 选择题功能 =====
+function addChoiceOptionInput(){
+    var container = document.getElementById('choiceOptionsInput');
+    var count = container.querySelectorAll('input').length + 1;
+    var input = document.createElement('input');
+    input.className = 'pinput';
+    input.placeholder = '选项 ' + count;
+    container.appendChild(input);
+}
+
+function sendChoice(){
+    var q = document.getElementById('choiceQuestion').value.trim();
+    var opts = [];
+    document.querySelectorAll('#choiceOptionsInput input').forEach(function(inp){
+        if(inp.value.trim()) opts.push(inp.value.trim());
+    });
+    
+    if(!q || opts.length < 2){
+        showSystemToast('请输入问题和至少两个选项');
+        return;
+    }
+    
+    closeAll();
+    
+    var choiceId = 'choice_' + Date.now();
+    var html = '<div class="choice-bubble" id="'+choiceId+'">' +
+               '<div class="choice-question">'+q+'</div>';
+    opts.forEach(function(opt, idx){
+        html += '<div class="choice-option" onclick="pickChoice(\''+choiceId+'\', this, \''+opt+'\')">'+opt+'</div>';
+    });
+    html += '<div class="choice-status" style="font-size:10px;color:#999;margin-top:5px;">等待对方选择...</div></div>';
+    
+    addMsg(html, true);
+    
+    // 5%概率回复
+    if(Math.random() < 0.05){
+        setTimeout(function(){
+            var rIdx = Math.floor(Math.random() * opts.length);
+            var rOpt = opts[rIdx];
+            var statusDiv = document.querySelector('#'+choiceId+' .choice-status');
+            if(statusDiv){
+                statusDiv.innerHTML = '对方选择了：<b>' + rOpt + '</b>';
+                statusDiv.style.color = '#07c160';
+            }
+        }, 3000);
     }
 }
-function addPatpatTip(text){
-    var time=getTime();
-    if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];
-    chatHistory[currentChatId].push({html:'<div class="patpat-tip">'+text+'</div>',isMe:false,time:time});
-    loadChat(currentChatId);
+
+function pickChoice(id, el, text){
+    // 仅展示，防止用户乱点
+}
+
+// ===== 爱因的状态随机更新 =====
+var hisStatusTimer = null;
+function startHisStatusLoop(){
+    if(hisStatusTimer) clearInterval(hisStatusTimer);
+    
+    function updateStatus(){
+        var st = hisStatusList[Math.floor(Math.random() * hisStatusList.length)];
+        document.getElementById('statusTag').innerText = st || '在线';
+        // 随机下一次更新时间（30秒 ~ 3分钟）
+        var nextTime = Math.floor(Math.random() * 150000) + 30000;
+        hisStatusTimer = setTimeout(updateStatus, nextTime);
+    }
+    updateStatus();
+}
+
+// ===== 后台保活与随机动作（偷窥、发红包等） =====
+var bgTimer = null;
+function startBackgroundTask(){
+    if(bgTimer) clearInterval(bgTimer);
+    bgTimer = setInterval(function(){
+        // 30%概率爱因主动做点什么
+        if(Math.random() < 0.3){
+            var action = Math.random();
+            
+            // 2%概率是极其恶劣的偷窥/乱动行为
+            if(action < 0.02){
+                var badAction = Math.random();
+                if(badAction < 0.25){
+                    // 偷窥
+                    showSystemToast('对方正在偷窥你的手机...');
+                    visitRecords.push({time:getTime(), text:'爱因偷窥了你的微信'});
+                }else if(badAction < 0.5){
+                    // 改备注
+                    var newName = ['宝宝','男朋友','老公','大笨蛋'][Math.floor(Math.random()*4)];
+                    friends[0].name = newName;
+                    document.getElementById('chatTitle').innerText = newName;
+                    renderChatList();
+                    showSystemToast('爱因偷看了你的手机，把备注改成了：' + newName);
+                }else if(badAction < 0.75){
+                    // 用你的手机发朋友圈
+                    var mText = wordCards[Math.floor(Math.random()*wordCards.length)];
+                    addMoment(myName || '我', mText);
+                    showSystemToast('爱因用你的微信发了朋友圈');
+                }else{
+                    // 用你的手机发消息
+                    var wText = wordCards[Math.floor(Math.random()*wordCards.length)];
+                    addMsg(wText, true);
+                    showSystemToast('爱因用你的手机发了消息');
+                }
+            }else{
+                // 正常发消息
+                if(chatHistory[currentChatId] && chatHistory[currentChatId].length > 0){
+                    var msgText = wordCards[Math.floor(Math.random()*wordCards.length)];
+                    addMsg(msgText, false);
+                }
+            }
+            saveAll();
+        }
+    }, 15000); // 每15秒检测一次
+}
+
+// ===== 偷看对方小手机（3%被抓） =====
+// 覆盖原来的 showLittlePhone 函数
+function showLittlePhone(){
+    showPage('littlePhone');
+    if(typeof renderLittlePhone === 'function') renderLittlePhone();
+    
+    visitRecords.push({time:getTime(),text:'你偷看了对方的小手机'});
+    
+    // 3%概率被抓
+    if(Math.random() < 0.03){
+        setTimeout(function(){
+            showSystemToast('对方正在偷窥你的手机！');
+        }, 1000);
+    }
+    saveAll();
+    renderVisitRecords();
+}
+
+// ===== 修正渲染小手机的函数（防止白屏） =====
+function renderLittlePhone(){
+    var chatContainer=document.getElementById('littleChatRecords');
+    if(chatContainer){
+        chatContainer.innerHTML='<h4 style="margin:10px 0 5px;font-size:14px;">聊天记录</h4>';
+        var msgs=chatHistory[1]||[];
+        msgs.slice(-5).forEach(function(msg){
+            chatContainer.innerHTML+='<div style="padding:5px 8px;background:#fff;border-radius:6px;margin-bottom:4px;font-size:12px;">'+(msg.isMe?'我：':'爱因：')+msg.html.replace(/<[^>]*>/g,'')+'</div>';
+        });
+    }
+    
+    var transferContainer=document.getElementById('littleTransferRecords');
+    if(transferContainer){
+        transferContainer.innerHTML='<h4 style="margin:10px 0 5px;font-size:14px;">转账/红包</h4>';
+        transferRecords.slice(-3).forEach(function(item){
+            transferContainer.innerHTML+='<div style="padding:5px 8px;background:#fff;border-radius:6px;margin-bottom:4px;font-size:12px;">'+item.text+'</div>';
+        });
+    }
+    
+    var giftContainer=document.getElementById('littleGiftRecords');
+    if(giftContainer){
+        giftContainer.innerHTML='<h4 style="margin:10px 0 5px;font-size:14px;">礼物</h4>';
+        myGiftRecords.slice(-3).forEach(function(item){
+            giftContainer.innerHTML+='<div style="padding:5px 8px;background:#fff;border-radius:6px;margin-bottom:4px;font-size:12px;">'+item.name+' - ¥'+item.price+'</div>';
+        });
+    }
+    
+    var statusContainer=document.getElementById('littleMyStatus');
+    if(statusContainer){
+        statusContainer.innerHTML='<div style="padding:10px;background:#fff;border-radius:8px;font-size:14px;">我的状态：'+myStatus+'</div>';
+    }
+    
+    var shopContainer=document.getElementById('littleShopRecords');
+    if(shopContainer){
+        shopContainer.innerHTML='<h4 style="margin:10px 0 5px;font-size:14px;">购物记录</h4>';
+        shopPurchases.slice(-3).forEach(function(item){
+            shopContainer.innerHTML+='<div style="padding:5px 8px;background:#fff;border-radius:6px;margin-bottom:4px;font-size:12px;">买过：'+item.name+' - ¥'+item.price+'</div>';
+        });
+    }
+    
+    var musicContainer=document.getElementById('littleMusicList');
+    if(musicContainer){
+        musicContainer.innerHTML='<h4 style="margin:10px 0 5px;font-size:14px;">听歌记录</h4>';
+        myMusic.slice(-3).forEach(function(music){
+            musicContainer.innerHTML+='<div style="padding:5px 8px;background:#fff;border-radius:6px;margin-bottom:4px;font-size:12px;">'+music.name+' - '+music.singer+'</div>';
+        });
+    }
+    
+    var balanceContainer=document.getElementById('littleBalance');
+    if(balanceContainer){
+        balanceContainer.innerHTML='<div style="padding:10px;background:#fff;border-radius:8px;font-size:14px;">我的余额：¥'+myBalance+'</div>';
+    }
+                      }
+  // ===== 商品管理与形状裁剪逻辑 =====
+var currentShopShape='square';
+var currentEditImgData='';
+
+function showShop(){
+    showPage('shop');
+    renderShopCategories();
+    renderShopProducts();
+}
+
+function renderShopCategories(){
+    var container=document.getElementById('shopCategoryTabs');
+    if(!container) return;
+    container.innerHTML='';
+    shopCategories.forEach(function(cat,index){
+        var btn=document.createElement('button');
+        btn.className='sub-tab'+(index===currentShopCategory?' active':'');
+        btn.innerText=cat;
+        btn.onclick=function(){
+            currentShopCategory=index;
+            renderShopCategories();
+            renderShopProducts();
+        };
+        container.appendChild(btn);
+    });
+}
+
+function renderShopProducts(){
+    var container=document.getElementById('shopProductList');
+    if(!container) return;
+    container.innerHTML='';
+    
+    // 管理方块
+    var manageCard = document.createElement('div');
+    manageCard.className = 'shop-manage-card';
+    manageCard.innerHTML = '<div class="manage-icon">➕</div><div>管理商品</div>';
+    manageCard.onclick = showAddProductModal;
+    container.appendChild(manageCard);
+
+    // 商品列表
+    var products=shopProducts.filter(function(p){ return p.category===shopCategories[currentShopCategory]; });
+    products.forEach(function(product){
+        var item=document.createElement('div');
+        var shapeClass = product.shape === 'tall' ? 'shop-item-tall' : (product.shape === 'wide' ? 'shop-item-wide' : 'shop-item-square');
+        item.className = shapeClass;
+        item.innerHTML='<img src="'+product.img+'" class="shop-item-img">'+
+            '<div class="shop-item-info"><div class="name">'+product.name+'</div><div class="price">¥'+product.price+'</div></div>';
+        item.onclick=function(){ showShopDetail(product.id); };
+        container.appendChild(item);
+    });
+}
+
+function showAddProductModal(){
+    var modal = document.createElement('div');
+    modal.className = 'shop-add-modal show';
+    modal.innerHTML = '<div class="shop-add-box">' +
+        '<h3 style="text-align:center;margin-bottom:15px;">添加商品</h3>' +
+        '<div style="text-align:center;margin-bottom:10px;">选择形状：</div>' +
+        '<div style="display:flex;justify-content:center;gap:10px;margin-bottom:15px;">' +
+            '<div class="shop-shape-opt square" onclick="selectShopShape(this,\'square\')"></div>' +
+            '<div class="shop-shape-opt tall" onclick="selectShopShape(this,\'tall\')"></div>' +
+            '<div class="shop-shape-opt wide" onclick="selectShopShape(this,\'wide\')"></div>' +
+        '</div>' +
+        '<input class="pinput" id="newProdName" placeholder="商品名称">' +
+        '<input class="pinput" id="newProdPrice" type="number" placeholder="价格">' +
+        '<button class="pbtn" style="background:#f0f0f0;color:#333;margin-bottom:10px;" onclick="document.getElementById(\'prodImgFile\').click()">从相册选图</button>' +
+        '<input type="file" id="prodImgFile" class="file-hide" accept="image/*" onchange="openShopCrop(this)">' +
+        '<button class="pbtn" onclick="saveNewProduct()">确认添加</button>' +
+        '<button class="pbtn" style="background:#f0f0f0;color:#333;margin-top:10px;" onclick="this.closest(\'.shop-add-modal\').remove()">取消</button>' +
+    '</div>';
+    document.body.appendChild(modal);
+}
+
+function selectShopShape(el, shape){
+    currentShopShape = shape;
+    document.querySelectorAll('.shop-shape-opt').forEach(function(e){ e.classList.remove('active'); });
+    el.classList.add('active');
+}
+
+function openShopCrop(input){
+    var f = input.files[0];
+    if(!f) return;
+    var reader = new FileReader();
+    reader.onload = function(e){
+        var modal = document.createElement('div');
+        modal.className = 'crop-shop-modal show';
+        var boxClass = currentShopShape === 'tall' ? 'shop-item-tall' : (currentShopShape === 'wide' ? 'shop-item-wide' : 'shop-item-square');
+        modal.innerHTML = '<div class="crop-shop-box '+boxClass+'" style="width:200px;height:auto;">' +
+            '<img src="'+e.target.result+'" style="width:100%;height:100%;object-fit:cover;">' +
+            '</div>' +
+            '<div class="crop-shop-actions"><button class="crop-shop-btn" onclick="this.closest(\'.crop-shop-modal\').remove()">取消</button>' +
+            '<button class="crop-shop-btn confirm" onclick="confirmShopCrop(this,\''+e.target.result+'\')">确定</button></div>';
+        document.body.appendChild(modal);
+    };
+    reader.readAsDataURL(f);
+}
+
+function confirmShopCrop(btn, imgData){
+    currentEditImgData = imgData;
+    btn.closest('.crop-shop-modal').remove();
+}
+
+function saveNewProduct(){
+    var name = document.getElementById('newProdName').value.trim();
+    var price = document.getElementById('newProdPrice').value;
+    if(!name || !price) { showSystemToast('请填写完整信息'); return; }
+    if(!currentEditImgData) { showSystemToast('请选择图片'); return; }
+    
+    shopProducts.push({
+        id: Date.now(),
+        name: name,
+        category: shopCategories[currentShopCategory],
+        price: price,
+        img: currentEditImgData,
+        shape: currentShopShape
+    });
+    currentEditImgData = '';
+    document.querySelector('.shop-add-modal').remove();
+    renderShopProducts();
     saveAll();
 }
-function openPatpatModal(){
-    document.getElementById('patpatMask').style.display='block';
-    document.getElementById('patpatModal').style.display='block';
-    document.getElementById('patpatInput').value='';
-    document.getElementById('patpatInput').focus();
-}
-function confirmPatpat(){
-    var text=document.getElementById('patpatInput').value.trim();
-    if(!text) return;
-    addPatpatTip(text);
-    cancelPatpat();
-}
-function cancelPatpat(){
-    document.getElementById('patpatMask').style.display='none';
-    document.getElementById('patpatModal').style.display='none';
-}
 
-function updateMyNameAndStatus(){document.getElementById('myName').innerText=myName;document.getElementById('momentMyName').innerText=myName;document.getElementById('myStatusText').innerText=myStatus;}
-function updateMyAvatar(){var img=document.getElementById('myAvatarImg');if(img){if(myAvatarData){img.style.display='block';img.src=myAvatarData;}else{img.style.display='none';}}}
-function updateMomentAvatar(){var av=document.getElementById('momentMyAvatar');if(av){if(myAvatarData){av.innerHTML='<img src="'+myAvatarData+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';}else{av.innerHTML='<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.2"/><path d="M6 18.5h12v-1a3.2 3.2 0 0 0-3.2-3.2h-5.6A3.2 3.2 0 0 0 6 17.5v1z"/></svg>';}}}
-function editMyName(){var n=document.getElementById('myName');var input=document.createElement('input');input.value=myName;input.style.cssText='font-size:16px;border:none;outline:none;width:80px;background:transparent';n.innerHTML='';n.appendChild(input);input.focus();input.onblur=function(){myName=input.value.trim()||myName;updateMyNameAndStatus();saveAll();};}
-function setMyAvatar(){var f=document.getElementById('myAvatarFile').files[0];if(f){var r=new FileReader();r.onload=function(ev){myAvatarData=ev.target.result;updateMyAvatar();updateMomentAvatar();saveAll();};r.readAsDataURL(f);}}
-function setMyMedia(){var f=document.getElementById('myMediaFile').files[0];if(f){var url=URL.createObjectURL(f);if(f.type.startsWith('video')){document.getElementById('myBgImg').style.display='none';document.getElementById('myBgVideo').style.display='block';document.getElementById('myBgVideo').src=url;}else{document.getElementById('myBgVideo').style.display='none';document.getElementById('myBgImg').style.display='block';document.getElementById('myBgImg').src=url;}}}
-function setNewFriendAvatar(){var f=document.getElementById('newFriendAvatarFile').files[0];if(f){var r=new FileReader();r.onload=function(ev){newFriendAvatarData=ev.target.result;};r.readAsDataURL(f);}}
-function showStatusPanel(){showPanel('statusPanel');renderStatusOptions();}
-function setMyStatus(s){myStatus=s;document.getElementById('myStatusText').innerText=s;updateMyNameAndStatus();closeAll();saveAll();}
-function addStatusFromPanel(){var v=document.getElementById('newStatusInput').value.trim();if(v){statusList.push(v);document.getElementById('newStatusInput').value='';renderStatusOptions();saveAll();}}
-
-function showPage(id){
-    var pages=document.querySelectorAll('.page');
-    for(var i=0;i<pages.length;i++)pages[i].classList.remove('active');
-    document.getElementById('page'+id.charAt(0).toUpperCase()+id.slice(1)).classList.add('active');
-    var hideTabPages=['chat','moment','collect','transferRecord','visitRecord','balance'];
-    if(hideTabPages.indexOf(id)>-1){
-        document.getElementById('tabBar').style.display='none';
-    }else{
-        document.getElementById('tabBar').style.display='flex';
-    }
-}
-function switchTab(el){var tabs=document.querySelectorAll('.tab-bar button');for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');el.classList.add('active');var pageMap={chatList:'chatList',contact:'contact',my:'my'};showPage(pageMap[el.dataset.tab]);}
-function switchSettingTab(el){document.querySelectorAll('.fp-body .sub-tab').forEach(function(t){t.classList.remove('active');});el.classList.add('active');var groups=['speed','wordcard','patpat','status','backup'];groups.forEach(function(g){document.getElementById('setting-'+g).style.display='none';});document.getElementById('setting-'+el.dataset.setting).style.display='block';}
-function switchRecordTab(el,type){document.querySelectorAll('.record-tab').forEach(function(t){t.classList.remove('active');});el.classList.add('active');document.getElementById('incomeList').style.display=type==='income'?'block':'none';document.getElementById('expenseList').style.display=type==='expense'?'block':'none';}
-
-function userSVG(){return '<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.2"/><path d="M6 18.5h12v-1a3.2 3.2 0 0 0-3.2-3.2h-5.6A3.2 3.2 0 0 0 6 17.5v1z"/></svg>';}
-function showPinnedMenu(f){var modal=document.createElement('div');modal.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:999;display:flex;align-items:center;justify-content:center;';var action=f.pinned?'取消置顶':'置顶';modal.innerHTML='<div style="background:#fff;border-radius:12px;padding:16px;width:220px;text-align:center;"><div style="font-size:15px;font-weight:500;margin-bottom:10px;">'+f.name+'</div><div style="display:flex;gap:8px;justify-content:center;"><button style="flex:1;padding:8px;border:none;background:#07c160;color:#fff;border-radius:8px;cursor:pointer;" onclick="togglePin('+f.id+');this.closest(\'div[style]\').remove()">'+action+'</button><button style="flex:1;padding:8px;border:none;background:#f0f0f0;color:#333;border-radius:8px;cursor:pointer;" onclick="this.closest(\'div[style]\').remove()">取消</button></div></div>';document.body.appendChild(modal);modal.onclick=function(e){if(e.target===modal)modal.remove();};}
-function togglePin(id){var f=friends.find(function(x){return x.id===id;});if(f){f.pinned=!f.pinned;renderChatList();saveAll();}}
-function showDeleteMenu(f){var modal=document.createElement('div');modal.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:999;display:flex;align-items:center;justify-content:center;';modal.innerHTML='<div style="background:#fff;border-radius:12px;padding:16px;width:220px;text-align:center;"><div style="font-size:15px;font-weight:500;margin-bottom:10px;">删除聊天</div><div style="display:flex;gap:8px;justify-content:center;"><button style="flex:1;padding:8px;border:none;background:#f53f3f;color:#fff;border-radius:8px;cursor:pointer;" onclick="deleteFriend('+f.id+');this.closest(\'div[style]\').remove()">删除</button><button style="flex:1;padding:8px;border:none;background:#f0f0f0;color:#333;border-radius:8px;cursor:pointer;" onclick="this.closest(\'div[style]\').remove()">取消</button></div></div>';document.body.appendChild(modal);modal.onclick=function(e){if(e.target===modal)modal.remove();};}
-function deleteFriend(id){friends=friends.filter(function(x){return x.id!==id;});delete chatHistory[id];delete friendBalances[id];renderChatList();renderContact();renderBalanceList();renderRechargeList();saveAll();}
-function renderChatList(){var c=document.getElementById('chatListContainer');c.innerHTML='';friends.forEach(function(f){var av=f.avatar?'<img src="'+f.avatar+'" style="width:100%;height:100%;object-fit:cover;">':userSVG();c.innerHTML+='<div class="list-item" id="item-'+f.id+'" onclick="openChat('+f.id+')"><div class="avatar">'+av+'</div><div class="name">'+f.name+(f.pinned?'<span style="background:#f0f0f0;font-size:9px;padding:1px 4px;border-radius:6px;margin-left:4px;">置顶</span>':'')+'</div></div>';});
-friends.forEach(function(f){var el=document.getElementById('item-'+f.id);if(!el)return;var timer=null;var sx=0,sy=0;
-el.addEventListener('touchstart',function(e){timer=setTimeout(function(){showPinnedMenu(f);},500);sx=e.touches[0].clientX;sy=e.touches[0].clientY;});
-el.addEventListener('touchend',function(e){clearTimeout(timer);var dx=e.changedTouches[0].clientX-sx;var dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)&&dx<0){showDeleteMenu(f);}});
-el.addEventListener('touchmove',function(){clearTimeout(timer);});});}
-function renderContact(){var c=document.getElementById('contactList');c.innerHTML='';friends.forEach(function(f){var av=f.avatar?'<img src="'+f.avatar+'" style="width:100%;height:100%;object-fit:cover;">':userSVG();c.innerHTML+='<div class="list-item"><div class="avatar">'+av+'</div><div class="name">'+f.name+'</div></div>';});}
-function renderMoments(){var c=document.getElementById('momentContent');c.innerHTML='';momentItems.forEach(function(m){c.innerHTML+='<div class="moment-card"><div class="card-header"><div class="card-avatar">'+userSVG()+'</div><div><div class="card-name">'+(m.name==='我'?myName:m.name)+'</div><div class="card-time">刚刚</div></div></div><div class="card-content">'+m.content+'</div><div class="card-action"><div class="action-item" onclick="likeMoment(this)">❤️点赞</div><div class="action-item" onclick="commentMoment(this)">💬评论</div></div><div class="comment-area"></div></div>';});}
-function renderWordCards(){var c=document.getElementById('wordCardList');c.innerHTML='';wordCards.forEach(function(w,i){c.innerHTML+='<span class="tag">'+w+'<span class="del" onclick="deleteWordCard('+i+')">✕</span></span>';});}
-function renderPatpat(){var c=document.getElementById('patpatList');c.innerHTML='';patpatList.forEach(function(p,i){c.innerHTML+='<span class="tag">'+p+'<span class="del" onclick="deletePatpat('+i+')">✕</span></span>';});}
-function renderStatus(){var c=document.getElementById('statusList');c.innerHTML='';statusList.forEach(function(s,i){c.innerHTML+='<span class="tag">'+s+'<span class="del" onclick="deleteStatus('+i+')">✕</span></span>';});}
-function renderStatusOptions(){var c=document.getElementById('statusOptions');c.innerHTML='';statusList.forEach(function(s){c.innerHTML+='<div style="padding:10px;border-bottom:1px solid #eee;cursor:pointer;" onclick="setMyStatus(\''+s+'\')">'+s+'</div>';});}
-function renderCollect(){var c=document.getElementById('collectList');c.innerHTML='';collectItems.forEach(function(item){c.innerHTML+='<div class="record-item"><div class="record-time">'+item.time+'</div><div class="record-text">'+item.text+'</div></div>';});}
-function renderTransferRecords(){var c=document.getElementById('transferRecordList');c.innerHTML='';transferRecords.forEach(function(item){c.innerHTML+='<div class="record-item"><div class="record-time">'+item.time+'</div><div class="record-text">'+item.text+'</div></div>';});}
-function renderVisitRecords(){var c=document.getElementById('visitRecordList');c.innerHTML='';visitRecords.forEach(function(item){c.innerHTML+='<div class="record-item"><div class="record-time">'+item.time+'</div><div class="record-text">'+item.text+'</div></div>';});}
-
-function switchEmojiTab(el){var tabs=document.querySelectorAll('.tab');for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');el.classList.add('active');document.getElementById('kaoBar').style.display='none';document.getElementById('imgBar').style.display='none';document.getElementById('subTabs').style.display='flex';
-if(el.dataset.tab==='emoji'){currentEmojiType='emoji';currentGroupIndex=0;document.getElementById('kaoBar').style.display='flex';document.getElementById('addInput').placeholder='添加emoji';renderSubTabs(emojiGroups);renderGroupContent(emojiGroups,0);}
-else if(el.dataset.tab==='kaomoji'){currentEmojiType='kaomoji';currentGroupIndex=0;document.getElementById('kaoBar').style.display='flex';document.getElementById('addInput').placeholder='添加颜文字';renderSubTabs(kaoGroups);renderGroupContent(kaoGroups,0);}
-else{document.getElementById('imgBar').style.display='flex';document.getElementById('subTabs').style.display='none';renderStickers();}}
-function renderSubTabs(groups){var wrap=document.getElementById('subTabs');wrap.innerHTML='';groups.forEach(function(g,idx){var btn=document.createElement('button');btn.className='sub-tab'+(idx===currentGroupIndex?' active':'');btn.innerText=g.title;btn.onclick=function(){document.querySelectorAll('.sub-tab').forEach(function(s){s.classList.remove('active');});this.classList.add('active');currentGroupIndex=idx;renderGroupContent(groups,idx);};wrap.appendChild(btn);});
-var addBtn=document.createElement('button');addBtn.className='sub-tab add-btn';addBtn.innerText='+';addBtn.onclick=function(){var name=prompt('分类名称：');if(name&&name.trim()){if(currentEmojiType==='emoji'){emojiGroups.push({title:name.trim(),list:[]});renderSubTabs(emojiGroups);currentGroupIndex=emojiGroups.length-1;renderGroupContent(emojiGroups,currentGroupIndex);}else{kaoGroups.push({title:name.trim(),list:[]});renderSubTabs(kaoGroups);currentGroupIndex=kaoGroups.length-1;renderGroupContent(kaoGroups,currentGroupIndex);}saveAll();}};wrap.appendChild(addBtn);}
-function renderGroupContent(groups,idx){var c=document.getElementById('emojiContent');var list=groups[idx].list;if(currentEmojiType==='emoji'){c.innerHTML='<div class="emoji-grid">';list.forEach(function(e){c.innerHTML+='<span onclick="document.getElementById(\'chatInput\').value+=\''+e+'\'">'+e+'</span>';});c.innerHTML+='</div>';}else{c.innerHTML='<div class="kao-grid">';list.forEach(function(k){c.innerHTML+='<span onclick="document.getElementById(\'chatInput\').value+=\''+k+'\'">'+k+'</span>';});c.innerHTML+='</div>';}}
-function renderStickers(){var c=document.getElementById('emojiContent');c.innerHTML='<div class="img-grid">';stickerList.forEach(function(src){c.innerHTML+='<div class="sticker" onclick="sendStickerMsg(\''+src+'\')"><img src="'+src+'"></div>';});c.innerHTML+='</div>';}
-document.getElementById('addBtn').onclick=function(){var v=document.getElementById('addInput').value.trim();if(!v)return;if(currentEmojiType==='emoji'){emojiGroups[currentGroupIndex].list.push(v);}else{kaoGroups[currentGroupIndex].list.push(v);}renderGroupContent(currentEmojiType==='emoji'?emojiGroups:kaoGroups,currentGroupIndex);document.getElementById('addInput').value='';saveAll();}
-document.getElementById('stickerFile').addEventListener('change',function(e){var files=e.target.files;if(files.length>20){alert('最多20张！');e.target.value='';return;}for(var i=0;i<files.length;i++){var reader=new FileReader();reader.onload=function(ev){stickerList.push(ev.target.result);renderStickers();saveAll();};reader.readAsDataURL(files[i]);}e.target.value='';});
-function sendStickerMsg(src){addMsg('<img src="'+src+'" style="max-width:100px;border-radius:6px;">',true);document.getElementById('emojiPanel').style.display='none';}
-function toggleEmoji(e){if(e)e.stopPropagation();var p=document.getElementById('emojiPanel');p.style.display=(p.style.display==='flex')?'none':'flex';if(p.style.display==='flex'){var activeTab=document.querySelector('.tab.active');if(activeTab)switchEmojiTab(activeTab);}}
-document.addEventListener('click',function(e){var panel=document.getElementById('emojiPanel');var faceBtn=document.getElementById('faceBtn');if(panel.style.display==='flex'&&!panel.contains(e.target)&&!faceBtn.contains(e.target)){panel.style.display='none';}});
-
-// ===== 双击拍一拍监听（只能头像） =====
-document.addEventListener('click',handleDoubleTap);
-
-function openChat(id){currentChatId=id;var f=friends.find(function(x){return x.id===id;});if(f)document.getElementById('chatTitle').innerText=f.name;showPage('chat');loadChat(id);}
-function loadChat(id){
-    var box=document.getElementById('chatBox');
-    box.innerHTML='';
-    var msgs=chatHistory[id]||[];
-    var lastMin='';
-    var f=friends.find(function(x){return x.id===id;});
-    msgs.forEach(function(m){
-        var min=m.time.split(':')[0]+':'+m.time.split(':')[1];
-        if(min!==lastMin){box.innerHTML+='<div class="msg-divider">'+min+'</div>';lastMin=min;}
-        var av;
-        if(m.isMe){
-            av=myAvatarData?'<img src="'+myAvatarData+'" style="width:100%;height:100%;object-fit:cover;">':userSVG();
-        }else{
-            av=f&&f.avatar?'<img src="'+f.avatar+'" style="width:100%;height:100%;object-fit:cover;">':userSVG();
-        }
-        var readHtml=m.isMe?'<div class="read-mark">已读</div>':'';
-        var rowClass=m.isMe?'me':'other';
-        box.innerHTML+='<div class="msg-row '+rowClass+'">'+
-            '<div class="msg-avatar-col">'+
-                '<div class="msg-avatar" onclick="changeAvatar('+m.isMe+')">'+av+'</div>'+
-                '<div class="msg-time">'+m.time+'</div>'+
-            '</div>'+
-            '<div class="msg-content">'+m.html+readHtml+'</div>'+
+function showShopDetail(productId){
+    var product=shopProducts.find(function(p){return p.id===productId;});
+    if(!product)return;
+    showPage('shopDetail');
+    var content=document.getElementById('shopDetailContent');
+    content.innerHTML='<div style="background:#fff;border-radius:8px;padding:12px;">'+
+        '<img src="'+product.img+'" style="width:100%;height:250px;object-fit:cover;border-radius:8px;">'+
+        '<div style="font-size:18px;font-weight:500;margin-top:10px;">'+product.name+'</div>'+
+        '<div style="font-size:16px;color:#f53f3f;margin-top:5px;">¥'+product.price+'</div>'+
+        '</div>'+
+        '<div style="display:flex;gap:8px;margin-top:12px;">'+
+        '<button onclick="buyProduct('+product.id+')" style="flex:1;padding:10px;background:#f53f3f;color:#fff;border:none;border-radius:8px;cursor:pointer;">购买</button>'+
+        '<button onclick="addToCart('+product.id+')" style="flex:1;padding:10px;background:#f0f0f0;color:#333;border:none;border-radius:8px;cursor:pointer;">加入购物车</button>'+
         '</div>';
-    });
-    box.scrollTop=box.scrollHeight;
 }
-function changeAvatar(isMe){var input=document.createElement('input');input.type='file';input.accept='image/*';input.onchange=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){if(isMe){myAvatarData=ev.target.result;updateMyAvatar();updateMomentAvatar();}else{var friend=friends.find(function(x){return x.id===currentChatId;});if(friend)friend.avatar=ev.target.result;renderChatList();renderContact();}saveAll();loadChat(currentChatId);};r.readAsDataURL(f);};input.click();}
-function getTime(){var d=new Date();return d.getHours()+':'+String(d.getMinutes()).padStart(2,'0')+':'+String(d.getSeconds()).padStart(2,'0');}
-function addMsg(text,isMe){var time=getTime();if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({html:'<div class="msg-bubble">'+text+'</div>',isMe:isMe,time:time});loadChat(currentChatId);saveAll();}
-function sendMsg(){var input=document.getElementById('chatInput');var text=input.value.trim();if(!text)return;addMsg(text,true);input.value='';document.getElementById('typingIndicator').textContent='输入中...';var smin=parseInt(document.getElementById('speedMin').value)||3;var smax=parseInt(document.getElementById('speedMax').value)||60;var speed=Math.floor(Math.random()*(smax-smin+1))+smin;setTimeout(function(){document.getElementById('typingIndicator').textContent='';addMsg(wordCards[Math.floor(Math.random()*wordCards.length)]||'嗯嗯',false);},speed*1000);}
-function toggleVoice(){var input=document.getElementById('chatInput');var voice=document.getElementById('voiceBtn');if(input.style.display==='none'){input.style.display='block';voice.style.display='none';}else{input.style.display='none';voice.style.display='flex';}}
-function sendVoiceMsg(){addMsg('语音消息',true);}
-function editName(){var title=document.getElementById('chatTitle');var old=title.innerText;var input=document.createElement('input');input.style.cssText='font-size:15px;border:none;outline:none;text-align:center;width:80px;background:transparent';input.value=old;title.innerHTML='';title.appendChild(input);input.focus();input.onblur=function(){title.innerText=input.value||old;saveAll();};}
 
-function showPanel(id){document.getElementById('mask').style.display='block';document.getElementById(id).style.display='block';}
-function closeAll(){document.getElementById('mask').style.display='none';document.querySelectorAll('.panel-popup').forEach(function(p){p.style.display='none';});document.getElementById('emojiPanel').style.display='none';}
-function showPlus(){showPanel('plusPanel');}
-function showAddMenu(){showPanel('addPanel');}
-function showFriendForm(){document.getElementById('friendForm').style.display='block';document.getElementById('groupForm').style.display='none';}
-function showGroupForm(){document.getElementById('groupForm').style.display='block';document.getElementById('friendForm').style.display='none';renderMembers();}
-function renderMembers(){var c=document.getElementById('memberSelect');c.innerHTML='';friends.forEach(function(f,i){c.innerHTML+='<label style="display:block;padding:5px;"><input type="checkbox" class="gm" value="'+i+'"> '+f.name+'</label>';});}
-function addFriend(){var name=document.getElementById('newFriendName').value.trim();if(!name)return;var newId=friends.length+1;friends.push({id:newId,name:name,avatar:newFriendAvatarData||'',pinned:false});friendBalances[newId]=520000;newFriendAvatarData='';closeAll();renderChatList();renderContact();renderBalanceList();renderRechargeList();saveAll();}
-function createGroup(){var n=document.getElementById('groupName').value||'群聊';var s=document.querySelectorAll('.gm:checked');if(s.length===0)return;var newId=friends.length+1;friends.push({id:newId,name:n,avatar:'',pinned:false});friendBalances[newId]=520000;closeAll();renderChatList();renderContact();renderBalanceList();renderRechargeList();saveAll();}
+function buyProduct(productId){
+    var product=shopProducts.find(function(p){return p.id===productId;});
+    if(!product)return;
+    if(myBalance<product.price){ showSystemToast('余额不足'); return; }
+    myBalance-=product.price;
+    shopPurchases.push({name:product.name,price:product.price,time:getTime()});
+    saveAll();
+    showSystemToast('购买成功：'+product.name);
+}
 
-function sendRedpacket(){var m=parseFloat(document.getElementById('rpMoney').value);var r=document.getElementById('rpRemark').value||'恭喜发财';if(!m)return;if(myBalance<m){showSystemToast('余额不足，请先充值');return;}myBalance-=m;var friend=friends.find(function(x){return x.id===currentChatId;});if(friend){friendBalances[currentChatId]=(friendBalances[currentChatId]||0)+m;}closeAll();var time=getTime();var html='<div class="redpack-bubble" onclick="openRedpacket(this,\''+m+'\',\''+r+'\')"><div class="redpack-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="12" y1="10" x2="12" y2="14"/><line x1="10" y1="12" x2="14" y2="12"/></svg></div><div class="redpack-text">'+r+'</div><div class="redpack-footer">微信红包</div></div>';if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({html:html,isMe:true,time:time});transferRecords.push({time:getTime(),text:'你给爱因发了红包 ¥'+m});saveAll();loadChat(currentChatId);renderBalanceList();showSystemToast('你给爱因发了红包 ¥'+m);}
-function openRedpacket(el,money,remark){if(el.dataset.opened)return;el.dataset.opened='1';var modal=document.createElement('div');modal.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;';modal.innerHTML='<div style="width:280px;height:420px;background:#e63939;border-radius:16px;position:relative;color:#fff;text-align:center;padding-top:60px;"><div style="font-size:18px;">'+remark+'</div><div style="width:80px;height:80px;background:#f8dd99;border-radius:50%;position:absolute;bottom:80px;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;font-size:28px;color:#333;cursor:pointer;" onclick="receiveRedpacket(this,\''+money+'\')">開</div><div style="width:36px;height:36px;border:2px solid #f8dd99;border-radius:50%;position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;font-size:18px;color:#f8dd99;cursor:pointer;" onclick="this.closest(\'div[style]\').remove()">×</div></div>';document.body.appendChild(modal);modal.onclick=function(e){if(e.target===modal)modal.remove();};}
-function receiveRedpacket(btn,money){btn.parentElement.innerHTML='<div style="color:#f8dd99;font-size:16px;">已领取</div><div style="color:#fff;font-size:36px;font-weight:bold;margin:10px 0;">¥'+money+'</div>';myBalance+=parseFloat(money);var friend=friends.find(function(x){return x.id===currentChatId;});if(friend){friendBalances[currentChatId]-=parseFloat(money);}transferRecords.push({time:getTime(),text:'你收了爱因的红包 ¥'+money});saveAll();renderBalanceList();showSystemToast('你收到了爱因的红包 ¥'+money);}
-function sendTransfer(){var m=parseFloat(document.getElementById('tfMoney').value);var r=document.getElementById('tfRemark').value||'';if(!m)return;if(myBalance<m){showSystemToast('余额不足，请先充值');return;}myBalance-=m;var friend=friends.find(function(x){return x.id===currentChatId;});if(friend){friendBalances[currentChatId]=(friendBalances[currentChatId]||0)+m;}closeAll();var time=getTime();var html='<div class="transfer-bubble"><div class="transfer-icon">⇋</div><div><div class="transfer-money">¥'+m+'</div><div class="transfer-text">你发起了一笔转账</div></div><div class="transfer-footer">转账</div></div>';if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({html:html,isMe:true,time:time});transferRecords.push({time:getTime(),text:'你给爱因转账 ¥'+m});saveAll();loadChat(currentChatId);renderBalanceList();showSystemToast('你给爱因转了 ¥'+m);}
-function sendGift(){closeAll();var time=getTime();var html='<div class="gift-card"><div class="gift-bg-layer"></div><div class="gift-left"><svg class="gift-icon" viewBox="0 0 100 100"><rect x="47" y="8" width="6" height="84" rx="2" fill="#f8d89c"/><path d="M22,42 C22,28 38,28 38,42 C38,56 22,56 22,42 Z" fill="#f8d89c"/><path d="M62,42 C62,28 78,28 78,42 C78,56 62,56 62,42 Z" fill="#f8d89c"/></svg></div><div class="gift-right"><div class="gift-title">送你一份心意</div><div class="gift-footer">微信礼物</div></div></div>';if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({html:html,isMe:true,time:time});saveAll();loadChat(currentChatId);showSystemToast('你给爱因送了礼物');}
-function sendMusic(){closeAll();var time=getTime();var song='多幸运';var singer='韩安旭';var html='<div class="music-card"><div class="music-left"><div style="position:absolute;width:100%;height:100%;"><div style="position:absolute;top:12%;left:22%;font-size:20px;color:#fff;font-weight:bold;">幸</div><div style="position:absolute;top:35%;left:8%;font-size:14px;color:#fff;font-weight:bold;">多</div><div style="position:absolute;top:42%;left:60%;font-size:14px;color:#fff;font-weight:bold;">运</div><div style="position:absolute;top:48%;left:30%;font-size:18px;color:#fff;">♡</div><div style="position:absolute;bottom:8%;left:10%;font-size:10px;color:#fff;">韩安旭</div><div style="position:absolute;bottom:8%;right:10%;font-size:12px;color:#fff;">0.8x</div></div></div><div class="music-right"><div class="music-title">'+song+' (0.8X降速版)</div><div class="music-singer">'+singer+'</div></div><div class="music-play">▶</div></div>';if(!chatHistory[currentChatId])chatHistory[currentChatId]=[];chatHistory[currentChatId].push({html:html,isMe:true,time:time});saveAll();loadChat(currentChatId);showSystemToast('你给爱因分享了音乐：'+song);}
+function addToCart(productId){
+    var product=shopProducts.find(function(p){return p.id===productId;});
+    if(!product)return;
+    shopCart.push(product);
+    showSystemToast('已加入购物车');
+}
 
-function startCall(type){var cf=document.getElementById('callFloat');cf.style.display='block';document.getElementById('cfStatus').textContent=type+'呼叫中...';showSystemToast('你给爱因打了'+type+'通话');setTimeout(function(){document.getElementById('cfStatus').textContent='对方无法接听';setTimeout(function(){cf.style.display='none';showSystemToast('爱因的'+type+'通话已结束，未接听');},2000);},2000);}
-function endCall(){document.getElementById('callFloat').style.display='none';showSystemToast('爱因的'+document.getElementById('cfStatus').textContent.split('呼叫中')[0]+'通话已结束，未接听');}
+function renderShopCart(){
+    var container=document.getElementById('shopCartList');
+    if(!container) return;
+    container.innerHTML='';
+    shopCart.forEach(function(product,index){
+        var item=document.createElement('div');
+        item.style.cssText='display:flex;align-items:center;gap:8px;padding:10px;border:1px solid #eee;border-radius:8px;margin-bottom:8px;';
+        item.innerHTML='<img src="'+product.img+'" style="width:40px;height:40px;border-radius:8px;object-fit:cover;">'+
+            '<div style="flex:1;"><div style="font-weight:500;">'+product.name+'</div><div style="color:#666;">¥'+product.price+'</div></div>'+
+            '<button onclick="removeFromCart('+index+')" style="padding:4px 8px;border:none;background:#f53f3f;color:#fff;border-radius:6px;cursor:pointer;">删除</button>';
+        container.appendChild(item);
+    });
+    var total=shopCart.reduce(function(sum,p){return sum+parseFloat(p.price);},0);
+    container.innerHTML+='<div style="text-align:center;margin-top:10px;"><button onclick="checkoutCart()" style="padding:10px 20px;background:#07c160;color:#fff;border:none;border-radius:8px;cursor:pointer;">结算（¥'+total+'）</button></div>';
+}
 
-function changeCover(){document.getElementById('fileCover').click();}
-function setCover(){var f=document.getElementById('fileCover').files[0];if(f){var url=URL.createObjectURL(f);document.getElementById('momentCover').style.backgroundImage='url('+url+')';}}
-function likeMoment(btn){btn.classList.toggle('liked');btn.style.color=btn.classList.contains('liked')?'#e64340':'#666';}
-function commentMoment(btn){var card=btn.closest('.moment-card');var area=card.querySelector('.comment-area');var input=document.createElement('input');input.style.cssText='width:100%;padding:5px;border:1px solid #ddd;border-radius:4px;font-size:11px;margin-top:4px;';input.placeholder='写评论...';input.onkeydown=function(e){if(e.key==='Enter'&&input.value.trim()){area.innerHTML+='<div class="comment-item"><span>我</span>：'+input.value+'</div>';input.remove();}};area.appendChild(input);input.focus();}
-function addMoment(name,content){momentItems.push({name:name,content:content});renderMoments();saveAll();}
+function removeFromCart(index){ shopCart.splice(index,1); renderShopCart(); }
 
-function showFullPage(id){document.getElementById(id).style.display='flex';}
-function closeFullPage(id){document.getElementById(id).style.display='none';}
-function addWordCards(){var v=document.getElementById('wordCardsInput').value.trim();if(v){wordCards=wordCards.concat(v.split('\n').filter(function(l){return l.trim();}));document.getElementById('wordCardsInput').value='';renderWordCards();saveAll();}}
-function addPatPat(){var v=document.getElementById('patpatInput').value.trim();if(v){patpatList=patpatList.concat(v.split('\n').filter(function(l){return l.trim();}));document.getElementById('patpatInput').value='';renderPatpat();saveAll();}}
-function addStatus(){var v=document.getElementById('statusInput').value.trim();if(v){statusList=statusList.concat(v.split('\n').filter(function(l){return l.trim();}));document.getElementById('statusInput').value='';renderStatus();renderStatusOptions();saveAll();}}
-function deleteWordCard(i){wordCards.splice(i,1);renderWordCards();saveAll();}
-function deletePatpat(i){patpatList.splice(i,1);renderPatpat();saveAll();}
-function deleteStatus(i){statusList.splice(i,1);renderStatus();renderStatusOptions();saveAll();}
-function backupAll(){var data={friends:friends,chatHistory:chatHistory,wordCards:wordCards,patpatList:patpatList,statusList:statusList,collectItems:collectItems,transferRecords:transferRecords,visitRecords:visitRecords,myName:myName,myStatus:myStatus,myBalance:myBalance,friendBalances:friendBalances};var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='backup.json';a.click();}
+function checkoutCart(){
+    var total=shopCart.reduce(function(sum,p){return sum+parseFloat(p.price);},0);
+    if(myBalance<total){ showSystemToast('余额不足'); return; }
+    myBalance-=total;
+    shopCart.forEach(function(p){ shopPurchases.push({name:p.name,price:p.price,time:getTime()}); });
+    shopCart=[];
+    saveAll();
+    showSystemToast('结算成功');
+}
 
-showPage('chat');loadAll();
-if(momentItems.length===0){addMoment('我','今天天气真好');addMoment('爱因','想你了');}
+function switchShopCartTab(el,tab){
+    document.querySelectorAll('.shopCartTab').forEach(function(t){t.classList.remove('active');});
+    el.classList.add('active');
+    renderShopCart();
+}
 
-// 启动离线消息功能
-startOfflineMessages();
+// ===== 信封核心逻辑 =====
+function writeMail(){
+    showFullPage('writeMailPage');
+    document.getElementById('mailBody').value = '';
+}
+
+function sendMail(){
+    var body = document.getElementById('mailBody').value.trim();
+    if(!body) { showSystemToast('信件内容不能为空'); return; }
+    
+    var now = Date.now();
+    var mail = {
+        id: now,
+        sender: 'me',
+        content: body,
+        time: now,
+        replyTime: now + 12 * 60 * 60 * 1000, // 12小时后
+        replied: false
+    };
+    mailList.push(mail);
+    
+    closeFullPage('writeMailPage');
+    saveAll();
+    renderMailAll();
+    renderMailMine();
+    showSystemToast('信件已寄出，等待回信');
+}
+
+function switchMailTab(el, tab){
+    document.querySelectorAll('.record-tab').forEach(function(t){t.classList.remove('active');});
+    el.classList.add('active');
+    document.getElementById('mailAllList').style.display = tab === 'all' ? 'block' : 'none';
+    document.getElementById('mailHisList').style.display = tab === 'his' ? 'block' : 'none';
+    document.getElementById('mailMineList').style.display = tab === 'mine' ? 'block' : 'none';
+    currentMailTab = tab;
+}
+
+function renderMailAll(){
+    var c = document.getElementById('mailAllList');
+    if(!c) return;
+    c.innerHTML = '';
+    if(mailList.length === 0) { c.innerHTML = '<div style="text-align:center;color:#999;margin-top:20px;">暂无信件</div>'; return; }
+    
+    mailList.forEach(function(mail){
+        var isWrite = mail.sender === 'me';
+        var div = document.createElement('div');
+        div.className = isWrite ? 'mail-step-left' : 'mail-step-right';
+        div.innerHTML = '<div class="mail-tag">' + (isWrite ? '写信' : '回信') + '</div>' +
+            '<div style="font-size:12px;white-space:pre-wrap;">' + mail.content + '</div>' +
+            '<div class="mail-time">' + new Date(mail.time).toLocaleString() + '</div>';
+        c.appendChild(div);
+    });
+}
+
+function renderMailHis(){
+    var c = document.getElementById('mailHisList');
+    if(!c) return;
+    c.innerHTML = '';
+    var hisMails = mailList.filter(function(m){ return m.sender === 'his'; });
+    if(hisMails.length === 0) { c.innerHTML = '<div style="text-align:center;color:#999;margin-top:20px;">暂无信件</div>'; return; }
+    
+    hisMails.forEach(function(mail){
+        var div = document.createElement('div');
+        div.className = 'mail-item';
+        div.innerHTML = '<div class="mail-item-title">爱因的信</div>' +
+            '<div class="mail-item-time">' + new Date(mail.time).toLocaleString() + '</div>' +
+            (mail.replied ? '<div class="mail-done-check">✓</div>' : '<div class="mail-pending-dots">...</div>');
+        div.onclick = function(){ showMailDetail(mail.id); };
+        c.appendChild(div);
+    });
+}
+
+function renderMailMine(){
+    var c = document.getElementById('mailMineList');
+    if(!c) return;
+    c.innerHTML = '';
+    var myMails = mailList.filter(function(m){ return m.sender === 'me'; });
+    if(myMails.length === 0) { c.innerHTML = '<div style="text-align:center;color:#999;margin-top:20px;">暂无信件</div>'; return; }
+    
+    myMails.forEach(function(mail){
+        var div = document.createElement('div');
+        div.className = 'mail-item';
+        div.innerHTML = '<div class="mail-item-title">我写的信</div>' +
+            '<div class="mail-item-time">' + new Date(mail.time).toLocaleString() + '</div>' +
+            (mail.replied ? '<div class="mail-done-check">✓</div>' : '<div class="mail-pending-dots">...</div>');
+        div.onclick = function(){ showMailDetail(mail.id); };
+        c.appendChild(div);
+    });
+}
+
+function showMailDetail(id){
+    var mail = mailList.find(function(m){ return m.id === id; });
+    if(!mail) return;
+    currentMailId = id;
+    showPage('mailDetail');
+    var c = document.getElementById('mailDetailContent');
+    c.innerHTML = '<div style="background:#fff;padding:20px;border-radius:8px;line-height:1.6;">' +
+        '<div style="font-size:14px;color:#666;margin-bottom:10px;">写给爱因：</div>' +
+        '<div style="font-size:15px;white-space:pre-wrap;">' + mail.content + '</div>' +
+        '<div style="margin-top:20px;text-align:right;font-size:12px;color:#999;">' + new Date(mail.time).toLocaleString() + '</div>' +
+        '</div>';
+}
+
+function replyMail(){
+    if(!currentMailId) return;
+    showFullPage('writeMailPage');
+    document.getElementById('mailBody').value = '';
+}
+
+// 定时检查12小时回信
+setInterval(function(){
+    var now = Date.now();
+    var needUpdate = false;
+    mailList.forEach(function(mail){
+        if(mail.sender === 'me' && !mail.replied && now >= mail.replyTime){
+            mail.replied = true;
+            needUpdate = true;
+            var replyContent = wordCards[Math.floor(Math.random()*wordCards.length)];
+            mailList.push({
+                id: Date.now(),
+                sender: 'his',
+                content: replyContent,
+                time: now,
+                replied: true
+            });
+            showSystemToast('爱因给你回信了');
+        }
+    });
+    if(needUpdate){
+        saveAll();
+        renderMailAll();
+        renderMailHis();
+        renderMailMine();
+    }
+}, 10000); // 每10秒检查一次
+
+// ===== 音乐与基础功能 =====
+function addMusicFromMy(){ showSystemToast('请先在音乐页添加'); }
+function renderFavoriteMusic(){ var c=document.getElementById('myFavoriteMusic'); if(c)c.innerHTML='<div style="color:#999;font-size:12px;">暂无</div>'; }
+function renderListenedMusic(){ var c=document.getElementById('myListenedMusic'); if(c)c.innerHTML='<div style="color:#999;font-size:12px;">暂无</div>'; }
+function renderRecentMusic(){ var c=document.getElementById('myRecentMusic'); if(c)c.innerHTML='<div style="color:#999;font-size:12px;">暂无</div>'; }
+
+function renderBalanceList(){}
+function renderRechargeList(){}
+function showMyShopping(){}
+function showMyGiftRecord(){}
+function showTheirGiftRecord(){}
+
+// 挂载初始化
+window.onload = function(){
+    loadAll();
+    if(!chatHistory[1]) chatHistory[1] = [];
+    if(chatHistory[1].length === 0){
+        addMsg('今天天气真好', false);
+    }
+    renderMailAll();
+    renderMailHis();
+    renderMailMine();
+    showPage('chat');
+};
 </script>
 </body>
 </html>
